@@ -18,6 +18,20 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\course.cpp" />
+    <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\mainwindow.cpp" />
+    <ClCompile Include="source\user.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\course.h" />
+    <ClInclude Include="source\mainwindow.h" />
+    <ClInclude Include="source\user.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\mainwindow.ui" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5517772B-A134-42BC-86A4-6982522770C3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -145,8 +159,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
