@@ -34,14 +34,16 @@ public:
 	~Student();
 
 	std::string getClass();
-	void setClass(std::string class);
+	void setClass(std::string class_name);
 
-	std::map<Course*, float> getGrade();
-	std::set<Course*> getCourse();
+	std::map<Course_student*, float> getGrade();	//学生获取自己的课程及其对应成绩
+	std::set<Course_student*> getCourse();			//学生获取自己的课程（可对其课程进行设置）
+
+	bool deleteCourse(Course_student* course);
 
 private:
-	std::string m_class;					//学生所属班级
-	std::set<Course*> m_course;				//学生对应课程和成绩
+	std::string m_class;							//学生所属班级
+	std::set<Course_student*> m_course;				//学生对应课程
 };
 
 //由User类派生出教师子类，代表教师用户
@@ -51,10 +53,20 @@ public:
 	using User::User;
 	~Teacher();
 
-	Course getCourse();
-
-	void setCourseGrade(Course* course, Student* student, float grade);
+	std::set<Course_teacher*> getCourse();			//教师获取自己课程列表
 
 private:
-	std::set<Course*> m_course;	//教师任课课程
+	std::set<Course_teacher*> m_course;		//教师任课课程
+};
+
+//超级管理员用户
+class admin : public User
+{
+public:
+	using User::User;
+
+	std::set<Course_admin*> getCourse();
+
+private:
+	std::set<Course_admin*> m_course;		//管理所有课程权限
 };
