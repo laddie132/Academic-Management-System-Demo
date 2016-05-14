@@ -20,12 +20,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\course.cpp" />
+    <ClCompile Include="source\environment.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\mainwindow.cpp" />
     <ClCompile Include="source\user.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\course.h" />
+    <ClInclude Include="source\environment.h" />
+    <ClInclude Include="source\include.h" />
     <ClInclude Include="source\mainwindow.h" />
     <ClInclude Include="source\user.h" />
   </ItemGroup>

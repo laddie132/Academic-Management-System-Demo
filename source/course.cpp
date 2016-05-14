@@ -60,17 +60,19 @@ std::set<Student*> Course::getStudent()
 
 bool Course::addStudent(Student* student)
 {
-	auto& i = m_student.find(student);
-	if (i != m_student.end()) {
-		m_student.insert(std::make_pair(student, -1));
-		return true;
+    if ((int)m_student.size() < m_capicity) {
+        auto i = m_student.find(student);
+		if (i != m_student.end()) {
+			m_student.insert(std::make_pair(student, -1));
+			return true;
+		}
 	}
 	return false;
 }
 
 bool Course::deleteStudent(Student* student)
 {
-	auto& i = m_student.find(student);
+    auto i = m_student.find(student);
 	if (i != m_student.end())
 	{
 		m_student.erase(i);
@@ -85,7 +87,7 @@ std::map<Student*, float> Course::getStudentGrade()
 
 bool Course::setGrade(std::pair<Student*, float> student_grade)
 {
-	auto& i = m_student.find(student_grade.first);
+    auto i = m_student.find(student_grade.first);
 	if (i != m_student.end()) {
 		i->second = student_grade.second;
 		return true;
@@ -95,7 +97,7 @@ bool Course::setGrade(std::pair<Student*, float> student_grade)
 
 float Course::getMyGrade(Student* student)
 {
-	auto& i = m_student.find(student);
+    auto i = m_student.find(student);
 	if (i != m_student.end())
 	{
 		return i->second;
@@ -130,18 +132,6 @@ float Elective_course::calculateGPA(Student* student)
 	float my_grade = this->getMyGrade(student);
 	float gpa = (sqrt(my_grade) / 10) * this->getCredit();
 	return gpa;
-}
-
-void Elective_course::addStudent(Student* student)
-{
-	auto& i = m_student.find(student);
-	try {
-		if (i != m_student.end()) throw(0);
-		m_student.insert(std::make_pair(student, -1));
-	}
-	catch(exception){
-
-	}
 }
 
 int Elective_course::getCourseType()
@@ -188,9 +178,18 @@ std::string Course_student::getTeacherName()
 	return m_course->getTeacher()->getName();
 }
 
-bool Course_student::deleteStudent(Student* student)
+bool Course_student::addElectiveStudent(Student* student)
 {
-	if (m_course->getCourseType == 0) {
+	//判断待增加课程是否为选修课
+	if (!this->getCourseType()) {
+		return m_course->addStudent(student);
+	}
+	return false;
+}
+
+bool Course_student::deleteElectiveStudent(Student* student)
+{
+	if (!this->getCourseType()) {
 		return m_course->deleteStudent(student);
 	}
 	return false;
@@ -217,15 +216,25 @@ bool Course_teacher::setGrade(std::pair<Student*, float> student_grade)
 
 Teacher* Course_admin::getTeacher()
 {
-	return Course_user::m_course->getTeacher();
+    return Course_student::m_course->getTeacher();
 }
 
 void Course_admin::setTeacher(Teacher* teacher)
 {
-	Course_user::m_course->setTeacher(teacher);
+    Course_student::m_course->setTeacher(teacher);
 }
 
 bool Course_admin::addStudent(Student* student)
 {
-	return Course_user::m_course->addStudent(student);
+    return Course_student::m_course->addStudent(student);
+}
+
+bool Course_admin::deleteStudent(Student* student)
+{
+    return Course_student::m_course->deleteStudent(student);
+}
+
+void Course_admin::setCapicity(int num)
+{
+    Course_student::m_course->setCapicity(num);
 }

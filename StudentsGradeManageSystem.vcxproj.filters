@@ -27,6 +27,9 @@
     <ClCompile Include="source\user.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="source\environment.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\course.h">
@@ -36,6 +39,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="source\user.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="source\environment.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

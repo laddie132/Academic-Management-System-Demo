@@ -15,12 +15,20 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     course.cpp \
-    user.cpp
+    user.cpp \
+    environment.cpp \
+    login.cpp
 
 HEADERS  += mainwindow.h \
     course.h \
-    user.h
+    user.h \
+    environment.h \
+    login.h \
+    include.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    login.ui
+
+CONFIG += c++11
 
 DISTFILES +=
