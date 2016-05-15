@@ -1,3 +1,7 @@
+#include <QCryptographicHash>
+#include <QString>
+#include <QDebug>
+
 #include "environment.h"
 
 //析构函数实现
@@ -46,19 +50,22 @@ void Envir::addElectiveCourse(std::string ID, std::string name, int credit)
 void Envir::addUserStudent(std::string ID, std::string name, std::string insititude)
 {
 	Student* temp_student = new Student(ID, name, insititude);
-	m_student.insert(std::make_pair(temp_student, ID));
+    QString md5_pass = QCryptographicHash::hash(ID.c_str(), QCryptographicHash::Md5).toHex();
+    m_student.insert(std::make_pair(temp_student, md5_pass.toStdString()));
 }
 
 void Envir::addUserTeacher(std::string ID, std::string name, std::string insititude)
 {
 	Teacher* temp_teacher = new Teacher(ID, name, insititude);
-	m_teacher.insert(std::make_pair(temp_teacher, ID));
+    QString md5_pass = QCryptographicHash::hash(ID.c_str(), QCryptographicHash::Md5).toHex();
+    m_teacher.insert(std::make_pair(temp_teacher, md5_pass.toStdString()));
 }
 
 void Envir::addUserAdmin(std::string ID, std::string name, std::string insititude)
 {
 	Admin* temp_admin = new Admin(ID, name, insititude);
-	m_admin.insert(std::make_pair(temp_admin, ID));
+    QString md5_pass = QCryptographicHash::hash(ID.c_str(), QCryptographicHash::Md5).toHex();
+    m_admin.insert(std::make_pair(temp_admin, md5_pass.toStdString()));
 }
 
 //获取用户函数实现
@@ -95,6 +102,7 @@ User* Envir::checkUser(std::string username, std::string password)
 		{
 			if (i.first->getID() == username) {
 				is_find = 1;
+                ans = i;
 				break;
 			}
 		}
@@ -104,6 +112,7 @@ User* Envir::checkUser(std::string username, std::string password)
 		{
 			if (i.first->getID() == username) {
 				is_find = 1;
+                ans = i;
 				break;
 			}
 		}

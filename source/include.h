@@ -1,4 +1,5 @@
 #pragma once
+//定义C++标准头文件以及所有类的前向声明
 
 #include <cstdio>
 #include <cstdlib>

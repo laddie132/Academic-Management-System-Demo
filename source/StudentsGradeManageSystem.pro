@@ -13,22 +13,33 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
     course.cpp \
     user.cpp \
     environment.cpp \
-    login.cpp
+    login.cpp \
+    mainwindow_admin.cpp \
+    mainwindow_student.cpp \
+    mainwindow_teacher.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
     course.h \
     user.h \
     environment.h \
     login.h \
-    include.h
+    include.h \
+    mainwindow_admin.h \
+    mainwindow_student.h \
+    mainwindow_teacher.h
 
-FORMS    += mainwindow.ui \
-    login.ui
+FORMS    += \
+    login.ui \
+    mainwindow_admin.ui \
+    mainwindow_student.ui \
+    mainwindow_teacher.ui
 
 CONFIG += c++11
 
 DISTFILES +=
+
+RESOURCES += \
+    resourse.qrc

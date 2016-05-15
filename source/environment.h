@@ -7,7 +7,7 @@
 class Envir
 {
 public:
-	Envir();
+    Envir(){}
 	~Envir();
 
 	void addObligatoryCourse(std::string ID, std::string name, int credit);

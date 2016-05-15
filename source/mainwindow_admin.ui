@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow_admin</class>
+ <widget class="QMainWindow" name="MainWindow_admin">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>503</height>
+   </rect>
+  </property>
+  <property name="mouseTracking">
+   <bool>false</bool>
+  </property>
+  <property name="windowTitle">
+   <string>管理员用户</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_main">
+    <property name="title">
+     <string>菜单</string>
+    </property>
+    <addaction name="action_login"/>
+    <addaction name="action_quit"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menu_course">
+    <property name="title">
+     <string>课程</string>
+    </property>
+    <addaction name="action_course_o"/>
+    <addaction name="action_course_e"/>
+    <addaction name="separator"/>
+    <addaction name="action_course_add"/>
+   </widget>
+   <widget class="QMenu" name="menu_user">
+    <property name="title">
+     <string>用户</string>
+    </property>
+    <addaction name="action_student_d"/>
+    <addaction name="action_teachet_d"/>
+    <addaction name="action_admin_d"/>
+    <addaction name="separator"/>
+    <addaction name="action_student_add"/>
+    <addaction name="action_teacher_add"/>
+    <addaction name="action_admin_add"/>
+   </widget>
+   <widget class="QMenu" name="menu_help">
+    <property name="title">
+     <string>帮助</string>
+    </property>
+    <addaction name="action_about"/>
+    <addaction name="action_help"/>
+   </widget>
+   <widget class="QMenu" name="menu_function">
+    <property name="title">
+     <string>功能</string>
+    </property>
+    <addaction name="action_start_course"/>
+   </widget>
+   <addaction name="menu_main"/>
+   <addaction name="menu_course"/>
+   <addaction name="menu_user"/>
+   <addaction name="menu_function"/>
+   <addaction name="menu_help"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="action_quit">
+   <property name="text">
+    <string>退出</string>
+   </property>
+  </action>
+  <action name="action_login">
+   <property name="text">
+    <string>重新登录</string>
+   </property>
+  </action>
+  <action name="action_course_o">
+   <property name="text">
+    <string>查看必修课程</string>
+   </property>
+  </action>
+  <action name="action_course_e">
+   <property name="text">
+    <string>查看选修课程</string>
+   </property>
+  </action>
+  <action name="action_student_d">
+   <property name="text">
+    <string>查看学生用户</string>
+   </property>
+  </action>
+  <action name="action_teachet_d">
+   <property name="text">
+    <string>查看教师用户</string>
+   </property>
+  </action>
+  <action name="action_admin_d">
+   <property name="text">
+    <string>查看管理员用户</string>
+   </property>
+  </action>
+  <action name="action_course_add">
+   <property name="text">
+    <string>添加课程</string>
+   </property>
+  </action>
+  <action name="action_student_add">
+   <property name="text">
+    <string>添加学生用户</string>
+   </property>
+  </action>
+  <action name="action_teacher_add">
+   <property name="text">
+    <string>添加教师用户</string>
+   </property>
+  </action>
+  <action name="action_admin_add">
+   <property name="text">
+    <string>添加管理员用户</string>
+   </property>
+  </action>
+  <action name="action_about">
+   <property name="text">
+    <string>关于</string>
+   </property>
+  </action>
+  <action name="action_help">
+   <property name="text">
+    <string>帮助文档</string>
+   </property>
+  </action>
+  <action name="action_start_course">
+   <property name="text">
+    <string>开放选课</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
