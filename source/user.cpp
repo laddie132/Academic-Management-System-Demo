@@ -65,9 +65,9 @@ bool Student::deleteCourse(Course_student* course)
 	return false;
 }
 
-int Student::getUserType()
+user_type Student::getUserType()
 {
-	return 1;
+    return user_type::student;
 }
 
 //教师函数实现
@@ -77,9 +77,9 @@ std::set<Course_teacher*> Teacher::getCourse()
 	return m_course;
 }
 
-int Teacher::getUserType()
+user_type Teacher::getUserType()
 {
-	return 2;
+    return user_type::teacher;
 }
 
 //管理员函数实现
@@ -89,9 +89,9 @@ std::set<Course_admin*> Admin::getCourse()
 	return m_course;
 }
 
-int Admin::getUserType()
+user_type Admin::getUserType()
 {
-	return 0;
+    return user_type::admin;
 }
 
 void Admin::activateEnvir(Envir* envir)
@@ -124,17 +124,17 @@ void Admin::addUserAdmin(std::string ID, std::string name, std::string insititud
 	return m_envir->addUserAdmin(ID, name, insititude);
 }
 
-std::map<User*, std::string> Admin::getUserStudent()
+std::map<Student*, std::string> Admin::getUserStudent()
 {
 	return m_envir->getUserStudent();
 }
 
-std::map<User*, std::string> Admin::getUserTeacher()
+std::map<Teacher*, std::string> Admin::getUserTeacher()
 {
 	return m_envir->getUserTeacher();
 }
 
-std::map<User*, std::string> Admin::getUserAdmin()
+std::map<Admin*, std::string> Admin::getUserAdmin()
 {
 	return m_envir->getUserAdmin();
 }

@@ -21,7 +21,7 @@ public:
 	std::string getName();
 	std::string getInsititude();
 
-	virtual int getUserType() {}	//获取用户类型
+    virtual user_type getUserType() {}	//获取用户类型
 
 private:
 	std::string m_name;			//用户姓名
@@ -49,7 +49,7 @@ public:
 	bool addCourse(Course_student* course);			//学生选课
 	bool deleteCourse(Course_student* course);		//学生删除已选课程
 
-	int getUserType() final override;				//获取用户类型(0代表管理员，1代表学生，2代表教师)
+    user_type getUserType() final override;				//获取用户类型(0代表管理员，1代表学生，2代表教师)
 
 private:
 	std::string m_class;							//学生所属班级
@@ -61,13 +61,12 @@ class Teacher : public User
 {
 public:
 	using User::User;
-	~Teacher();
 
 	using User::operator<;
 
 	std::set<Course_teacher*> getCourse();	//教师获取自己课程列表
 
-	int getUserType() final override;		//获取用户类型
+    user_type getUserType() final override;		//获取用户类型
 
 private:
 	std::set<Course_teacher*> m_course;		//教师任课课程
@@ -86,15 +85,15 @@ public:
 	void addObligatoryCourse(std::string ID, std::string name, int credit);
 	void addElectiveCourse(std::string ID, std::string name, int credit);
 
-	int getUserType() final override;		//获取用户类型
+    user_type getUserType() final override;		//获取用户类型
 
 	void addUserStudent(std::string ID, std::string name, std::string insititude);
 	void addUserTeacher(std::string ID, std::string name, std::string insititude);
 	void addUserAdmin(std::string ID, std::string name, std::string insititude);
 
-	std::map<User*, std::string> getUserStudent();
-	std::map<User*, std::string> getUserTeacher();
-	std::map<User*, std::string> getUserAdmin();
+    std::map<Student*, std::string> getUserStudent();
+    std::map<Teacher*, std::string> getUserTeacher();
+    std::map<Admin*, std::string> getUserAdmin();
 
 private:
 	std::set<Course_admin*> m_course;		//管理所有课程权限

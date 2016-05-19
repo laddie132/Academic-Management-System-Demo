@@ -9,6 +9,7 @@
 #include <map>
 #include <set>
 
+//普通类
 class Course;
 class Course_student;
 class Course_teacher;
@@ -19,3 +20,18 @@ class Student;
 class Teacher;
 class Admin;
 class Envir;
+
+//界面类
+class Login;
+class MainWindow_student;
+class MainWindow_teacher;
+class MainWindow_admin;
+class Envir_widget;
+
+enum user_type
+{
+    student,
+    teacher,
+    admin
+};
+

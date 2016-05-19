@@ -6,6 +6,7 @@
 #include "login.h"
 #include "ui_login.h"
 #include "environment.h"
+#include "envir_widget.h"
 
 Login::Login(QWidget *parent) :
     QDialog(parent),
@@ -25,39 +26,57 @@ Login::~Login()
     delete ui;
 }
 
-void Login::setEnvir(Envir* envir)
+void Login::setEnvir(Envir* envir, Envir_widget* envir_widget)
 {
     this->m_envir = envir;
-}
-
-User* Login::getCurrentUser()
-{
-    return m_user;
+    this->m_envir_widget = envir_widget;
 }
 
 void Login::on_login_btn_clicked()
 {
     QString username = ui->username_edit->text();
     QString password = ui->passowrd_edit->text();
+
+    ui->passowrd_edit->clear();
+
     //密码采用md5加密
     QByteArray temp = QCryptographicHash::hash(password.toLatin1(), QCryptographicHash::Md5);
     QString md5_password = temp.toHex();
-    m_user = m_envir->checkUser(username.toStdString(), md5_password.toStdString());
-    if(m_user != NULL){
+
+    //寻找输入用户
+    Student* user1 = m_envir->checkUserStudent(username.toStdString(), md5_password.toStdString());
+    Teacher* user2 = m_envir->checkUserTeacher(username.toStdString(), md5_password.toStdString());
+    Admin* user3 = m_envir->checkUserAdmin(username.toStdString(), md5_password.toStdString());
+
+    //判断用户类型
+    if(user1){
         this->close();
-        accept();
+        m_envir_widget->showStudentWidget(user1);
+        m_envir->setCourseUser(user_type::student);   //设置课程权限类
     }
     else{
-//        QMessageBox::warning(this,QString::fromLocal8Bit("警告"),QString::fromLocal8Bit("用户名或密码错误！"),QMessageBox::Yes);
-        ui->wrong_label->show();
-//        ui->username_edit->clear();
-        ui->passowrd_edit->clear();
+        if(user2){
+            this->close();
+            m_envir_widget->showTeacherWidget(user2);
+            m_envir->setCourseUser(user_type::teacher);   //设置课程权限类
+        }
+        else{
+            if(user3){
+                this->close();
+                m_envir_widget->showAdminWidget(user3);
+                m_envir->setCourseUser(user_type::admin);   //设置课程权限类
+                user3->activateEnvir(m_envir);
+            }
+            else{
+        //        QMessageBox::warning(this,QString::fromLocal8Bit("警告"),QString::fromLocal8Bit("用户名或密码错误！"),QMessageBox::Yes);
+                ui->wrong_label->show();
+            }
+        }
     }
 }
 
 void Login::on_cancel_btn_clicked()
 {
     this->close();
-    reject();
     exit(0);
 }

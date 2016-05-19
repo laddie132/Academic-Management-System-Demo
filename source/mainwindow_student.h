@@ -3,6 +3,10 @@
 
 #include <QMainWindow>
 
+#include "include.h"
+#include "environment.h"
+#include "envir_widget.h"
+
 namespace Ui {
 class MainWindow_student;
 }
@@ -15,8 +19,15 @@ public:
     explicit MainWindow_student(QWidget *parent = 0);
     ~MainWindow_student();
 
+    void showTable();   //表格信息初始化
+
+    void setEnvirWidget(Envir_widget* envir_widget);
+    void setUser(Student* user);   //设置当前登录用户
+
 private:
     Ui::MainWindow_student *ui;
+    Envir_widget* m_envir_widget;
+    Student* m_user = NULL;
 };
 
 #endif // MAINWINDOW_STUDENT_H

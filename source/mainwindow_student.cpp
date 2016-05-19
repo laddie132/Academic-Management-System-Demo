@@ -12,3 +12,18 @@ MainWindow_student::~MainWindow_student()
 {
     delete ui;
 }
+
+void MainWindow_student::setEnvirWidget(Envir_widget* envir_widget)
+{
+    this->m_envir_widget = envir_widget;
+}
+
+void MainWindow_student::setUser(Student* user)
+{
+    this->m_user = user;
+}
+
+void MainWindow_student::showTable()
+{
+
+}

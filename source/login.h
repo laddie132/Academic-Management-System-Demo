@@ -2,8 +2,10 @@
 #define LOGIN_H
 
 #include <QDialog>
+#include "include.h"
 #include "environment.h"
 #include "user.h"
+#include "envir_widget.h"
 
 namespace Ui {
 class Login;
@@ -17,9 +19,7 @@ public:
     explicit Login(QWidget *parent = 0);
     ~Login();
 
-    void setEnvir(Envir* envir);        //设置系统运行环境
-
-    User* getCurrentUser();             //获取当前登录用户
+    void setEnvir(Envir* envir, Envir_widget* envir_widget);        //设置系统运行环境
 
 private slots:
     void on_login_btn_clicked();
@@ -29,7 +29,7 @@ private slots:
 private:
     Ui::Login *ui;
     Envir* m_envir;
-    User* m_user;
+    Envir_widget* m_envir_widget;
 };
 
 #endif // LOGIN_H

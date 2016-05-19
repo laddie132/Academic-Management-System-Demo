@@ -19,7 +19,10 @@ SOURCES += main.cpp\
     login.cpp \
     mainwindow_admin.cpp \
     mainwindow_student.cpp \
-    mainwindow_teacher.cpp
+    mainwindow_teacher.cpp \
+    information_course.cpp \
+    information_user.cpp \
+    envir_widget.cpp
 
 HEADERS  += \
     course.h \
@@ -29,13 +32,18 @@ HEADERS  += \
     include.h \
     mainwindow_admin.h \
     mainwindow_student.h \
-    mainwindow_teacher.h
+    mainwindow_teacher.h \
+    information_course.h \
+    information_user.h \
+    envir_widget.h
 
 FORMS    += \
     login.ui \
     mainwindow_admin.ui \
     mainwindow_student.ui \
-    mainwindow_teacher.ui
+    mainwindow_teacher.ui \
+    information_course.ui \
+    information_user.ui
 
 CONFIG += c++11
 

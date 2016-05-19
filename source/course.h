@@ -20,6 +20,7 @@ public:
 	std::string getName();
 	int getCredit();		
 
+    int getCapicity();
 	void setCapicity(int num);						//设置课程容量
 
 	Teacher* getTeacher();							//获取当前课程教师信息
@@ -77,8 +78,11 @@ public:
 class Course_user
 {
 public:
-	Course_user(Course* course) : m_course(course){}
-	~Course_user();
+    Course_user(){}
+    Course_user(Course* course){
+        this->m_course = course;
+    }
+    ~Course_user(){}
 
 	bool operator < (const Course_user* course)
 	{
@@ -90,16 +94,17 @@ public:
 	std::string getName();
 	int getCredit();
 	int getCourseType();
+    int getCapicity();
 
 protected:
 	Course* m_course;
 };
 
 //学生端可操作的课程类
-class Course_student: public Course_user
+class Course_student: virtual public Course_user
 {
 public:
-	using Course_user::Course_user;
+    Course_student(Course* course): Course_user(course){}
 	using Course_user::operator<;
 
 	float getMyGrade(Student* student);			//学生获取自己的成绩
@@ -113,10 +118,10 @@ public:
 };
 
 //教师端可操作的课程类
-class Course_teacher: public Course_user
+class Course_teacher: virtual public Course_user
 {
 public:
-	using Course_user::Course_user;
+    Course_teacher(Course* course): Course_user(course){}
 	using Course_user::operator<;
 
 	std::set<Student*> getStudent();				//获取当前学生信息
@@ -129,7 +134,7 @@ public:
 class Course_admin: public Course_teacher, public Course_student
 {
 public:
-	using Course_student::Course_student;
+    Course_admin(Course* course): Course_teacher(course), Course_student(course){}
     using Course_student::operator<;
 
 	Teacher* getTeacher();							//获取当前课程教师信息

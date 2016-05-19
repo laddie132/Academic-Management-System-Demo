@@ -33,6 +33,11 @@ int Course::getCredit()
 	return m_credit;
 }
 
+int Course::getCapicity()
+{
+    return this->m_capicity;
+}
+
 void Course::setCapicity(int num)
 {
 	this->m_capicity = num;
@@ -159,6 +164,11 @@ int Course_user::getCredit()
 int Course_user::getCourseType()
 {
 	return m_course->getCourseType();
+}
+
+int Course_user::getCapicity()
+{
+    return m_course->getCapicity();
 }
 
 //Course_student类函数实现

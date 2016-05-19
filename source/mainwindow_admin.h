@@ -2,7 +2,10 @@
 #define MAINWINDOW_ADMIN_H
 
 #include <QMainWindow>
+#include <QStandardItemModel>
+
 #include "environment.h"
+#include "envir_widget.h"
 
 namespace Ui {
 class MainWindow_admin;
@@ -16,8 +19,12 @@ public:
     explicit MainWindow_admin(QWidget *parent = 0);
     ~MainWindow_admin();
 
-    void setEnvir(Envir* envir);
+    void setEnvirWidget(Envir_widget* envir_widget);
+    void setUser(Admin* user);   //设置当前登录用户
+
     void creatAction();
+
+    void showTable();   //表格信息初始化
 
 private slots:
     void action_login_triggered();
@@ -37,7 +44,10 @@ private slots:
 
 private:
     Ui::MainWindow_admin *ui;
-    Envir* m_envir;
+    Envir_widget* m_envir_widget;
+    Admin* m_user = NULL;
+
+    QStandardItemModel* ui_course_model_o;
 };
 
 #endif // MAINWINDOW_ADMIN_H

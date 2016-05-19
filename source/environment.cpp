@@ -31,6 +31,7 @@ Envir::~Envir()
 	{
 		delete i.first;
 	}
+    deleteCourseUser();
 }
 
 //添加课程函数实现
@@ -43,6 +44,68 @@ void Envir::addObligatoryCourse(std::string ID, std::string name, int credit)
 void Envir::addElectiveCourse(std::string ID, std::string name, int credit)
 {
 	m_elective_course.insert(new Elective_course(ID, name, credit));
+}
+
+//对用户权限课程类操作
+
+void Envir::setCourseUser(user_type type)
+{
+    deleteCourseUser();
+    switch(type)
+    {
+    case user_type::student:    //添加学生课程权限类
+        for(auto i : m_obligatory_course)
+        {
+            Course_user *temp = new Course_student(i);
+            m_course_user.insert(temp);
+        }
+        for(auto i : m_elective_course)
+        {
+            Course_user *temp = new Course_student(i);
+            m_course_user.insert(temp);
+        }
+        break;
+
+    case user_type::teacher:    //添加教师课程权限类
+        for(auto i : m_obligatory_course)
+        {
+            Course_user *temp = new Course_teacher(i);
+            m_course_user.insert(temp);
+        }
+        for(auto i : m_elective_course)
+        {
+            Course_user *temp = new Course_teacher(i);
+            m_course_user.insert(temp);
+        }
+        break;
+
+    case user_type::admin:      //添加管理员课程权限类
+        for(auto i : m_obligatory_course)
+        {
+            Course_user *temp = new Course_admin(i);
+            m_course_user.insert(temp);
+        }
+        for(auto i : m_elective_course)
+        {
+            Course_user *temp = new Course_admin(i);
+            m_course_user.insert(temp);
+        }
+        break;
+    }
+}
+
+std::set<Course_user*> Envir::getCourseUser()
+{
+    return m_course_user;
+}
+
+void Envir::deleteCourseUser()
+{
+    for(auto i : m_course_user)
+    {
+        delete i;
+    }
+    m_course_user.clear();
 }
 
 //添加用户函数实现
@@ -70,57 +133,59 @@ void Envir::addUserAdmin(std::string ID, std::string name, std::string insititud
 
 //获取用户函数实现
 
-std::map<User*, std::string> Envir::getUserStudent()
+std::map<Student*, std::string> Envir::getUserStudent()
 {
 	return m_student;
 }
 
-std::map<User*, std::string> Envir::getUserTeacher()
+std::map<Teacher*, std::string> Envir::getUserTeacher()
 {
 	return m_teacher;
 }
 
-std::map<User*, std::string> Envir::getUserAdmin()
+std::map<Admin*, std::string> Envir::getUserAdmin()
 {
 	return m_admin;
 }
 
-User* Envir::checkUser(std::string username, std::string password)
+Student* Envir::checkUserStudent(std::string username, std::string password)
 {
-    std::pair<User*, std::string> ans;
-	int is_find = 0;
     for (auto i : m_student)
-	{
+    {
         if (i.first->getID() == username) {
-			is_find = 1;
-            ans = i;
-			break;
-		}
-	}
-	if (!is_find) {
-        for (auto i : m_teacher)
-		{
-			if (i.first->getID() == username) {
-				is_find = 1;
-                ans = i;
-				break;
-			}
-		}
-	}
-	if (!is_find) {
-        for (auto i : m_admin)
-		{
-			if (i.first->getID() == username) {
-				is_find = 1;
-                ans = i;
-				break;
-			}
-		}
-	}
-	if (is_find) {
-		if (ans.second == password) {
-			return ans.first;
-		}
-	}
-	return NULL;
+            if(i.second == password){
+                return i.first;
+            }
+            break;
+        }
+    }
+    return NULL;
+}
+
+Teacher* Envir::checkUserTeacher(std::string username, std::string password)
+{
+    for (auto i : m_teacher)
+    {
+        if (i.first->getID() == username) {
+            if(i.second == password){
+                return i.first;
+            }
+            break;
+        }
+    }
+    return NULL;
+}
+
+Admin* Envir::checkUserAdmin(std::string username, std::string password)
+{
+    for (auto i : m_admin)
+    {
+        if (i.first->getID() == username) {
+            if(i.second == password){
+                return i.first;
+            }
+            break;
+        }
+    }
+    return NULL;
 }
