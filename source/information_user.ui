@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Information_user</class>
  <widget class="QDialog" name="Information_user">
@@ -5,13 +6,202 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>644</width>
+    <height>444</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>用户信息</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+  </property>
+  <widget class="QLabel" name="label_title">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>20</y>
+     <width>171</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;添加用户信息&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>70</y>
+     <width>491</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="4">
+     <widget class="QLabel" name="label_user_institude">
+      <property name="text">
+       <string>用户学院</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="lineEdit_user_id"/>
+    </item>
+    <item row="0" column="3">
+     <widget class="QLineEdit" name="lineEdit_user_name"/>
+    </item>
+    <item row="0" column="5">
+     <widget class="QLineEdit" name="lineEdit_user_institude"/>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_user_id">
+      <property name="text">
+       <string>用户ID</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLabel" name="label_user_name">
+      <property name="text">
+       <string>用户姓名</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label__user_password">
+      <property name="text">
+       <string>用户密码</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="lineEdit_user_password"/>
+    </item>
+    <item row="1" column="2">
+     <widget class="QLabel" name="label_user_class">
+      <property name="text">
+       <string>用户班级</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
+     <widget class="QLineEdit" name="lineEdit_user_class"/>
+    </item>
+    <item row="1" column="4">
+     <widget class="QLabel" name="label_user_type">
+      <property name="text">
+       <string>用户类型</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="5">
+     <widget class="QComboBox" name="comboBox_user_type">
+      <item>
+       <property name="text">
+        <string>学生</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>教师</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>管理员</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>370</y>
+     <width>161</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QPushButton" name="confirm_btn">
+      <property name="text">
+       <string>确认</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="cancel_btn">
+      <property name="text">
+       <string>取消</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QListView" name="listView_course_n">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>190</y>
+     <width>151</width>
+     <height>171</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QListView" name="listView_course_y">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>190</y>
+     <width>161</width>
+     <height>171</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_course">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>160</y>
+     <width>61</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>所属课程</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>220</y>
+     <width>51</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QPushButton" name="select_course_btn">
+      <property name="text">
+       <string>&lt;-</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="cancel_course_btn">
+      <property name="text">
+       <string>-&gt;</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <resources/>
  <connections/>

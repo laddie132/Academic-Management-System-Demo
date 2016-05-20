@@ -40,7 +40,7 @@
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
-      <widget class="QTabWidget" name="tabWidget_course_o">
+      <widget class="QTabWidget" name="tabWidget_admin">
        <property name="currentIndex">
         <number>0</number>
        </property>
@@ -57,9 +57,9 @@
         <widget class="QTableView" name="tableView_course_o">
          <property name="geometry">
           <rect>
-           <x>-10</x>
+           <x>0</x>
            <y>0</y>
-           <width>661</width>
+           <width>651</width>
            <height>441</height>
           </rect>
          </property>
@@ -93,9 +93,9 @@
         <widget class="QTableView" name="tableView_course_e">
          <property name="geometry">
           <rect>
-           <x>-10</x>
+           <x>0</x>
            <y>0</y>
-           <width>661</width>
+           <width>651</width>
            <height>441</height>
           </rect>
          </property>
@@ -117,9 +117,9 @@
         <widget class="QTableView" name="tableView_student">
          <property name="geometry">
           <rect>
-           <x>-10</x>
+           <x>0</x>
            <y>0</y>
-           <width>661</width>
+           <width>651</width>
            <height>441</height>
           </rect>
          </property>
@@ -141,9 +141,9 @@
         <widget class="QTableView" name="tableView_teacher">
          <property name="geometry">
           <rect>
-           <x>-10</x>
+           <x>0</x>
            <y>0</y>
-           <width>661</width>
+           <width>651</width>
            <height>441</height>
           </rect>
          </property>
@@ -165,9 +165,9 @@
         <widget class="QTableView" name="tableView_admin">
          <property name="geometry">
           <rect>
-           <x>-10</x>
+           <x>0</x>
            <y>0</y>
-           <width>661</width>
+           <width>651</width>
            <height>441</height>
           </rect>
          </property>
@@ -221,9 +221,7 @@
     <addaction name="action_teachet_d"/>
     <addaction name="action_admin_d"/>
     <addaction name="separator"/>
-    <addaction name="action_student_add"/>
-    <addaction name="action_teacher_add"/>
-    <addaction name="action_admin_add"/>
+    <addaction name="action_user_add"/>
    </widget>
    <widget class="QMenu" name="menu_help">
     <property name="title">
@@ -295,9 +293,9 @@
     <string>添加教师用户</string>
    </property>
   </action>
-  <action name="action_admin_add">
+  <action name="action_user_add">
    <property name="text">
-    <string>添加管理员用户</string>
+    <string>添加用户</string>
    </property>
   </action>
   <action name="action_about">

@@ -51,21 +51,20 @@ void Login::on_login_btn_clicked()
     //判断用户类型
     if(user1){
         this->close();
+        m_envir->setCourseStudent(user1);   //设置学生课程权限类
         m_envir_widget->showStudentWidget(user1);
-        m_envir->setCourseUser(user_type::student);   //设置课程权限类
     }
     else{
         if(user2){
             this->close();
+            m_envir->setCourseTeacher(user2);   //设置教师课程权限类
             m_envir_widget->showTeacherWidget(user2);
-            m_envir->setCourseUser(user_type::teacher);   //设置课程权限类
         }
         else{
             if(user3){
                 this->close();
+                user3->activateEnvir(m_envir);     //设置管理员系统权限
                 m_envir_widget->showAdminWidget(user3);
-                m_envir->setCourseUser(user_type::admin);   //设置课程权限类
-                user3->activateEnvir(m_envir);
             }
             else{
         //        QMessageBox::warning(this,QString::fromLocal8Bit("警告"),QString::fromLocal8Bit("用户名或密码错误！"),QMessageBox::Yes);

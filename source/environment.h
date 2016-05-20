@@ -9,19 +9,24 @@
 #include "mainwindow_student.h"
 #include "mainwindow_teacher.h"
 
+//系统工作环境（最高权限访问）
 class Envir
 {
 public:
     Envir(){}
     ~Envir();
 
-	void addObligatoryCourse(std::string ID, std::string name, int credit);
-	void addElectiveCourse(std::string ID, std::string name, int credit);
+    Course* addObligatoryCourse(std::string ID, std::string name, int credit);
+    Course* addElectiveCourse(std::string ID, std::string name, int credit);
 
-    void setCourseUser(user_type type);
-    std::set<Course_user*> getCourseUser();
+    std::set<Course*> getObligatoryCourse();
+    std::set<Course*> getElectiveCourse();
 
-    void deleteCourseUser();
+    void deleteCourse(Course* course);
+
+    //对于学生和教师重新包装课程权限后使用
+    void setCourseStudent(Student* student);
+    void setCourseTeacher(Teacher* teacher);
 
 	void addUserStudent(std::string ID, std::string name, std::string insititude);
 	void addUserTeacher(std::string ID, std::string name, std::string insititude);
@@ -39,8 +44,6 @@ private:
 	//保存当前系统课程
 	std::set<Course*> m_obligatory_course;
 	std::set<Course*> m_elective_course;
-
-    std::set<Course_user*> m_course_user;
 
 	//保存用户登录信息(md5密码)
     std::map<Student*, std::string> m_student;

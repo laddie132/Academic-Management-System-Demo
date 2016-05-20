@@ -58,11 +58,26 @@ bool Student::addCourse(Course_student* course)
 
 bool Student::deleteCourse(Course_student* course)
 {
-	if (course->deleteElectiveStudent(this)) {
+    if (course->deleteElectiveStudent(this)) {
 		this->m_course.erase(course);
 		return true;
 	}
 	return false;
+}
+
+void Student::initCourse(std::set<Course_student *> course)
+{
+    eraseCourse();
+    m_course = course;
+}
+
+void Student::eraseCourse()
+{
+    for(auto i : m_course)
+    {
+        delete i;
+    }
+    m_course.clear();
 }
 
 user_type Student::getUserType()
@@ -77,17 +92,28 @@ std::set<Course_teacher*> Teacher::getCourse()
 	return m_course;
 }
 
+void Teacher::initCourse(std::set<Course_teacher *> course)
+{
+    eraseCourse();
+    m_course = course;
+}
+
+void Teacher::eraseCourse()
+{
+    for(auto i : m_course)
+    {
+        delete i;
+    }
+    m_course.clear();
+}
+
+
 user_type Teacher::getUserType()
 {
     return user_type::teacher;
 }
 
 //管理员函数实现
-
-std::set<Course_admin*> Admin::getCourse()
-{
-	return m_course;
-}
 
 user_type Admin::getUserType()
 {
@@ -99,29 +125,35 @@ void Admin::activateEnvir(Envir* envir)
 	m_envir = envir;
 }
 
+Envir* Admin::getEnvir()
+{
+    return m_envir;
+}
+
+/*
 void Admin::addObligatoryCourse(std::string ID, std::string name, int credit)
 {
-	m_envir->addObligatoryCourse(ID, name, credit);
+    m_envir->addObligatoryCourse(ID, name, credit);
 }
 
 void Admin::addElectiveCourse(std::string ID, std::string name, int credit)
 {
-	m_envir->addElectiveCourse(ID, name, credit);
+    m_envir->addElectiveCourse(ID, name, credit);
 }
 
 void Admin::addUserStudent(std::string ID, std::string name, std::string insititude)
 {
-	return m_envir->addUserStudent(ID, name, insititude);
+    m_envir->addUserStudent(ID, name, insititude);
 }
 
 void Admin::addUserTeacher(std::string ID, std::string name, std::string insititude)
 {
-	return m_envir->addUserTeacher(ID, name, insititude);
+    m_envir->addUserTeacher(ID, name, insititude);
 }
 
 void Admin::addUserAdmin(std::string ID, std::string name, std::string insititude)
 {
-	return m_envir->addUserAdmin(ID, name, insititude);
+    m_envir->addUserAdmin(ID, name, insititude);
 }
 
 std::map<Student*, std::string> Admin::getUserStudent()
@@ -138,3 +170,4 @@ std::map<Admin*, std::string> Admin::getUserAdmin()
 {
 	return m_envir->getUserAdmin();
 }
+*/

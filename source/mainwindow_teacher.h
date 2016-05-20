@@ -19,7 +19,8 @@ public:
     explicit MainWindow_teacher(QWidget *parent = 0);
     ~MainWindow_teacher();
 
-    void showTable();   //表格信息初始化
+    void initTable();       //表格信息初始化
+    void updateTable();   //表格信息更新
 
     void setEnvirWidget(Envir_widget* envir_widget);
     void setUser(Teacher* user);   //设置当前登录用户

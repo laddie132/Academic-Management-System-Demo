@@ -85,6 +85,20 @@ bool Course::deleteStudent(Student* student)
 	return false;
 }
 
+bool Course::checkStudent(Student *student)
+{
+    if(m_student.find(student) != m_student.end()){
+        return true;
+    }
+    return false;
+}
+
+bool Course::checkTeacher(Teacher* teacher)
+{
+    if(m_teacher == teacher) return true;
+    return false;
+}
+
 std::map<Student*, float> Course::getStudentGrade()
 {
 	return m_student;
@@ -221,7 +235,7 @@ bool Course_teacher::setGrade(std::pair<Student*, float> student_grade)
 {
 	return m_course->setGrade(student_grade);
 }
-
+/*
 //Course_admin类函数实现
 
 Teacher* Course_admin::getTeacher()
@@ -248,3 +262,4 @@ void Course_admin::setCapicity(int num)
 {
     Course_student::m_course->setCapicity(num);
 }
+*/

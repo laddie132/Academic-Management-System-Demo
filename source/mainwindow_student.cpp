@@ -23,7 +23,12 @@ void MainWindow_student::setUser(Student* user)
     this->m_user = user;
 }
 
-void MainWindow_student::showTable()
+void MainWindow_student::initTable()
+{
+
+}
+
+void MainWindow_student::updateTable()
 {
 
 }

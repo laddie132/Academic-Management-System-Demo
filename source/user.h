@@ -35,7 +35,7 @@ class Student: public User
 public:
 	using User::User;
 	~Student() {
-
+        eraseCourse();
 	}
 
 	using User::operator<;
@@ -43,13 +43,16 @@ public:
 	std::string getClass();
 	void setClass(std::string class_name);
 
+    void initCourse(std::set<Course_student*> course);  //同步学生课程列表
+    void eraseCourse();
+
 	std::map<Course_student*, float> getGrade();	//学生获取自己的课程及其对应成绩
 	std::set<Course_student*> getCourse();			//学生获取自己的课程（可对其课程进行设置）
 
 	bool addCourse(Course_student* course);			//学生选课
 	bool deleteCourse(Course_student* course);		//学生删除已选课程
 
-    user_type getUserType() final override;				//获取用户类型(0代表管理员，1代表学生，2代表教师)
+    user_type getUserType() final override;				//获取用户类型
 
 private:
 	std::string m_class;							//学生所属班级
@@ -61,8 +64,14 @@ class Teacher : public User
 {
 public:
 	using User::User;
+    ~Teacher(){
+        eraseCourse();
+    }
 
 	using User::operator<;
+
+    void initCourse(std::set<Course_teacher*> course);
+    void eraseCourse();
 
 	std::set<Course_teacher*> getCourse();	//教师获取自己课程列表
 
@@ -77,15 +86,18 @@ class Admin : public User
 {
 public:
 	using User::User;
+    ~Admin(){}
+
 	using User::operator<;
 
 	void activateEnvir(Envir* envir);		//激活当前工作环境
 
-	std::set<Course_admin*> getCourse();
-	void addObligatoryCourse(std::string ID, std::string name, int credit);
-	void addElectiveCourse(std::string ID, std::string name, int credit);
-
     user_type getUserType() final override;		//获取用户类型
+
+    Envir* getEnvir();                      //获取当前系统环境
+
+/*    void addObligatoryCourse(std::string ID, std::string name, int credit);
+    void addElectiveCourse(std::string ID, std::string name, int credit);
 
 	void addUserStudent(std::string ID, std::string name, std::string insititude);
 	void addUserTeacher(std::string ID, std::string name, std::string insititude);
@@ -94,8 +106,7 @@ public:
     std::map<Student*, std::string> getUserStudent();
     std::map<Teacher*, std::string> getUserTeacher();
     std::map<Admin*, std::string> getUserAdmin();
-
+*/
 private:
-	std::set<Course_admin*> m_course;		//管理所有课程权限
 	Envir* m_envir;							//当前系统环境
 };

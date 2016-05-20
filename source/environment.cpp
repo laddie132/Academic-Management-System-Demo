@@ -31,82 +31,100 @@ Envir::~Envir()
 	{
 		delete i.first;
 	}
-    deleteCourseUser();
 }
 
-//添加课程函数实现
+//添加和删除课程函数实现
 
-void Envir::addObligatoryCourse(std::string ID, std::string name, int credit)
+Course* Envir::addObligatoryCourse(std::string ID, std::string name, int credit)
 {
-	m_obligatory_course.insert(new Obligatory_course(ID, name, credit));
+    Course* new_course = new Obligatory_course(ID, name, credit);
+    m_obligatory_course.insert(new_course);
+    return new_course;
 }
 
-void Envir::addElectiveCourse(std::string ID, std::string name, int credit)
+Course* Envir::addElectiveCourse(std::string ID, std::string name, int credit)
 {
-	m_elective_course.insert(new Elective_course(ID, name, credit));
+    Course* new_course = new Elective_course(ID, name, credit);
+    m_elective_course.insert(new_course);
+    return new_course;
+}
+
+std::set<Course*> Envir::getElectiveCourse()
+{
+    return m_elective_course;
+}
+
+std::set<Course*> Envir::getObligatoryCourse()
+{
+    return m_obligatory_course;
+}
+
+void Envir::deleteCourse(Course *course)
+{
+    auto i = m_obligatory_course.find(course);
+    if(i == m_obligatory_course.end()){
+        i = m_elective_course.find(course);
+    }
+    delete (*i);
 }
 
 //对用户权限课程类操作
 
-void Envir::setCourseUser(user_type type)
+void Envir::setCourseStudent(Student* student)
 {
-    deleteCourseUser();
-    switch(type)
+    std::set<Course_student*> temp_set;
+    for(auto i : m_obligatory_course)
     {
-    case user_type::student:    //添加学生课程权限类
-        for(auto i : m_obligatory_course)
-        {
-            Course_user *temp = new Course_student(i);
-            m_course_user.insert(temp);
+        if(i->checkStudent(student)){
+            Course_student *temp = new Course_student(i);
+            temp_set.insert(temp);
         }
-        for(auto i : m_elective_course)
-        {
-            Course_user *temp = new Course_student(i);
-            m_course_user.insert(temp);
-        }
-        break;
-
-    case user_type::teacher:    //添加教师课程权限类
-        for(auto i : m_obligatory_course)
-        {
-            Course_user *temp = new Course_teacher(i);
-            m_course_user.insert(temp);
-        }
-        for(auto i : m_elective_course)
-        {
-            Course_user *temp = new Course_teacher(i);
-            m_course_user.insert(temp);
-        }
-        break;
-
-    case user_type::admin:      //添加管理员课程权限类
-        for(auto i : m_obligatory_course)
-        {
-            Course_user *temp = new Course_admin(i);
-            m_course_user.insert(temp);
-        }
-        for(auto i : m_elective_course)
-        {
-            Course_user *temp = new Course_admin(i);
-            m_course_user.insert(temp);
-        }
-        break;
     }
-}
-
-std::set<Course_user*> Envir::getCourseUser()
-{
-    return m_course_user;
-}
-
-void Envir::deleteCourseUser()
-{
-    for(auto i : m_course_user)
+    for(auto i : m_elective_course)
     {
-        delete i;
+        if(i->checkStudent(student)){
+            Course_student *temp = new Course_student(i);
+            temp_set.insert(temp);
+        }
     }
-    m_course_user.clear();
+    student->initCourse(temp_set);
 }
+
+void Envir::setCourseTeacher(Teacher *teacher)
+{
+    std::set<Course_teacher*> temp_set;
+    for(auto i : m_obligatory_course)
+    {
+        if(i->checkTeacher(teacher)){
+            Course_teacher *temp = new Course_teacher(i);
+            temp_set.insert(temp);
+        }
+    }
+    for(auto i : m_elective_course)
+    {
+        if(i->checkTeacher(teacher)){
+            Course_teacher *temp = new Course_teacher(i);
+            temp_set.insert(temp);
+        }
+    }
+    teacher->initCourse(temp_set);
+}
+/*
+void Envir::setCourseAdmin(Admin *admin)
+{
+    std::set<Course_admin*> temp_set;
+    for(auto i : m_obligatory_course)
+    {
+        Course_admin *temp = new Course_admin(i);
+        temp_set.insert(temp);
+    }
+    for(auto i : m_elective_course)
+    {
+        Course_admin *temp = new Course_admin(i);
+        temp_set.insert(temp);
+    }
+    admin->initCourse(temp_set);
+}*/
 
 //添加用户函数实现
 

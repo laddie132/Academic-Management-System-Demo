@@ -6,25 +6,214 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>806</width>
+    <height>497</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>学生用户</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTabWidget" name="tabWidget_student">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>0</y>
+      <width>651</width>
+      <height>461</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab_course_o">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <attribute name="title">
+      <string>必修课程列表</string>
+     </attribute>
+     <widget class="QTableView" name="tableView_course_o">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>661</width>
+        <height>461</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>105</number>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_course_e">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <attribute name="title">
+      <string>已选课程列表</string>
+     </attribute>
+     <widget class="QTableView" name="tableView_course_e">
+      <property name="geometry">
+       <rect>
+        <x>-10</x>
+        <y>0</y>
+        <width>661</width>
+        <height>441</height>
+       </rect>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>105</number>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_student">
+     <attribute name="title">
+      <string>选课列表</string>
+     </attribute>
+     <widget class="QTableView" name="tableView_course_s">
+      <property name="geometry">
+       <rect>
+        <x>-10</x>
+        <y>0</y>
+        <width>661</width>
+        <height>441</height>
+       </rect>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>105</number>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="label_title">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;当前学生信息&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>806</width>
      <height>23</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>菜单</string>
+    </property>
+    <addaction name="action_login"/>
+    <addaction name="action_quit"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>课程</string>
+    </property>
+    <addaction name="action_course_o"/>
+    <addaction name="action_course_e"/>
+   </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>功能</string>
+    </property>
+    <addaction name="action_course_start"/>
+    <addaction name="action_password"/>
+   </widget>
+   <widget class="QMenu" name="menu_4">
+    <property name="title">
+     <string>帮助</string>
+    </property>
+    <addaction name="action_about"/>
+    <addaction name="action_help"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+   <addaction name="menu_3"/>
+   <addaction name="menu_4"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="action_login">
+   <property name="text">
+    <string>重新登录</string>
+   </property>
+  </action>
+  <action name="action_quit">
+   <property name="text">
+    <string>退出</string>
+   </property>
+  </action>
+  <action name="action_course_o">
+   <property name="text">
+    <string>查看必修课</string>
+   </property>
+  </action>
+  <action name="action_course_e">
+   <property name="text">
+    <string>查看已选课程</string>
+   </property>
+  </action>
+  <action name="action_course_start">
+   <property name="text">
+    <string>选课</string>
+   </property>
+  </action>
+  <action name="action_password">
+   <property name="text">
+    <string>修改密码</string>
+   </property>
+  </action>
+  <action name="action_about">
+   <property name="text">
+    <string>关于</string>
+   </property>
+  </action>
+  <action name="action_help">
+   <property name="text">
+    <string>帮助文档</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

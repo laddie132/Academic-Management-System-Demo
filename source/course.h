@@ -30,6 +30,9 @@ public:
 	bool addStudent(Student* student);				//添加学生信息
 	bool deleteStudent(Student* student);			//删除当前学生信息
 
+    bool checkStudent(Student* student);
+    bool checkTeacher(Teacher* teacher);
+
 	std::map<Student*, float> getStudentGrade();				//获取当前课程学生成绩
 	bool setGrade(std::pair<Student*, float> student_grade);	//设置学生成绩
 
@@ -130,6 +133,7 @@ public:
 	bool setGrade(std::pair<Student*, float> student_grade);	//设置学生成绩
 };
 
+/*
 //最高管理员权限的课程类
 class Course_admin: public Course_teacher, public Course_student
 {
@@ -145,3 +149,4 @@ public:
 	bool addStudent(Student* student);				//添加学生
 	bool deleteStudent(Student* student);			//删除学生
 };
+*/

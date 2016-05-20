@@ -6,6 +6,8 @@
 
 #include "environment.h"
 #include "envir_widget.h"
+#include "information_course.h"
+#include "information_user.h"
 
 namespace Ui {
 class MainWindow_admin;
@@ -24,7 +26,8 @@ public:
 
     void creatAction();
 
-    void showTable();   //表格信息初始化
+    void initTable();       //表格信息初始化
+    void updateTable();   //表格信息更新
 
 private slots:
     void action_login_triggered();
@@ -35,9 +38,7 @@ private slots:
     void action_student_d_triggered();
     void action_teacher_d_triggered();
     void action_admin_d_triggered();
-    void action_student_add_triggered();
-    void action_teachet_add_triggered();
-    void action_admin_add_triggered();
+    void action_user_add_triggered();
     void action_start_course_triggered();
     void action_about_triggered();
     void action_help_triggered();
@@ -48,6 +49,13 @@ private:
     Admin* m_user = NULL;
 
     QStandardItemModel* ui_course_model_o;
+    QStandardItemModel* ui_course_model_e;
+    QStandardItemModel* ui_student_model;
+    QStandardItemModel* ui_teacher_model;
+    QStandardItemModel* ui_admin_model;
+
+    Information_course* m_info_course_widget;
+    Information_user* m_info_user_widget;
 };
 
 #endif // MAINWINDOW_ADMIN_H

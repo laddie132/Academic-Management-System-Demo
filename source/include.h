@@ -13,7 +13,7 @@
 class Course;
 class Course_student;
 class Course_teacher;
-class Course_admin;
+//class Course_admin;
 class Course_user;
 class User;
 class Student;
