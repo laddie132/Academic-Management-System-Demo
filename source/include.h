@@ -11,6 +11,8 @@
 
 //∆’Õ®¿‡
 class Course;
+class Obligatory_course;
+class Elective_course;
 class Course_student;
 class Course_teacher;
 //class Course_admin;
@@ -26,6 +28,8 @@ class Login;
 class MainWindow_student;
 class MainWindow_teacher;
 class MainWindow_admin;
+class Information_user;
+class Information_course;
 class Envir_widget;
 
 enum user_type

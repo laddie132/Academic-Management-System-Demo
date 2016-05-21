@@ -35,18 +35,14 @@ Envir::~Envir()
 
 //添加和删除课程函数实现
 
-Course* Envir::addObligatoryCourse(std::string ID, std::string name, int credit)
+void Envir::addObligatoryCourse(Obligatory_course* course)
 {
-    Course* new_course = new Obligatory_course(ID, name, credit);
-    m_obligatory_course.insert(new_course);
-    return new_course;
+    m_obligatory_course.insert(course);
 }
 
-Course* Envir::addElectiveCourse(std::string ID, std::string name, int credit)
+void Envir::addElectiveCourse(Elective_course* course)
 {
-    Course* new_course = new Elective_course(ID, name, credit);
-    m_elective_course.insert(new_course);
-    return new_course;
+    m_elective_course.insert(course);
 }
 
 std::set<Course*> Envir::getElectiveCourse()
@@ -128,25 +124,19 @@ void Envir::setCourseAdmin(Admin *admin)
 
 //添加用户函数实现
 
-void Envir::addUserStudent(std::string ID, std::string name, std::string insititude)
+void Envir::addUserStudent(Student* student, std::string password)
 {
-	Student* temp_student = new Student(ID, name, insititude);
-    QString md5_pass = QCryptographicHash::hash(ID.c_str(), QCryptographicHash::Md5).toHex();
-    m_student.insert(std::make_pair(temp_student, md5_pass.toStdString()));
+    m_student.insert(std::make_pair(student, password));
 }
 
-void Envir::addUserTeacher(std::string ID, std::string name, std::string insititude)
+void Envir::addUserTeacher(Teacher* teacher, std::string password)
 {
-	Teacher* temp_teacher = new Teacher(ID, name, insititude);
-    QString md5_pass = QCryptographicHash::hash(ID.c_str(), QCryptographicHash::Md5).toHex();
-    m_teacher.insert(std::make_pair(temp_teacher, md5_pass.toStdString()));
+    m_teacher.insert(std::make_pair(teacher, password));
 }
 
-void Envir::addUserAdmin(std::string ID, std::string name, std::string insititude)
+void Envir::addUserAdmin(Admin* admin, std::string password)
 {
-	Admin* temp_admin = new Admin(ID, name, insititude);
-    QString md5_pass = QCryptographicHash::hash(ID.c_str(), QCryptographicHash::Md5).toHex();
-    m_admin.insert(std::make_pair(temp_admin, md5_pass.toStdString()));
+    m_admin.insert(std::make_pair(admin, password));
 }
 
 //获取用户函数实现

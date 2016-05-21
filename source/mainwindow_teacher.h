@@ -19,15 +19,21 @@ public:
     explicit MainWindow_teacher(QWidget *parent = 0);
     ~MainWindow_teacher();
 
-    void initTable();       //表格信息初始化
-    void updateTable();   //表格信息更新
+    void showInfo();           //显示用户信息
+    void initActivex();       //控件信息初始化
+    void updateTable();      //表格信息更新
 
     void setEnvirWidget(Envir_widget* envir_widget);
     void setUser(Teacher* user);   //设置当前登录用户
 
+private slots:
+    void action_about_triggered();
+
 private:
     Ui::MainWindow_teacher *ui;
     Envir_widget* m_envir_widget;
+    QStandardItemModel* ui_info_course;
+
     Teacher* m_user = NULL;
 };
 

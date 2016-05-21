@@ -26,8 +26,9 @@ public:
 
     void creatAction();
 
+    void showInfo();         //显示用户信息
     void initTable();       //表格信息初始化
-    void updateTable();   //表格信息更新
+    void updateTable();    //表格信息更新
 
 private slots:
     void action_login_triggered();
@@ -42,6 +43,8 @@ private slots:
     void action_start_course_triggered();
     void action_about_triggered();
     void action_help_triggered();
+
+    void updateTable_slots();
 
 private:
     Ui::MainWindow_admin *ui;

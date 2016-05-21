@@ -17,11 +17,11 @@ MainWindow_admin::MainWindow_admin(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow_admin)
 {
+    m_info_course_widget = new Information_course(this);
+    m_info_user_widget = new Information_user(this);
     ui->setupUi(this);
     creatAction();
     initTable();
-    m_info_course_widget = new Information_course(this);
-    m_info_user_widget = new Information_user(this);
 }
 
 MainWindow_admin::~MainWindow_admin()
@@ -44,56 +44,80 @@ void MainWindow_admin::setUser(Admin* user)
     this->m_user = user;
 }
 
+void MainWindow_admin::showInfo()
+{
+    ui->label_id->setText(QString::fromStdString(m_user->getID()));
+    ui->label_name->setText(QString::fromStdString(m_user->getName()));
+    ui->label_institude->setText(QString::fromStdString(m_user->getInsititude()));
+    updateTable();
+}
+
 void MainWindow_admin::initTable()
 {
-    //设置必修课列表
     ui_course_model_o = new QStandardItemModel();
+    ui_course_model_o->sort(0);
+    ui->tableView_course_o->setModel(ui_course_model_o);
+
+    ui_course_model_e = new QStandardItemModel();
+    ui_course_model_e->sort(0);
+    ui->tableView_course_e->setModel(ui_course_model_e);
+
+    ui_student_model = new QStandardItemModel();
+    ui_student_model->sort(0);
+    ui->tableView_student->setModel(ui_student_model);
+
+    ui_teacher_model = new QStandardItemModel();
+    ui_teacher_model->sort(0);
+    ui->tableView_teacher->setModel(ui_teacher_model);
+
+    ui_admin_model = new QStandardItemModel();
+    ui_admin_model->sort(0);
+    ui->tableView_admin->setModel(ui_admin_model);
+}
+
+void MainWindow_admin::updateTable()
+{
+    ui_course_model_o->clear();
+    ui_course_model_e->clear();
+    ui_student_model->clear();
+    ui_teacher_model->clear();
+    ui_admin_model->clear();
+
+    //设置必修课列表
     ui_course_model_o->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("课程编号")));
     ui_course_model_o->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("课程名称")));
     ui_course_model_o->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("课程学分")));
     ui_course_model_o->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("课程类型")));
     ui_course_model_o->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("课程人数")));
     ui_course_model_o->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("课程容量")));
-    ui->tableView_course_o->setModel(ui_course_model_o);
 
     //设置选修课列表
-    ui_course_model_e = new QStandardItemModel();
     ui_course_model_e->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("课程编号")));
     ui_course_model_e->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("课程名称")));
     ui_course_model_e->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("课程学分")));
     ui_course_model_e->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("课程类型")));
     ui_course_model_e->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("课程人数")));
     ui_course_model_e->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("课程容量")));
-    ui->tableView_course_e->setModel(ui_course_model_e);
 
     //设置学生列表
-    ui_student_model = new QStandardItemModel();
     ui_student_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("学号")));
     ui_student_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("姓名")));
     ui_student_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("班级")));
     ui_student_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("学院")));
     ui_student_model->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("密码")));
-    ui->tableView_student->setModel(ui_student_model);
 
     //设置教师列表
-    ui_teacher_model = new QStandardItemModel();
     ui_teacher_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("工号")));
     ui_teacher_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("姓名")));
     ui_teacher_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("学院")));
     ui_teacher_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("密码")));
-    ui->tableView_teacher->setModel(ui_teacher_model);
 
     //设置管理员列表
-    ui_admin_model = new QStandardItemModel();
     ui_admin_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("用户名")));
     ui_admin_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("姓名")));
     ui_admin_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("学院")));
     ui_admin_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("密码")));
-    ui->tableView_admin->setModel(ui_admin_model);
-}
 
-void MainWindow_admin::updateTable()
-{
     int row = 0;
 
     //更新必修课
@@ -171,6 +195,9 @@ void MainWindow_admin::creatAction()
     connect(ui->action_start_course, SIGNAL(triggered()), this, SLOT(action_start_course_triggered()));
     connect(ui->action_about, SIGNAL(triggered()), this, SLOT(action_about_triggered()));
     connect(ui->action_help, SIGNAL(triggered()), this, SLOT(action_help_triggered()));
+
+    connect(m_info_user_widget, SIGNAL(addUser()), this, SLOT(updateTable_slots()));
+    connect(m_info_course_widget, SIGNAL(addCourse()), this, SLOT(updateTable_slots()));
 }
 
 void MainWindow_admin::action_login_triggered()
@@ -196,6 +223,7 @@ void MainWindow_admin::action_course_e_triggered()
 
 void MainWindow_admin::action_course_add_triggered()
 {
+    m_info_course_widget->setUser(m_user);
     m_info_course_widget->show();
 }
 
@@ -216,6 +244,7 @@ void MainWindow_admin::action_admin_d_triggered()
 
 void MainWindow_admin::action_user_add_triggered()
 {
+    m_info_user_widget->setUser(m_user);
     m_info_user_widget->show();
 }
 
@@ -236,4 +265,9 @@ void MainWindow_admin::action_about_triggered()
 void MainWindow_admin::action_help_triggered()
 {
 
+}
+
+void MainWindow_admin::updateTable_slots()
+{
+    updateTable();
 }

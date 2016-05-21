@@ -22,7 +22,9 @@ int main(int argc, char *argv[])
     //设置运行环境
     Envir envir;
     QString default_name = "admin";         //默认账户
-    envir.addUserAdmin(default_name.toStdString(), default_name.toStdString(), QString::fromLocal8Bit("计算机学院").toStdString());
+    Admin* admin = new Admin(default_name.toStdString(), default_name.toStdString(), QString::fromLocal8Bit("计算机学院").toStdString());
+    QString password = QCryptographicHash::hash(default_name.toLocal8Bit(), QCryptographicHash::Md5).toHex();
+    envir.addUserAdmin(admin, password.toStdString());
 
     Envir_widget envir_widget;
 

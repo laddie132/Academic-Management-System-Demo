@@ -23,19 +23,19 @@ void Envir_widget::showAdminWidget(Admin* user)
 {
     m_widget_admin->show();
     m_widget_admin->setUser(user);
-    m_widget_admin->updateTable();
+    m_widget_admin->showInfo();
 }
 
 void Envir_widget::showStudentWidget(Student* user)
 {
     m_widget_student->show();
     m_widget_student->setUser(user);
-    m_widget_student->updateTable();
+    m_widget_student->showInfo();
 }
 
 void Envir_widget::showTeacherWidget(Teacher* user)
 {
     m_widget_teacher->show();
     m_widget_teacher->setUser(user);
-    m_widget_teacher->updateTable();
+    m_widget_teacher->showInfo();
 }

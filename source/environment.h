@@ -16,8 +16,8 @@ public:
     Envir(){}
     ~Envir();
 
-    Course* addObligatoryCourse(std::string ID, std::string name, int credit);
-    Course* addElectiveCourse(std::string ID, std::string name, int credit);
+    void addObligatoryCourse(Obligatory_course* course);
+    void addElectiveCourse(Elective_course* course);
 
     std::set<Course*> getObligatoryCourse();
     std::set<Course*> getElectiveCourse();
@@ -28,9 +28,9 @@ public:
     void setCourseStudent(Student* student);
     void setCourseTeacher(Teacher* teacher);
 
-	void addUserStudent(std::string ID, std::string name, std::string insititude);
-	void addUserTeacher(std::string ID, std::string name, std::string insititude);
-	void addUserAdmin(std::string ID, std::string name, std::string insititude);
+    void addUserStudent(Student* student, std::string password);
+    void addUserTeacher(Teacher* teacher, std::string password);
+    void addUserAdmin(Admin* admin, std::string password);
 
     std::map<Student*, std::string> getUserStudent();
     std::map<Teacher*, std::string> getUserTeacher();
