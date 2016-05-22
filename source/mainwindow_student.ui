@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_course_o">
      <property name="sizePolicy">
@@ -41,8 +41,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>661</width>
-        <height>461</height>
+        <width>651</width>
+        <height>431</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -81,7 +81,7 @@
         <x>0</x>
         <y>0</y>
         <width>651</width>
-        <height>441</height>
+        <height>431</height>
        </rect>
       </property>
       <property name="editTriggers">
@@ -108,7 +108,7 @@
         <x>0</x>
         <y>0</y>
         <width>651</width>
-        <height>441</height>
+        <height>431</height>
        </rect>
       </property>
       <property name="editTriggers">

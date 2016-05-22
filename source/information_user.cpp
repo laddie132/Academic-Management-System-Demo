@@ -136,8 +136,10 @@ void Information_user::on_update_btn_clicked()
     std::string name = ui->lineEdit_user_name->text().toStdString();
     std::string institude = ui->lineEdit_user_institude->text().toStdString();
     QString password = ui->lineEdit_user_password->text();
-    QString pass = QCryptographicHash::hash(password.toLocal8Bit(), QCryptographicHash::Md5).toHex();
-    m_admin->getEnvir()->changeUserPass(m_user, pass.toStdString());
+    if(password != ""){
+        QString pass = QCryptographicHash::hash(password.toLocal8Bit(), QCryptographicHash::Md5).toHex();
+        m_admin->getEnvir()->changeUserPass(m_user, pass.toStdString());
+    }
     QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("修改用户成功"));
     emit updateUser();
 }

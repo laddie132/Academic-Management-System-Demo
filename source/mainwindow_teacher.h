@@ -19,15 +19,23 @@ public:
     explicit MainWindow_teacher(QWidget *parent = 0);
     ~MainWindow_teacher();
 
-    void showInfo();           //显示用户信息
     void initActivex();       //控件信息初始化
+    void creatAction();
+
+    void showInfo();           //显示用户信息
     void updateTable();      //表格信息更新
 
     void setEnvirWidget(Envir_widget* envir_widget);
     void setUser(Teacher* user);   //设置当前登录用户
 
 private slots:
+    void action_login_triggered();
+    void action_quit_triggered();
+    void action_course_triggered();
+    void action_set_grade_triggered();
     void action_about_triggered();
+    void action_help_triggered();
+    void action_change_pass_triggered();
 
 private:
     Ui::MainWindow_teacher *ui;

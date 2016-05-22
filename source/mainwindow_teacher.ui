@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_course_o">
      <property name="sizePolicy">
@@ -189,6 +189,22 @@
      </item>
     </layout>
    </widget>
+   <widget class="QPushButton" name="set_grade_btn">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>330</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+    </property>
+    <property name="text">
+     <string>设置成绩</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -210,15 +226,14 @@
     <property name="title">
      <string>课程</string>
     </property>
-    <addaction name="action_course_o"/>
-    <addaction name="action_course_e"/>
-    <addaction name="action"/>
+    <addaction name="action_course"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
      <string>功能</string>
     </property>
     <addaction name="action_password"/>
+    <addaction name="action_set_grade"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="title">
@@ -243,9 +258,9 @@
     <string>退出</string>
    </property>
   </action>
-  <action name="action_course_o">
+  <action name="action_course">
    <property name="text">
-    <string>查看必修课程</string>
+    <string>查看课程</string>
    </property>
   </action>
   <action name="action_course_e">
@@ -271,6 +286,11 @@
   <action name="action">
    <property name="text">
     <string>查看选课列表</string>
+   </property>
+  </action>
+  <action name="action_set_grade">
+   <property name="text">
+    <string>设置学生成绩</string>
    </property>
   </action>
  </widget>

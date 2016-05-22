@@ -9,6 +9,7 @@ MainWindow_student::MainWindow_student(QWidget *parent) :
 {
     ui->setupUi(this);
     initActivex();
+    creatAction();
 }
 
 MainWindow_student::~MainWindow_student()
@@ -110,6 +111,50 @@ void MainWindow_student::updateTable()
     }
 }
 
+//链接菜单栏按钮的槽函数
+void MainWindow_student::creatAction()
+{
+    connect(ui->action_login, SIGNAL(triggered()), this, SLOT(action_login_triggered()));
+    connect(ui->action_quit, SIGNAL(triggered()), this, SLOT(action_quit_triggered()));
+    connect(ui->action_course_o, SIGNAL(triggered()), this, SLOT(action_course_o_triggered()));
+    connect(ui->action_course_e, SIGNAL(triggered()), this, SLOT(action_course_e_triggered()));
+    connect(ui->action_course_start, SIGNAL(triggered()), this, SLOT(action_start_course_triggered()));
+    connect(ui->action_about, SIGNAL(triggered()), this, SLOT(action_about_triggered()));
+    connect(ui->action_help, SIGNAL(triggered()), this, SLOT(action_help_triggered()));
+    connect(ui->action_password, SIGNAL(triggered()), this, SLOT(action_change_pass_triggered()));
+}
+
+void MainWindow_student::action_login_triggered()
+{
+    this->close();
+    m_envir_widget->showLoginWidget();
+}
+
+void MainWindow_student::action_quit_triggered()
+{
+    this->close();
+}
+
+void MainWindow_student::action_course_o_triggered()
+{
+    ui->tabWidget_student->setCurrentIndex(0);
+}
+
+void MainWindow_student::action_course_e_triggered()
+{
+    ui->tabWidget_student->setCurrentIndex(1);
+}
+
+void MainWindow_student::action_start_course_triggered()
+{
+    ui->tabWidget_student->setCurrentIndex(2);
+}
+
+void MainWindow_student::action_change_pass_triggered()
+{
+
+}
+
 void MainWindow_student::action_about_triggered()
 {
     QMessageBox::about(this, QString::fromLocal8Bit("关于"),
@@ -117,4 +162,9 @@ void MainWindow_student::action_about_triggered()
                                  "<br>项目主页：https://github.com/laddie132/StudentsGradeManageSystem"
                                  " <br>作者：L.Laddie"
                                "  <br><br>Copyright 2016-2016 The Qt Company Ltd. All rights reserved." ));
+}
+
+void MainWindow_student::action_help_triggered()
+{
+
 }

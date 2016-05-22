@@ -50,7 +50,7 @@ private:
 	int m_credit;							//课程学分
 	int m_capicity = 100;					//最大课程容量
 
-	Teacher* m_teacher;						//授课教师
+    Teacher* m_teacher = NULL;						//授课教师
 };
 
 //必修课

@@ -204,6 +204,9 @@ void MainWindow_admin::creatAction()
     connect(ui->tableView_student, SIGNAL(clicked(QModelIndex)), this, SLOT(update_user_slots()));
     connect(ui->tableView_teacher, SIGNAL(clicked(QModelIndex)), this, SLOT(update_user_slots()));
     connect(ui->tableView_admin, SIGNAL(clicked(QModelIndex)), this, SLOT(update_user_slots()));
+
+    connect(ui->add_course_btn, SIGNAL(clicked()), this, SLOT(action_course_add_triggered()));
+    connect(ui->add_user_btn, SIGNAL(clicked()), this, SLOT(action_user_add_triggered()));
 }
 
 void MainWindow_admin::action_login_triggered()

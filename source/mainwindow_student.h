@@ -21,6 +21,7 @@ public:
     ~MainWindow_student();
 
     void initActivex();       //控件信息初始化
+    void creatAction();
 
     void showInfo();           //显示用户信息
     void updateTable();        //表格信息初始化
@@ -29,7 +30,14 @@ public:
     void setUser(Student* user);   //设置当前登录用户
 
 private slots:
+    void action_login_triggered();
+    void action_quit_triggered();
+    void action_course_o_triggered();
+    void action_course_e_triggered();
+    void action_start_course_triggered();
     void action_about_triggered();
+    void action_help_triggered();
+    void action_change_pass_triggered();
 
 private:
     Ui::MainWindow_student *ui;
