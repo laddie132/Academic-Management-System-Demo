@@ -2,6 +2,7 @@
 #define INFORMATION_USER_H
 
 #include <QDialog>
+#include <QStandardItemModel>
 #include "user.h"
 
 namespace Ui {
@@ -20,6 +21,11 @@ public:
     void setUser(User* user);
 
     void showInfo();
+    void updateCourse();
+
+    void creatActivex();
+
+    void addCourse(User* user);       //将所选择课程添加到学生
 
 signals:
     void updateUser();
@@ -35,10 +41,16 @@ private slots:
 
     void on_del_btn_clicked();
 
+    void on_select_course_btn_clicked();
+
+    void on_cancel_course_btn_clicked();
+
 private:
     Ui::Information_user *ui;
-    Admin* m_admin;
+    QStandardItemModel* ui_course_model_n;
+    QStandardItemModel* ui_course_model_y;
 
+    Admin* m_admin;
     User* m_user = NULL;
 };
 

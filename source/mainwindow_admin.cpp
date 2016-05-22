@@ -233,6 +233,7 @@ void MainWindow_admin::action_course_e_triggered()
 void MainWindow_admin::action_course_add_triggered()
 {
     m_info_course_widget->setUser(m_user);
+    m_info_course_widget->setCourse(NULL);
     m_info_course_widget->showInfo();
     m_info_course_widget->show();
 }
@@ -255,6 +256,7 @@ void MainWindow_admin::action_admin_d_triggered()
 void MainWindow_admin::action_user_add_triggered()
 {
     m_info_user_widget->setUser_admin(m_user);
+    m_info_user_widget->setUser(NULL);
     m_info_user_widget->showInfo();
     m_info_user_widget->show();
 }
@@ -318,12 +320,15 @@ void MainWindow_admin::update_user_slots()
 {
     QString id;
     int tab = ui->tabWidget_admin->currentIndex();
+    User* temp;
     switch(tab)
     {
     case 2:
     {
         int row = ui->tableView_student->currentIndex().row();
         id = ui_student_model->item(row, 0)->text();
+        temp = m_user->getEnvir()->findUser(id.toStdString());
+        m_user->getEnvir()->setCourseStudent((Student*)temp);   //初始化学生权限课程
         break;
     }
 
@@ -331,6 +336,8 @@ void MainWindow_admin::update_user_slots()
     {
         int row = ui->tableView_teacher->currentIndex().row();
         id = ui_teacher_model->item(row, 0)->text();
+        temp = m_user->getEnvir()->findUser(id.toStdString());
+        m_user->getEnvir()->setCourseTeacher((Teacher*)temp);   //初始化教师权限课程
         break;
     }
 
@@ -338,13 +345,13 @@ void MainWindow_admin::update_user_slots()
     {
         int row = ui->tableView_admin->currentIndex().row();
         id = ui_admin_model->item(row, 0)->text();
+        temp = m_user->getEnvir()->findUser(id.toStdString());
         break;
     }
 
     default:
         break;
     }
-    User* temp = m_user->getEnvir()->findUser(id.toStdString());
 
     m_info_user_widget->setUser_admin(m_user);
     m_info_user_widget->setUser(temp);

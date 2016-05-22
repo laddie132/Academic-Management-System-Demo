@@ -13,6 +13,7 @@ Information_user::Information_user(QWidget *parent) :
     ui(new Ui::Information_user)
 {
     ui->setupUi(this);
+    creatActivex();
 }
 
 Information_user::~Information_user()
@@ -30,12 +31,30 @@ void Information_user::setUser(User *user)
     m_user = user;
 }
 
+void Information_user::creatActivex()
+{
+    ui_course_model_n = new QStandardItemModel();
+    ui_course_model_y = new QStandardItemModel();
+
+    ui_course_model_n->sort(0);
+    ui_course_model_y->sort(0);
+
+    ui->tableView_course_n->setModel(ui_course_model_n);
+    ui->tableView_course_y->setModel(ui_course_model_y);
+
+    ui->tableView_course_n->resizeColumnsToContents();
+    ui->tableView_course_y->resizeColumnsToContents();
+}
+
 void Information_user::showInfo()
 {
     if(m_user){
         ui->lineEdit_user_id->setText(QString::fromStdString(m_user->getID()));
+        ui->lineEdit_user_id->setReadOnly(true);
         ui->lineEdit_user_name->setText(QString::fromStdString(m_user->getName()));
+        ui->lineEdit_user_name->setReadOnly(true);
         ui->lineEdit_user_institude->setText(QString::fromStdString(m_user->getInsititude()));
+        ui->lineEdit_user_institude->setReadOnly(true);
         ui->lineEdit_user_password->clear();
         switch(m_user->getUserType())
         {
@@ -56,6 +75,90 @@ void Information_user::showInfo()
 
         default:
             break;
+        }
+    }
+    else{
+        ui->lineEdit_user_id->setReadOnly(false);
+        ui->lineEdit_user_name->setReadOnly(false);
+        ui->lineEdit_user_institude->setReadOnly(false);
+    }
+    updateCourse();
+}
+
+void Information_user::updateCourse()
+{
+    ui_course_model_n->clear();
+    ui_course_model_y->clear();
+
+    int row1 = 0;
+    int row2 = 0;
+    if(m_user){
+        switch(m_user->getUserType())
+        {
+        case user_type::student:
+        {
+            for(auto i : m_admin->getEnvir()->getObligatoryCourse())
+            {
+                int is_find = 0;
+                for(auto j : ((Student*)m_user)->getCourse())
+                {
+                    if(j->getID() == i->getID()){
+                        is_find = 1;
+                        break;
+                    }
+                }
+                if(!is_find)
+                {
+                    ui_course_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i->getID())));
+                    ui_course_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i->getName())));
+                    row2++;
+                }
+                else{
+                    ui_course_model_y->setItem(row1, 0, new QStandardItem(QString::fromStdString(i->getID())));
+                    ui_course_model_y->setItem(row1, 1, new QStandardItem(QString::fromStdString(i->getName())));
+                    row1++;
+                }
+            }
+            break;
+        }
+
+        case user_type::teacher:
+        {
+            for(auto i : m_admin->getEnvir()->getObligatoryCourse())
+            {
+                int is_find = 0;
+                for(auto j : ((Student*)m_user)->getCourse())
+                {
+                    if(j->getID() == i->getID()){
+                        is_find = 1;
+                        break;
+                    }
+                }
+                if(!is_find)
+                {
+                    ui_course_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i->getID())));
+                    ui_course_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i->getName())));
+                    row2++;
+                }
+                else{
+                    ui_course_model_y->setItem(row1, 0, new QStandardItem(QString::fromStdString(i->getID())));
+                    ui_course_model_y->setItem(row1, 1, new QStandardItem(QString::fromStdString(i->getName())));
+                    row1++;
+                }
+            }
+            break;
+        }
+
+        default:
+            break;
+        }
+    }
+    else{
+        for(auto i : m_admin->getEnvir()->getObligatoryCourse())
+        {
+            ui_course_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i->getID())));
+            ui_course_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i->getName())));
+            row2++;
         }
     }
 }
@@ -87,6 +190,7 @@ void Information_user::on_add_btn_clicked()
     {
         Student* temp_student = new Student(id, name, institude);
         temp_student->setClass(ui->lineEdit_user_class->text().toStdString());
+        addCourse((User*)temp_student);
         m_admin->getEnvir()->addUserStudent(temp_student, password.toStdString());
         break;
     }
@@ -95,6 +199,7 @@ void Information_user::on_add_btn_clicked()
     case 1:
     {
         Teacher* temp_teacher = new Teacher(id, name, institude);
+        addCourse((User*)temp_teacher);
         m_admin->getEnvir()->addUserTeacher(temp_teacher, password.toStdString());
         break;
     }
@@ -140,6 +245,7 @@ void Information_user::on_update_btn_clicked()
         QString pass = QCryptographicHash::hash(password.toLocal8Bit(), QCryptographicHash::Md5).toHex();
         m_admin->getEnvir()->changeUserPass(m_user, pass.toStdString());
     }
+    addCourse(m_user);
     QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("修改用户成功"));
     emit updateUser();
 }
@@ -158,4 +264,67 @@ void Information_user::on_del_btn_clicked()
     m_user = NULL;
     QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("删除用户成功"));
     emit updateUser();
+}
+
+void Information_user::on_select_course_btn_clicked()
+{
+    int row = ui->tableView_course_n->currentIndex().row();
+    if(row == -1){
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("未选中课程信息"));
+        return;
+    }
+    ui_course_model_y->insertRow(0, ui_course_model_n->takeRow(row));
+}
+
+void Information_user::on_cancel_course_btn_clicked()
+{
+    int row = ui->tableView_course_y->currentIndex().row();
+    if(row == -1){
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("未选中课程信息"));
+        return;
+    }
+    ui_course_model_n->insertRow(0, ui_course_model_y->takeRow(row));
+}
+
+void Information_user::addCourse(User* user)
+{
+    int row = ui_course_model_y->rowCount();
+    if(row != -1){
+        for(int i = 0; i < row; i++)
+        {
+            QString id = ui_course_model_y->item(i, 0)->text();
+            Course* course = m_admin->getEnvir()->findCourse(id.toStdString());
+            switch(user->getUserType())
+            {
+            case user_type::student:
+            {
+                Student* temp_student = (Student*) user;
+                if(course->getStudent().size() < course->getCapicity()){
+                    course->addStudent(temp_student);
+                }
+                else{
+                    QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("课程容量已满"));
+                }
+                break;
+            }
+
+            case user_type::teacher:
+            {
+                Teacher* temp_teacher = (Teacher*) user;
+                if(course->getTeacher()){
+                    if(course->getTeacher()->getID() != temp_teacher->getID()){
+                        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("课程已设置教师"));
+                    }
+                }
+                else{
+                    course->setTeacher(temp_teacher);
+                }
+                break;
+            }
+
+            default:
+                break;
+            }
+        }
+    }
 }

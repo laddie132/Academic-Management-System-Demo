@@ -67,7 +67,7 @@ bool Course::addStudent(Student* student)
 {
     if ((int)m_student.size() < m_capicity) {
         auto i = m_student.find(student);
-		if (i != m_student.end()) {
+        if (i == m_student.end()) {
 			m_student.insert(std::make_pair(student, -1));
 			return true;
 		}
@@ -83,6 +83,11 @@ bool Course::deleteStudent(Student* student)
 		m_student.erase(i);
 	}
 	return false;
+}
+
+void Course::clearStudent()
+{
+    m_student.clear();
 }
 
 bool Course::checkStudent(Student *student)

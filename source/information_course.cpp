@@ -11,6 +11,7 @@ Information_course::Information_course(QWidget *parent) :
     ui(new Ui::Information_course)
 {
     ui->setupUi(this);
+    creatActivex();
 }
 
 Information_course::~Information_course()
@@ -28,6 +29,21 @@ void Information_course::setCourse(Course *course)
     m_course = course;
 }
 
+void Information_course::creatActivex()
+{
+    ui_student_model_n = new QStandardItemModel();
+    ui_student_model_y = new QStandardItemModel();
+
+    ui_student_model_n->sort(0);
+    ui_student_model_y->sort(0);
+
+    ui->tableView_student_n->setModel(ui_student_model_n);
+    ui->tableView_student_y->setModel(ui_student_model_y);
+
+    ui->tableView_student_n->resizeColumnsToContents();
+    ui->tableView_student_y->resizeColumnsToContents();
+}
+
 void Information_course::showInfo()
 {
     ui->comboBox_teacher->clear();
@@ -40,10 +56,14 @@ void Information_course::showInfo()
 
     if(m_course){
         ui->lineEdit_course_id->setText(QString::fromStdString(m_course->getID()));
+        ui->lineEdit_course_id->setReadOnly(true);
         ui->lineEdit_course_name->setText(QString::fromStdString(m_course->getName()));
+        ui->lineEdit_course_name->setReadOnly(true);
         ui->lineEdit_course_credit->setText(QString::number(m_course->getCredit()));
+        ui->lineEdit_course_credit->setReadOnly(true);
         ui->lineEdit_course_capicity->setText(QString::number(m_course->getCapicity()));
         ui->lineEdit_course_num->setText(QString::number(m_course->getStudent().size()));
+        ui->lineEdit_course_num->setReadOnly(true);
         ui->comboBox_type->setCurrentIndex(!m_course->getCourseType());
         if(m_course->getTeacher() != NULL){
             int i = 0;
@@ -54,6 +74,45 @@ void Information_course::showInfo()
                     break;
                 }
             }
+        }
+    }
+    else{
+        ui->lineEdit_course_id->setReadOnly(false);
+        ui->lineEdit_course_name->setReadOnly(false);
+        ui->lineEdit_course_credit->setReadOnly(false);
+    }
+    updateStudent();
+}
+
+void Information_course::updateStudent()
+{
+    ui_student_model_n->clear();
+    ui_student_model_y->clear();
+
+    int row1 = 0;
+    int row2 = 0;
+    if(m_course){
+        for(auto i : m_user->getEnvir()->getUserStudent())
+        {
+            if(!m_course->getStudent().count(i.first))
+            {
+                ui_student_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i.first->getID())));
+                ui_student_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i.first->getName())));
+                row2++;
+            }
+            else{
+                ui_student_model_y->setItem(row1, 0, new QStandardItem(QString::fromStdString(i.first->getID())));
+                ui_student_model_y->setItem(row1, 1, new QStandardItem(QString::fromStdString(i.first->getName())));
+                row1++;
+            }
+        }
+    }
+    else{
+        for(auto i : m_user->getEnvir()->getUserStudent())
+        {
+            ui_student_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i.first->getID())));
+            ui_student_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i.first->getName())));
+            row2++;
         }
     }
 }
@@ -82,12 +141,14 @@ void Information_course::on_add_btn_clicked()
         Elective_course* temp_course = new Elective_course(id, name, credit);
         temp_course->setCapicity(capicity);
         temp_course->setTeacher(teacher);
+        addStudent((Course*)temp_course);
         m_user->getEnvir()->addElectiveCourse(temp_course);
     }
     else{
         Obligatory_course* temp_course = new Obligatory_course(id, name, credit);
         temp_course->setCapicity(capicity);
         temp_course->setTeacher(teacher);
+        addStudent((Course*)temp_course);
         m_user->getEnvir()->addObligatoryCourse(temp_course);
     }
     QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("添加课程成功"));
@@ -101,7 +162,7 @@ void Information_course::on_cancel_btn_clicked()
 
 void Information_course::on_comboBox_type_currentIndexChanged(int index)
 {
-    if(index){
+    if(!index){
         ui->checkBox_start_course->close();
     }
     else ui->checkBox_start_course->show();
@@ -129,6 +190,8 @@ void Information_course::on_update_btn_clicked()
         emit updateCourse();
     }
     else QMessageBox::warning(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("无教师信息"));
+
+    addStudent(m_course);
 }
 
 void Information_course::on_del_btn_clicked()
@@ -141,4 +204,40 @@ void Information_course::on_del_btn_clicked()
     m_course = NULL;
     QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("删除课程成功"));
     emit updateCourse();
+}
+
+void Information_course::on_select_student_btn_clicked()
+{
+    int row = ui->tableView_student_n->currentIndex().row();
+    if(row == -1){
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("未选中学生信息"));
+        return;
+    }
+    ui_student_model_y->insertRow(0, ui_student_model_n->takeRow(row));
+}
+
+void Information_course::on_cancel_student_btn_clicked()
+{
+    int row = ui->tableView_student_y->currentIndex().row();
+    if(row == -1){
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("未选中学生信息"));
+        return;
+    }
+    ui_student_model_n->insertRow(0, ui_student_model_y->takeRow(row));
+}
+
+void Information_course::addStudent(Course * course)
+{
+    course->clearStudent();
+    int row = ui_student_model_y->rowCount();
+    if(row != -1){
+        for(int i = 0; i < row; i++)
+        {
+            QString id = ui_student_model_y->item(i, 0)->text();
+            User* user = m_user->getEnvir()->findUser(id.toStdString());
+            if(user->getUserType() == user_type::student){
+                course->addStudent((Student*)user);
+            }
+        }
+    }
 }

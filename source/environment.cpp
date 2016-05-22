@@ -290,6 +290,7 @@ void Envir::deleteUser(User *user)
             Course* temp = this->findCourse(i->getID());
             temp->deleteStudent(student);
         }
+        m_student.erase(student);
         delete student;
         break;
     }
@@ -302,6 +303,7 @@ void Envir::deleteUser(User *user)
             Course* temp = this->findCourse(i->getID());
             temp->setTeacher(NULL);
         }
+        m_teacher.erase(teacher);
         delete teacher;
         break;
     }
@@ -309,6 +311,7 @@ void Envir::deleteUser(User *user)
     case user_type::admin:
     {
         Admin* admin = (Admin*)user;
+        m_admin.erase(admin);
         delete admin;
         break;
     }

@@ -29,6 +29,7 @@ public:
 	std::set<Student*> getStudent();				//获取当前学生信息
 	bool addStudent(Student* student);				//添加学生信息
 	bool deleteStudent(Student* student);			//删除当前学生信息
+    void clearStudent();                             //清空学生信息
 
     bool checkStudent(Student* student);
     bool checkTeacher(Teacher* teacher);

@@ -128,26 +128,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QListView" name="listView_course_n">
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>190</y>
-     <width>151</width>
-     <height>171</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QListView" name="listView_course_y">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>190</y>
-     <width>161</width>
-     <height>171</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_course">
    <property name="geometry">
     <rect>
@@ -226,6 +206,74 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QTableView" name="tableView_course_y">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>180</y>
+     <width>181</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <attribute name="horizontalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="horizontalHeaderDefaultSectionSize">
+    <number>85</number>
+   </attribute>
+   <attribute name="horizontalHeaderMinimumSectionSize">
+    <number>20</number>
+   </attribute>
+   <attribute name="horizontalHeaderStretchLastSection">
+    <bool>true</bool>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderDefaultSectionSize">
+    <number>25</number>
+   </attribute>
+  </widget>
+  <widget class="QTableView" name="tableView_course_n">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>180</y>
+     <width>181</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <attribute name="horizontalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="horizontalHeaderDefaultSectionSize">
+    <number>87</number>
+   </attribute>
+   <attribute name="horizontalHeaderMinimumSectionSize">
+    <number>20</number>
+   </attribute>
+   <attribute name="horizontalHeaderStretchLastSection">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderDefaultSectionSize">
+    <number>25</number>
+   </attribute>
   </widget>
  </widget>
  <resources/>

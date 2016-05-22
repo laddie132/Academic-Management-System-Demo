@@ -2,6 +2,8 @@
 #define INFORMATION_COURSE_H
 
 #include <QDialog>
+#include <QStandardItemModel>
+
 #include "include.h"
 #include "user.h"
 
@@ -21,6 +23,11 @@ public:
     void setCourse(Course* course);
 
     void showInfo();
+    void updateStudent();
+
+    void creatActivex();
+
+    void addStudent(Course* course);       //从选择框获取学生并添加到课程
 
 signals:
     void updateCourse();
@@ -36,8 +43,15 @@ private slots:
 
     void on_del_btn_clicked();
 
+    void on_select_student_btn_clicked();
+
+    void on_cancel_student_btn_clicked();
+
 private:
     Ui::Information_course *ui;
+    QStandardItemModel* ui_student_model_n;
+    QStandardItemModel* ui_student_model_y;
+
     Admin* m_user;
     Course* m_course = NULL;
 };
