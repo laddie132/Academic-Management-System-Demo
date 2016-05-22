@@ -45,6 +45,8 @@ private slots:
     void action_help_triggered();
 
     void updateTable_slots();
+    void update_course_slots();
+    void update_user_slots();
 
 private:
     Ui::MainWindow_admin *ui;

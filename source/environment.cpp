@@ -60,7 +60,9 @@ void Envir::deleteCourse(Course *course)
     auto i = m_obligatory_course.find(course);
     if(i == m_obligatory_course.end()){
         i = m_elective_course.find(course);
+        m_elective_course.erase(i);
     }
+    else m_obligatory_course.erase(i);
     delete (*i);
 }
 
@@ -121,6 +123,23 @@ void Envir::setCourseAdmin(Admin *admin)
     }
     admin->initCourse(temp_set);
 }*/
+
+Course* Envir::findCourse(std::string id)
+{
+    for(auto i : m_obligatory_course)
+    {
+        if(i->getID() == id){
+            return i;
+        }
+    }
+    for(auto i : m_elective_course)
+    {
+        if(i->getID() == id){
+            return i;
+        }
+    }
+    return NULL;
+}
 
 //添加用户函数实现
 
@@ -196,4 +215,105 @@ Admin* Envir::checkUserAdmin(std::string username, std::string password)
         }
     }
     return NULL;
+}
+
+User* Envir::findUser(std::string id)
+{
+    for(auto i : m_student)
+    {
+        if(i.first->getID() == id){
+            return (User*)i.first;
+        }
+    }
+
+    for(auto i : m_teacher)
+    {
+        if(i.first->getID() == id){
+            return (User*)i.first;
+        }
+    }
+
+    for(auto i : m_admin)
+    {
+        if(i.first->getID() == id){
+            return (User*)i.first;
+        }
+    }
+    return NULL;
+}
+
+void Envir::changeUserPass(User *user, std::string pass)
+{
+    switch(user->getUserType())
+    {
+    case user_type::student:
+    {
+        auto i = m_student.find((Student*)user);
+        if(i != m_student.end()){
+            i->second = pass;
+        }
+        break;
+    }
+
+    case user_type::teacher:
+    {
+        auto i = m_teacher.find((Teacher*)user);
+        if(i != m_teacher.end()){
+            i->second = pass;
+        }
+        break;
+    }
+
+    case user_type::admin:
+    {
+        auto i = m_admin.find((Admin*)user);
+        if(i != m_admin.end()){
+            i->second = pass;
+        }
+        break;
+    }
+
+    default:
+        break;
+    }
+}
+
+void Envir::deleteUser(User *user)
+{
+    switch(user->getUserType())
+    {
+    case user_type::student:
+    {
+        Student* student = (Student*)user;
+        for(auto i : student->getCourse())
+        {
+            Course* temp = this->findCourse(i->getID());
+            temp->deleteStudent(student);
+        }
+        delete student;
+        break;
+    }
+
+    case user_type::teacher:
+    {
+        Teacher* teacher = (Teacher*)user;
+        for(auto i : teacher->getCourse())
+        {
+            Course* temp = this->findCourse(i->getID());
+            temp->setTeacher(NULL);
+        }
+        delete teacher;
+        break;
+    }
+
+    case user_type::admin:
+    {
+        Admin* admin = (Admin*)user;
+        delete admin;
+        break;
+    }
+
+    default:
+        break;
+    }
 }

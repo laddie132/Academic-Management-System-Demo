@@ -136,17 +136,31 @@
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>490</x>
+     <x>340</x>
      <y>400</y>
-     <width>181</width>
+     <width>320</width>
      <height>51</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QPushButton" name="confirm_btn">
+     <widget class="QPushButton" name="add_btn">
       <property name="text">
-       <string>确认</string>
+       <string>添加</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="update_btn">
+      <property name="text">
+       <string>修改</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="del_btn">
+      <property name="text">
+       <string>删除</string>
       </property>
      </widget>
     </item>

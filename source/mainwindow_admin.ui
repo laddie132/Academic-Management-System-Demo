@@ -42,7 +42,7 @@
      <item row="0" column="0">
       <widget class="QTabWidget" name="tabWidget_admin">
        <property name="currentIndex">
-        <number>4</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tab_course_o">
         <property name="sizePolicy">

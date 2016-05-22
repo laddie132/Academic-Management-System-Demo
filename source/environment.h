@@ -19,6 +19,8 @@ public:
     void addObligatoryCourse(Obligatory_course* course);
     void addElectiveCourse(Elective_course* course);
 
+    Course* findCourse(std::string id);
+
     std::set<Course*> getObligatoryCourse();
     std::set<Course*> getElectiveCourse();
 
@@ -35,6 +37,11 @@ public:
     std::map<Student*, std::string> getUserStudent();
     std::map<Teacher*, std::string> getUserTeacher();
     std::map<Admin*, std::string> getUserAdmin();
+
+    User* findUser(std::string id);
+    void changeUserPass(User* user, std::string pass);
+
+    void deleteUser(User* user);
 
     Student* checkUserStudent(std::string username, std::string password);
     Teacher* checkUserTeacher(std::string username, std::string password);

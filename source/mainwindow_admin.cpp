@@ -1,5 +1,6 @@
 #include <QAction>
 #include <QDebug>
+#include <QtSql/QSqlRecord>
 #include <QApplication>
 #include <QMessageBox>
 #include <QStandardItemModel>
@@ -196,8 +197,13 @@ void MainWindow_admin::creatAction()
     connect(ui->action_about, SIGNAL(triggered()), this, SLOT(action_about_triggered()));
     connect(ui->action_help, SIGNAL(triggered()), this, SLOT(action_help_triggered()));
 
-    connect(m_info_user_widget, SIGNAL(addUser()), this, SLOT(updateTable_slots()));
-    connect(m_info_course_widget, SIGNAL(addCourse()), this, SLOT(updateTable_slots()));
+    connect(m_info_user_widget, SIGNAL(updateUser()), this, SLOT(updateTable_slots()));
+    connect(m_info_course_widget, SIGNAL(updateCourse()), this, SLOT(updateTable_slots()));
+    connect(ui->tableView_course_o, SIGNAL(clicked(QModelIndex)), this, SLOT(update_course_slots()));
+    connect(ui->tableView_course_e, SIGNAL(clicked(QModelIndex)), this, SLOT(update_course_slots()));
+    connect(ui->tableView_student, SIGNAL(clicked(QModelIndex)), this, SLOT(update_user_slots()));
+    connect(ui->tableView_teacher, SIGNAL(clicked(QModelIndex)), this, SLOT(update_user_slots()));
+    connect(ui->tableView_admin, SIGNAL(clicked(QModelIndex)), this, SLOT(update_user_slots()));
 }
 
 void MainWindow_admin::action_login_triggered()
@@ -224,6 +230,7 @@ void MainWindow_admin::action_course_e_triggered()
 void MainWindow_admin::action_course_add_triggered()
 {
     m_info_course_widget->setUser(m_user);
+    m_info_course_widget->showInfo();
     m_info_course_widget->show();
 }
 
@@ -244,7 +251,8 @@ void MainWindow_admin::action_admin_d_triggered()
 
 void MainWindow_admin::action_user_add_triggered()
 {
-    m_info_user_widget->setUser(m_user);
+    m_info_user_widget->setUser_admin(m_user);
+    m_info_user_widget->showInfo();
     m_info_user_widget->show();
 }
 
@@ -270,4 +278,73 @@ void MainWindow_admin::action_help_triggered()
 void MainWindow_admin::updateTable_slots()
 {
     updateTable();
+}
+
+void MainWindow_admin::update_course_slots()
+{
+    QString id;
+    int tab = ui->tabWidget_admin->currentIndex();
+    switch(tab)
+    {
+    case 0:
+    {
+        int row = ui->tableView_course_o->currentIndex().row();
+        id = ui_course_model_o->item(row, 0)->text();
+        break;
+    }
+
+    case 1:
+    {
+        int row = ui->tableView_course_e->currentIndex().row();
+        id = ui_course_model_e->item(row, 0)->text();
+        break;
+    }
+
+    default:
+        break;
+    }
+    Course* course = m_user->getEnvir()->findCourse(id.toStdString());
+
+    m_info_course_widget->setUser(m_user);
+    m_info_course_widget->setCourse(course);
+    m_info_course_widget->showInfo();
+    m_info_course_widget->show();
+}
+
+void MainWindow_admin::update_user_slots()
+{
+    QString id;
+    int tab = ui->tabWidget_admin->currentIndex();
+    switch(tab)
+    {
+    case 2:
+    {
+        int row = ui->tableView_student->currentIndex().row();
+        id = ui_student_model->item(row, 0)->text();
+        break;
+    }
+
+    case 3:
+    {
+        int row = ui->tableView_teacher->currentIndex().row();
+        id = ui_teacher_model->item(row, 0)->text();
+        break;
+    }
+
+    case 4:
+    {
+        int row = ui->tableView_admin->currentIndex().row();
+        id = ui_admin_model->item(row, 0)->text();
+        break;
+    }
+
+    default:
+        break;
+    }
+    User* temp = m_user->getEnvir()->findUser(id.toStdString());
+
+    m_info_user_widget->setUser_admin(m_user);
+    m_info_user_widget->setUser(temp);
+    m_info_user_widget->showInfo();
+    m_info_user_widget->show();
 }

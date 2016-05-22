@@ -16,10 +16,13 @@ public:
     explicit Information_user(QWidget *parent = 0);
     ~Information_user();
 
-    void setUser(Admin* admin);
+    void setUser_admin(Admin* admin);
+    void setUser(User* user);
+
+    void showInfo();
 
 signals:
-    void addUser();
+    void updateUser();
 
 private slots:
     void on_cancel_btn_clicked();
@@ -28,9 +31,17 @@ private slots:
 
     void on_comboBox_user_type_currentIndexChanged(int index);
 
+    void on_add_btn_clicked();
+
+    void on_update_btn_clicked();
+
+    void on_del_btn_clicked();
+
 private:
     Ui::Information_user *ui;
-    Admin* m_user;
+    Admin* m_admin;
+
+    User* m_user = NULL;
 };
 
 #endif // INFORMATION_USER_H
