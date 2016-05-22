@@ -2,6 +2,7 @@
 #define MAINWINDOW_TEACHER_H
 
 #include <QMainWindow>
+#include <QStandardItemModel>
 
 #include "include.h"
 #include "environment.h"
@@ -40,7 +41,7 @@ private slots:
 private:
     Ui::MainWindow_teacher *ui;
     Envir_widget* m_envir_widget;
-    QStandardItemModel* ui_info_course;
+    QStandardItemModel* ui_course_model;
 
     Teacher* m_user = NULL;
 };

@@ -19,6 +19,7 @@ Login::Login(QWidget *parent) :
     ui->username_label->setAttribute(Qt::WA_TranslucentBackground);
     ui->gridLayoutWidget->setAttribute(Qt::WA_TranslucentBackground);
     ui->horizontalLayoutWidget->setAttribute(Qt::WA_TranslucentBackground);
+    ui->wrong_label->setAttribute(Qt::WA_TranslucentBackground);
 }
 
 Login::~Login()
@@ -38,6 +39,7 @@ void Login::on_login_btn_clicked()
     QString password = ui->passowrd_edit->text();
 
     ui->passowrd_edit->clear();
+    ui->wrong_label->close();
 
     //√‹¬Î≤…”√md5º”√‹
     QByteArray temp = QCryptographicHash::hash(password.toLatin1(), QCryptographicHash::Md5);

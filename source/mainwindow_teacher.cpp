@@ -29,12 +29,34 @@ void MainWindow_teacher::setUser(Teacher* user)
 
 void MainWindow_teacher::initActivex()
 {
-
+    ui_course_model = new QStandardItemModel();
+    ui_course_model->sort(0);
+    ui->tableView_course->setModel(ui_course_model);
 }
 
 void MainWindow_teacher::updateTable()
 {
+    ui_course_model->clear();
 
+    //设置必修课程列表
+    ui_course_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("课程编号")));
+    ui_course_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("课程名称")));
+    ui_course_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("课程学分")));
+    ui_course_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("课程类型")));
+    ui_course_model->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("课程人数")));
+    ui_course_model->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("课程容量")));
+
+    int row = 0;
+    for(auto i : m_user->getCourse())
+    {
+        ui_course_model->setItem(row, 0, new QStandardItem(QString::fromStdString(i->getID())));
+        ui_course_model->setItem(row, 1, new QStandardItem(QString::fromStdString(i->getName())));
+        ui_course_model->setItem(row, 2, new QStandardItem(QString::number(i->getCredit())));
+        ui_course_model->setItem(row, 3, new QStandardItem(i->getCourseType() ? QString::fromLocal8Bit("选修") : QString::fromLocal8Bit("必修")));
+        ui_course_model->setItem(row, 4, new QStandardItem(QString::number(i->getStudent().size())));
+        ui_course_model->setItem(row, 5, new QStandardItem(QString::number(i->getCapicity())));
+        row++;
+    }
 }
 
 void MainWindow_teacher::showInfo()
