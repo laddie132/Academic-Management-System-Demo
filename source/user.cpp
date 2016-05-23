@@ -113,6 +113,19 @@ user_type Teacher::getUserType()
     return user_type::teacher;
 }
 
+Course_teacher* Teacher::findCourse(std::string id)
+{
+    Course_teacher* temp = NULL;
+    for(auto i : m_course)
+    {
+        if(i->getID() == id){
+            temp = i;
+            break;
+        }
+    }
+    return temp;
+}
+
 //管理员函数实现
 
 user_type Admin::getUserType()

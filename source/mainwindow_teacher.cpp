@@ -1,3 +1,4 @@
+#include <QDebug>
 #include <QMessageBox>
 
 #include "mainwindow_teacher.h"
@@ -30,8 +31,13 @@ void MainWindow_teacher::setUser(Teacher* user)
 void MainWindow_teacher::initActivex()
 {
     ui_course_model = new QStandardItemModel();
+    ui_student_model = new QStandardItemModel();
+
     ui_course_model->sort(0);
+    ui_student_model->sort(0);
+
     ui->tableView_course->setModel(ui_course_model);
+    ui->tableView_student->setModel(ui_student_model);
 }
 
 void MainWindow_teacher::updateTable()
@@ -52,7 +58,7 @@ void MainWindow_teacher::updateTable()
         ui_course_model->setItem(row, 0, new QStandardItem(QString::fromStdString(i->getID())));
         ui_course_model->setItem(row, 1, new QStandardItem(QString::fromStdString(i->getName())));
         ui_course_model->setItem(row, 2, new QStandardItem(QString::number(i->getCredit())));
-        ui_course_model->setItem(row, 3, new QStandardItem(i->getCourseType() ? QString::fromLocal8Bit("选修") : QString::fromLocal8Bit("必修")));
+        ui_course_model->setItem(row, 3, new QStandardItem(i->getCourseType() ? QString::fromLocal8Bit("必修") : QString::fromLocal8Bit("选修")));
         ui_course_model->setItem(row, 4, new QStandardItem(QString::number(i->getStudent().size())));
         ui_course_model->setItem(row, 5, new QStandardItem(QString::number(i->getCapicity())));
         row++;
@@ -65,6 +71,44 @@ void MainWindow_teacher::showInfo()
     ui->label_name->setText(QString::fromStdString(m_user->getName()));
     ui->label_institude->setText(QString::fromStdString(m_user->getInsititude()));
     updateTable();
+
+    ui->comboBox_course->clear();
+    for(auto i : m_user->getCourse())
+    {
+        ui->comboBox_course->addItem(QString::fromStdString(i->getID()));
+        ui->comboBox_course->setCurrentIndex(0);
+    }
+    updateStudent();
+}
+
+void MainWindow_teacher::updateStudent()
+{
+    if(ui->comboBox_course->currentIndex() != -1){
+        QString id = ui->comboBox_course->currentText();
+        Course_teacher* temp = m_user->findCourse(id.toStdString());
+        if(temp){
+            ui->label_course_id->setText(QString::fromStdString(temp->getID()));
+            ui->label_course_name->setText(QString::fromStdString(temp->getName()));
+            ui->label_course_credit->setText(QString::number(temp->getCredit()));
+            ui->label_course_type->setText(temp->getCourseType() ? QString::fromLocal8Bit("必修") : QString::fromLocal8Bit("选修"));
+        }
+
+        //更新学生表格信息
+        ui_student_model->clear();
+
+        ui_student_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("学号")));
+        ui_student_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("姓名")));
+        ui_student_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("成绩")));
+
+        int row = 0;
+        for(auto i : temp->getStudentGrade())
+        {
+            ui_student_model->setItem(row, 0, new QStandardItem(QString::fromStdString(i.first->getID())));
+            ui_student_model->setItem(row, 1, new QStandardItem(QString::fromStdString(i.first->getName())));
+            ui_student_model->setItem(row, 2, new QStandardItem(QString("%1").arg(i.second)));
+            row++;
+        }
+    }
 }
 
 //链接菜单栏按钮的槽函数
@@ -119,4 +163,40 @@ void MainWindow_teacher::action_about_triggered()
 void MainWindow_teacher::action_help_triggered()
 {
 
+}
+
+void MainWindow_teacher::on_comboBox_course_currentIndexChanged(int index)
+{
+    updateStudent();
+}
+
+void MainWindow_teacher::on_cancel_btn_clicked()
+{
+    updateStudent();
+}
+
+void MainWindow_teacher::on_confirm_btn_clicked()
+{
+    if(ui->comboBox_course->currentIndex() != -1){
+        QString course_id = ui->comboBox_course->currentText();
+        Course_teacher* temp = m_user->findCourse(course_id.toStdString());
+        if(temp){
+            int row = ui_student_model->rowCount();
+            for(int i = 0; i < row; i++)
+            {
+                Student* cur_student = NULL;
+                QString student_id = ui_student_model->item(i, 0)->text();
+               for(auto j : temp->getStudent())
+                {
+                    if(j->getID() == student_id.toStdString())
+                    {
+                        cur_student = j;
+                        break;
+                    }
+                }
+                float grade = ui_student_model->item(i, 2)->text().toFloat();
+                temp->setGrade(std::make_pair(cur_student, grade));
+            }
+        }
+    }
 }

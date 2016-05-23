@@ -135,12 +135,17 @@ float Obligatory_course::calculateGPA(Student* student)
 {
 	int student_num = m_student.size();
 	float grade_sum = 0;
-	for (auto& i : m_student)
+    for (auto i : m_student)
 	{
-		grade_sum += i.second;
+        if(i.second >= 0){
+            grade_sum += i.second;
+        }
 	}
 	float my_grade = this->getMyGrade(student);
-	float gpa = (student_num * 100 / grade_sum) * (my_grade / 100) * this->getCredit();
+    float gpa = 0;
+    if(grade_sum != 0){
+        gpa = (student_num * 100 / grade_sum) * (my_grade / 100) * this->getCredit();
+    }
 	return gpa;
 }
 
@@ -153,7 +158,10 @@ int Obligatory_course::getCourseType()
 
 float Elective_course::calculateGPA(Student* student)
 {
-	float my_grade = this->getMyGrade(student);
+    float my_grade = 0;
+    if(this->getMyGrade(student) >= 0){
+        my_grade = this->getMyGrade(student);
+    }
 	float gpa = (sqrt(my_grade) / 10) * this->getCredit();
 	return gpa;
 }

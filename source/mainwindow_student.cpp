@@ -88,13 +88,13 @@ void MainWindow_student::updateTable()
     //更新必修和选修课
     for (auto i : m_user->getGrade())
     {
-        if(i.first->getCourseType()){
+        if(!i.first->getCourseType()){
             ui_course_model_e->setItem(row2, 0, new QStandardItem(QString::fromStdString(i.first->getID())));
             ui_course_model_e->setItem(row2, 1, new QStandardItem(QString::fromStdString(i.first->getName())));
             ui_course_model_e->setItem(row2, 2, new QStandardItem(QString::number(i.first->getCredit())));
             ui_course_model_e->setItem(row2, 3, new QStandardItem(QString::fromLocal8Bit("选修")));
             ui_course_model_e->setItem(row2, 4, new QStandardItem(QString::number(i.first->getCapicity())));
-            ui_course_model_e->setItem(row2, 5, new QStandardItem(QString("%1").arg(i.second)));
+            ui_course_model_e->setItem(row2, 5, new QStandardItem(i.second != -1 ? QString("%1").arg(i.second) : QString::fromLocal8Bit("无")));
             ui_course_model_e->setItem(row2, 6, new QStandardItem(QString("%1").arg(i.first->calculateGPA(m_user))));
             row2++;
         }
@@ -104,7 +104,7 @@ void MainWindow_student::updateTable()
             ui_course_model_o->setItem(row1, 2, new QStandardItem(QString::number(i.first->getCredit())));
             ui_course_model_o->setItem(row1, 3, new QStandardItem(QString::fromLocal8Bit("必修")));
             ui_course_model_o->setItem(row1, 4, new QStandardItem(QString::number(i.first->getCapicity())));
-            ui_course_model_o->setItem(row1, 5, new QStandardItem(QString("%1").arg(i.second)));
+            ui_course_model_o->setItem(row1, 5, new QStandardItem(i.second != -1 ? QString("%1").arg(i.second) : QString::fromLocal8Bit("无")));
             ui_course_model_o->setItem(row1, 6, new QStandardItem(QString("%1").arg(i.first->calculateGPA(m_user))));
             row1++;
         }

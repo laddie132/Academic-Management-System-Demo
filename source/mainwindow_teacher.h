@@ -25,6 +25,7 @@ public:
 
     void showInfo();           //显示用户信息
     void updateTable();      //表格信息更新
+    void updateStudent();       //更新学生列表
 
     void setEnvirWidget(Envir_widget* envir_widget);
     void setUser(Teacher* user);   //设置当前登录用户
@@ -38,10 +39,17 @@ private slots:
     void action_help_triggered();
     void action_change_pass_triggered();
 
+    void on_comboBox_course_currentIndexChanged(int index);
+
+    void on_cancel_btn_clicked();
+
+    void on_confirm_btn_clicked();
+
 private:
     Ui::MainWindow_teacher *ui;
     Envir_widget* m_envir_widget;
     QStandardItemModel* ui_course_model;
+    QStandardItemModel* ui_student_model;
 
     Teacher* m_user = NULL;
 };

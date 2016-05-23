@@ -73,6 +73,8 @@ public:
     void initCourse(std::set<Course_teacher*> course);
     void eraseCourse();
 
+    Course_teacher* findCourse(std::string id);
+
 	std::set<Course_teacher*> getCourse();	//教师获取自己课程列表
 
     user_type getUserType() final override;		//获取用户类型
