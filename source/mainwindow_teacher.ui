@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>教师用户</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="tabWidget_teacher">
     <property name="geometry">
@@ -23,8 +26,11 @@
       <height>461</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">font: 25 10pt &quot;微软雅黑&quot;;</string>
+    </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_course">
      <property name="sizePolicy">
@@ -111,12 +117,15 @@
         <x>310</x>
         <y>20</y>
         <width>221</width>
-        <height>71</height>
+        <height>76</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
         <widget class="QLabel" name="label_6">
+         <property name="styleSheet">
+          <string notr="true">font: 25 11pt &quot;微软雅黑&quot;;</string>
+         </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;ID:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -124,6 +133,9 @@
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_8">
+         <property name="styleSheet">
+          <string notr="true">font: 25 11pt &quot;微软雅黑&quot;;</string>
+         </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;学分:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -151,6 +163,9 @@
        </item>
        <item row="0" column="2">
         <widget class="QLabel" name="label_7">
+         <property name="styleSheet">
+          <string notr="true">font: 25 11pt &quot;微软雅黑&quot;;</string>
+         </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;名称:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -168,6 +183,9 @@
        </item>
        <item row="2" column="2">
         <widget class="QLabel" name="label_9">
+         <property name="styleSheet">
+          <string notr="true">font: 25 11pt &quot;微软雅黑&quot;;</string>
+         </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;类型:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -195,7 +213,7 @@
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+       <string notr="true">font: 25 11pt &quot;微软雅黑&quot;;</string>
       </property>
       <property name="text">
        <string>确认修改</string>
@@ -211,7 +229,7 @@
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+       <string notr="true">font: 25 11pt &quot;微软雅黑&quot;;</string>
       </property>
       <property name="text">
        <string>取消修改</string>
@@ -227,6 +245,9 @@
       <width>71</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
     </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;教师信息&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -245,7 +266,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="label_3">
        <property name="styleSheet">
-        <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+        <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
        </property>
        <property name="text">
         <string>姓名：</string>
@@ -255,7 +276,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="label_4">
        <property name="styleSheet">
-        <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+        <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
        </property>
        <property name="text">
         <string>学院：</string>
@@ -265,7 +286,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label_2">
        <property name="styleSheet">
-        <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+        <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
        </property>
        <property name="text">
         <string>工号：</string>
@@ -275,7 +296,7 @@
      <item row="0" column="1">
       <widget class="QLabel" name="label_id">
        <property name="styleSheet">
-        <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+        <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
        </property>
        <property name="text">
         <string/>
@@ -285,7 +306,7 @@
      <item row="1" column="1">
       <widget class="QLabel" name="label_name">
        <property name="styleSheet">
-        <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+        <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
        </property>
        <property name="text">
         <string/>
@@ -295,7 +316,7 @@
      <item row="2" column="1">
       <widget class="QLabel" name="label_institude">
        <property name="styleSheet">
-        <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+        <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
        </property>
        <property name="text">
         <string/>
@@ -314,7 +335,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+     <string notr="true">border:2px groove gray;border-radius:10px;padding:2px 4px;</string>
     </property>
     <property name="text">
      <string>设置成绩</string>
@@ -327,7 +348,7 @@
      <x>0</x>
      <y>0</y>
      <width>799</width>
-     <height>23</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

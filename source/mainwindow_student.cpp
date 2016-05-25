@@ -136,8 +136,8 @@ void MainWindow_student::creatAction()
     connect(ui->action_help, SIGNAL(triggered()), this, SLOT(action_help_triggered()));
     connect(ui->action_password, SIGNAL(triggered()), this, SLOT(action_change_pass_triggered()));
 
-    connect(ui->tableView_course_s, SIGNAL(clicked(QModelIndex)), this, SLOT(add_course_slots()));
-    connect(ui->tableView_course_e, SIGNAL(clicked(QModelIndex)), this, SLOT(delete_course_slots()));
+    connect(ui->tableView_course_s, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(add_course_slots()));
+    connect(ui->tableView_course_e, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(delete_course_slots()));
 }
 
 void MainWindow_student::action_login_triggered()

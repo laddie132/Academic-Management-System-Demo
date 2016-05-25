@@ -16,8 +16,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setWindowIcon(QIcon(":/image/icon.png"));
 
-   QTextCodec::setCodecForLocale(QTextCodec::codecForName("gbk"));
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("gbk"));
 
     //设置运行环境
     Envir envir;

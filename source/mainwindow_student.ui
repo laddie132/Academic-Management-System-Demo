@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>学生用户</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="tabWidget_student">
     <property name="geometry">
@@ -141,6 +144,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
+    </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;当前学生信息&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
@@ -158,7 +164,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="label_3">
        <property name="styleSheet">
-        <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+        <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
        </property>
        <property name="text">
         <string>姓名：</string>
@@ -168,7 +174,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label_2">
        <property name="styleSheet">
-        <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+        <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
        </property>
        <property name="text">
         <string>学号：</string>
@@ -178,7 +184,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="label_4">
        <property name="styleSheet">
-        <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+        <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
        </property>
        <property name="text">
         <string>学院：</string>
@@ -188,7 +194,7 @@
      <item row="1" column="1">
       <widget class="QLabel" name="label_name">
        <property name="styleSheet">
-        <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+        <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
        </property>
        <property name="text">
         <string/>
@@ -198,7 +204,7 @@
      <item row="0" column="1">
       <widget class="QLabel" name="label_id">
        <property name="styleSheet">
-        <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+        <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
        </property>
        <property name="text">
         <string/>
@@ -208,7 +214,7 @@
      <item row="2" column="1">
       <widget class="QLabel" name="label_institude">
        <property name="styleSheet">
-        <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+        <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
        </property>
        <property name="text">
         <string/>
@@ -218,7 +224,7 @@
      <item row="3" column="0">
       <widget class="QLabel" name="label">
        <property name="styleSheet">
-        <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+        <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
        </property>
        <property name="text">
         <string>班级：</string>
@@ -228,7 +234,7 @@
      <item row="3" column="1">
       <widget class="QLabel" name="label_class">
        <property name="styleSheet">
-        <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+        <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
        </property>
        <property name="text">
         <string/>
@@ -244,7 +250,7 @@
      <x>0</x>
      <y>0</y>
      <width>806</width>
-     <height>23</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

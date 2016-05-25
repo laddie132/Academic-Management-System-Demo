@@ -26,6 +26,7 @@ public:
     void creatActivex();
 
     void addCourse(User* user);       //将所选择课程添加到学生
+    void deleteCourse();              //先删除课程再更新课程
 
 signals:
     void updateUser();

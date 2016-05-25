@@ -106,18 +106,21 @@ void MainWindow_admin::updateTable()
     ui_student_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("班级")));
     ui_student_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("学院")));
     ui_student_model->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("密码")));
+    ui->tableView_student->setColumnWidth(4, 220);
 
     //设置教师列表
     ui_teacher_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("工号")));
     ui_teacher_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("姓名")));
     ui_teacher_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("学院")));
     ui_teacher_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("密码")));
+    ui->tableView_teacher->setColumnWidth(3, 250);
 
     //设置管理员列表
     ui_admin_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("用户名")));
     ui_admin_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("姓名")));
     ui_admin_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("学院")));
     ui_admin_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("密码")));
+    ui->tableView_admin->setColumnWidth(3, 250);
 
     int row = 0;
 
@@ -199,11 +202,11 @@ void MainWindow_admin::creatAction()
 
     connect(m_info_user_widget, SIGNAL(updateUser()), this, SLOT(updateTable_slots()));
     connect(m_info_course_widget, SIGNAL(updateCourse()), this, SLOT(updateTable_slots()));
-    connect(ui->tableView_course_o, SIGNAL(clicked(QModelIndex)), this, SLOT(update_course_slots()));
-    connect(ui->tableView_course_e, SIGNAL(clicked(QModelIndex)), this, SLOT(update_course_slots()));
-    connect(ui->tableView_student, SIGNAL(clicked(QModelIndex)), this, SLOT(update_user_slots()));
-    connect(ui->tableView_teacher, SIGNAL(clicked(QModelIndex)), this, SLOT(update_user_slots()));
-    connect(ui->tableView_admin, SIGNAL(clicked(QModelIndex)), this, SLOT(update_user_slots()));
+    connect(ui->tableView_course_o, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(update_course_slots()));
+    connect(ui->tableView_course_e, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(update_course_slots()));
+    connect(ui->tableView_student, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(update_user_slots()));
+    connect(ui->tableView_teacher, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(update_user_slots()));
+    connect(ui->tableView_admin, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(update_user_slots()));
 
     connect(ui->add_course_btn, SIGNAL(clicked()), this, SLOT(action_course_add_triggered()));
     connect(ui->add_user_btn, SIGNAL(clicked()), this, SLOT(action_user_add_triggered()));

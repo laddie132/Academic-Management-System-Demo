@@ -14,7 +14,7 @@
    <string>课程信息</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+   <string notr="true">font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
   </property>
   <widget class="QLabel" name="label_titile">
    <property name="geometry">
@@ -42,7 +42,7 @@
     <item row="0" column="0">
      <widget class="QLabel" name="label_course_id">
       <property name="styleSheet">
-       <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>课程编号</string>
@@ -53,7 +53,11 @@
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QLineEdit" name="lineEdit_course_id"/>
+     <widget class="QLineEdit" name="lineEdit_course_id">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+     </widget>
     </item>
     <item row="0" column="3">
      <widget class="QLineEdit" name="lineEdit_course_name"/>
@@ -65,9 +69,6 @@
      <widget class="QLabel" name="label_course_num">
       <property name="text">
        <string>课程人数</string>
-      </property>
-      <property name="buddy">
-       <cstring>lineEdit_course_num</cstring>
       </property>
      </widget>
     </item>
@@ -101,13 +102,6 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="lineEdit_course_num">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="5">
      <widget class="QComboBox" name="comboBox_type">
       <item>
@@ -132,6 +126,13 @@
       </property>
       <property name="buddy">
        <cstring>lineEdit_course_name</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLabel" name="label_course_student">
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </item>
@@ -186,6 +187,9 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
+   </property>
    <property name="text">
     <string>选择学生</string>
    </property>
@@ -198,6 +202,9 @@
      <width>71</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
    </property>
    <property name="text">
     <string>选择教师</string>
@@ -235,21 +242,29 @@
      <x>270</x>
      <y>230</y>
      <width>41</width>
-     <height>101</height>
+     <height>91</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QPushButton" name="select_student_btn">
+     <widget class="QCommandLinkButton" name="select_student_btn">
       <property name="text">
-       <string>&lt;-</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resourse.qrc">
+        <normaloff>:/image/link_l.png</normaloff>:/image/link_l.png</iconset>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="cancel_student_btn">
+     <widget class="QCommandLinkButton" name="cancel_student_btn">
       <property name="text">
-       <string>-&gt;</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resourse.qrc">
+        <normaloff>:/image/link_r.png</normaloff>:/image/link_r.png</iconset>
       </property>
      </widget>
     </item>
@@ -258,7 +273,7 @@
   <widget class="QTableView" name="tableView_student_y">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>80</x>
      <y>200</y>
      <width>181</width>
      <height>181</height>
@@ -289,7 +304,7 @@
   <widget class="QTableView" name="tableView_student_n">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>320</x>
      <y>200</y>
      <width>181</width>
      <height>181</height>
@@ -318,6 +333,8 @@
    </attribute>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resourse.qrc"/>
+ </resources>
  <connections/>
 </ui>

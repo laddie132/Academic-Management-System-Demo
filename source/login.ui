@@ -29,6 +29,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgb
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QPushButton" name="login_btn">
+      <property name="styleSheet">
+       <string notr="true">border:2px groove gray;border-radius:10px;padding:2px 4px;</string>
+      </property>
       <property name="text">
        <string>登录</string>
       </property>
@@ -42,6 +45,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgb
     </item>
     <item>
      <widget class="QPushButton" name="cancel_btn">
+      <property name="styleSheet">
+       <string notr="true">border:2px groove gray;border-radius:10px;padding:2px 4px;</string>
+      </property>
       <property name="text">
        <string>取消</string>
       </property>
@@ -126,7 +132,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgb
   <widget class="QLabel" name="hello_label">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>210</x>
      <y>20</y>
      <width>211</width>
      <height>41</height>
@@ -137,6 +143,25 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgb
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;欢迎来到北邮教务系统&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>30</y>
+     <width>121</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/image/bupt.jpg);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
    </property>
   </widget>
  </widget>

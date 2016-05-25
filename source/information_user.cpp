@@ -48,14 +48,16 @@ void Information_user::creatActivex()
 
 void Information_user::showInfo()
 {
+    //编辑用户时
     if(m_user){
         ui->lineEdit_user_id->setText(QString::fromStdString(m_user->getID()));
-        ui->lineEdit_user_id->setReadOnly(true);
+        ui->lineEdit_user_id->setEnabled(false);
         ui->lineEdit_user_name->setText(QString::fromStdString(m_user->getName()));
-        ui->lineEdit_user_name->setReadOnly(true);
+        ui->lineEdit_user_name->setEnabled(false);
         ui->lineEdit_user_institude->setText(QString::fromStdString(m_user->getInsititude()));
-        ui->lineEdit_user_institude->setReadOnly(true);
+        ui->lineEdit_user_institude->setEnabled(false);
         ui->lineEdit_user_password->clear();
+        ui->comboBox_user_type->setEnabled(false);
         switch(m_user->getUserType())
         {
         case user_type::student:
@@ -77,10 +79,19 @@ void Information_user::showInfo()
             break;
         }
     }
+
+    //添加用户时
     else{
-        ui->lineEdit_user_id->setReadOnly(false);
-        ui->lineEdit_user_name->setReadOnly(false);
-        ui->lineEdit_user_institude->setReadOnly(false);
+        ui->lineEdit_user_id->clear();
+        ui->lineEdit_user_class->clear();
+        ui->lineEdit_user_institude->clear();
+        ui->lineEdit_user_name->clear();
+        ui->lineEdit_user_password->clear();
+        ui->lineEdit_user_id->setEnabled(true);
+        ui->lineEdit_user_name->setEnabled(true);
+        ui->lineEdit_user_institude->setEnabled(true);
+        ui->comboBox_user_type->setEnabled(true);
+        ui->comboBox_user_type->setCurrentIndex(0);
     }
     updateCourse();
 }
@@ -280,12 +291,12 @@ void Information_user::on_add_btn_clicked()
 void Information_user::on_comboBox_user_type_currentIndexChanged(int index)
 {
     if(index != 0){
-        ui->label_user_class->close();
-        ui->lineEdit_user_class->close();
+        ui->label_user_class->setEnabled(false);
+        ui->lineEdit_user_class->setEnabled(false);
     }
     else{
-        ui->label_user_class->show();
-        ui->lineEdit_user_class->show();
+        ui->label_user_class->setEnabled(true);
+        ui->lineEdit_user_class->setEnabled(true);
     }
 }
 
@@ -303,9 +314,41 @@ void Information_user::on_update_btn_clicked()
         QString pass = QCryptographicHash::hash(password.toLocal8Bit(), QCryptographicHash::Md5).toHex();
         m_admin->getEnvir()->changeUserPass(m_user, pass.toStdString());
     }
+    deleteCourse();
     addCourse(m_user);
     QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("修改用户成功"));
     emit updateUser();
+}
+
+void Information_user::deleteCourse()
+{
+    switch(m_user->getUserType())
+    {
+    case user_type::student:
+    {
+        Student* temp_student = (Student*)m_user;
+        for(auto i : temp_student->getCourse())
+        {
+            Course* course = m_admin->getEnvir()->findCourse(i->getID());
+            course->deleteStudent(temp_student);
+        }
+        break;
+    }
+
+    case user_type::teacher:
+    {
+        Teacher* temp_teacher = (Teacher*)m_user;
+        for(auto i : temp_teacher->getCourse())
+        {
+            Course* course = m_admin->getEnvir()->findCourse(i->getID());
+            course->setTeacher(NULL);
+        }
+        break;
+    }
+
+    default:
+        break;
+    }
 }
 
 void Information_user::on_del_btn_clicked()

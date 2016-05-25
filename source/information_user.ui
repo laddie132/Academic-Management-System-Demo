@@ -14,7 +14,7 @@
    <string>用户信息</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+   <string notr="true">font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
   </property>
   <widget class="QLabel" name="label_title">
    <property name="geometry">
@@ -47,7 +47,11 @@
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QLineEdit" name="lineEdit_user_id"/>
+     <widget class="QLineEdit" name="lineEdit_user_id">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+     </widget>
     </item>
     <item row="0" column="3">
      <widget class="QLineEdit" name="lineEdit_user_name"/>
@@ -88,6 +92,9 @@
     </item>
     <item row="1" column="2">
      <widget class="QLabel" name="label_user_class">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="text">
        <string>用户班级</string>
       </property>
@@ -137,35 +144,12 @@
      <height>16</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">font: 25 11pt &quot;微软雅黑 Light&quot;;</string>
+   </property>
    <property name="text">
     <string>所属课程</string>
    </property>
-  </widget>
-  <widget class="QWidget" name="verticalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>220</y>
-     <width>41</width>
-     <height>101</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QPushButton" name="select_course_btn">
-      <property name="text">
-       <string>&lt;-</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="cancel_course_btn">
-      <property name="text">
-       <string>-&gt;</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
   </widget>
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
@@ -210,7 +194,7 @@
   <widget class="QTableView" name="tableView_course_y">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>100</x>
      <y>180</y>
      <width>181</width>
      <height>181</height>
@@ -244,7 +228,7 @@
   <widget class="QTableView" name="tableView_course_n">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>340</x>
      <y>180</y>
      <width>181</width>
      <height>181</height>
@@ -275,7 +259,43 @@
     <number>25</number>
    </attribute>
   </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>210</y>
+     <width>41</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QCommandLinkButton" name="select_course_btn">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resourse.qrc">
+        <normaloff>:/image/link_l.png</normaloff>:/image/link_l.png</iconset>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCommandLinkButton" name="cancel_course_btn">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resourse.qrc">
+        <normaloff>:/image/link_r.png</normaloff>:/image/link_r.png</iconset>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resourse.qrc"/>
+ </resources>
  <connections/>
 </ui>
