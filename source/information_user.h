@@ -50,8 +50,10 @@ private:
     QStandardItemModel* ui_course_model_n;
     QStandardItemModel* ui_course_model_y;
 
-    Admin* m_admin;
+    Admin* m_admin = NULL;
     User* m_user = NULL;
+
+    std::set<Course*> prepare_delete;
 };
 
 #endif // INFORMATION_USER_H

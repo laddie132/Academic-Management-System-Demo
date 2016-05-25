@@ -39,6 +39,9 @@ private slots:
     void action_help_triggered();
     void action_change_pass_triggered();
 
+    void add_course_slots();
+    void delete_course_slots();
+
 private:
     Ui::MainWindow_student *ui;
     Envir_widget* m_envir_widget;

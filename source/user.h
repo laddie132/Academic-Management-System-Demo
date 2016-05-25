@@ -43,11 +43,13 @@ public:
 	std::string getClass();
 	void setClass(std::string class_name);
 
-    void initCourse(std::set<Course_student*> course);  //同步学生课程列表
+    void initCourse(std::set<Course_student*> course, std::set<Course_student *> select_course);  //同步学生课程列表
     void eraseCourse();
 
 	std::map<Course_student*, float> getGrade();	//学生获取自己的课程及其对应成绩
 	std::set<Course_student*> getCourse();			//学生获取自己的课程（可对其课程进行设置）
+
+    std::set<Course_student*> getSelectCourse();    //学生获取可选课程
 
 	bool addCourse(Course_student* course);			//学生选课
 	bool deleteCourse(Course_student* course);		//学生删除已选课程
@@ -57,6 +59,7 @@ public:
 private:
 	std::string m_class;							//学生所属班级
 	std::set<Course_student*> m_course;				//学生对应课程
+    std::set<Course_student*> m_select_course;      //学生对应可选课程
 };
 
 //由User类派生出教师子类，代表教师用户

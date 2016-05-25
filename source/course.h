@@ -117,6 +117,7 @@ public:
 
 	std::string getTeacherName();				//获取当前教师信息
 
+    int getElectiveNum();                       //学生获取选修课人数
 	bool addElectiveStudent(Student* student);			//学生增加选修课
 	bool deleteElectiveStudent(Student* student);		//学生删除选修课
 };

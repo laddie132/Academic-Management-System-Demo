@@ -70,7 +70,7 @@ void Envir::deleteCourse(Course *course)
 
 void Envir::setCourseStudent(Student* student)
 {
-    std::set<Course_student*> temp_set;
+    std::set<Course_student*> temp_set, temp_select;
     for(auto i : m_obligatory_course)
     {
         if(i->checkStudent(student)){
@@ -84,8 +84,12 @@ void Envir::setCourseStudent(Student* student)
             Course_student *temp = new Course_student(i);
             temp_set.insert(temp);
         }
+        else{
+            Course_student *temp = new Course_student(i);
+            temp_select.insert(temp);
+        }
     }
-    student->initCourse(temp_set);
+    student->initCourse(temp_set, temp_select);
 }
 
 void Envir::setCourseTeacher(Teacher *teacher)

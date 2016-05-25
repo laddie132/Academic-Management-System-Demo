@@ -1,5 +1,6 @@
 //user.cpp 用户对象
-
+#include <QDebug>
+#include <QString>
 #include "user.h"
 
 //User基类函数实现
@@ -47,10 +48,16 @@ std::set<Course_student*> Student::getCourse()
 	return m_course;
 }
 
+std::set<Course_student*> Student::getSelectCourse()
+{
+    return m_select_course;
+}
+
 bool Student::addCourse(Course_student* course)
 {
 	if (course->addElectiveStudent(this)) {
 		this->m_course.insert(course);
+        this->m_select_course.erase(course);
 		return true;
 	}
 	return false;
@@ -60,15 +67,17 @@ bool Student::deleteCourse(Course_student* course)
 {
     if (course->deleteElectiveStudent(this)) {
 		this->m_course.erase(course);
+        this->m_select_course.insert(course);
 		return true;
 	}
 	return false;
 }
 
-void Student::initCourse(std::set<Course_student *> course)
+void Student::initCourse(std::set<Course_student *> course, std::set<Course_student *> select_course)
 {
     eraseCourse();
     m_course = course;
+    m_select_course = select_course;
 }
 
 void Student::eraseCourse()
@@ -78,6 +87,11 @@ void Student::eraseCourse()
         delete i;
     }
     m_course.clear();
+    for(auto i : m_select_course)
+    {
+        delete i;
+    }
+    m_select_course.clear();
 }
 
 user_type Student::getUserType()

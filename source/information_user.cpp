@@ -97,7 +97,32 @@ void Information_user::updateCourse()
         {
         case user_type::student:
         {
+            //打印必修课
             for(auto i : m_admin->getEnvir()->getObligatoryCourse())
+            {
+                int is_find = 0;
+                for(auto j : ((Student*)m_user)->getCourse())
+                {
+                    if(j->getID() == i->getID()){
+                        is_find = 1;
+                        break;
+                    }
+                }
+                if(!is_find)
+                {
+                    ui_course_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i->getID())));
+                    ui_course_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i->getName())));
+                    row2++;
+                }
+                else{
+                    ui_course_model_y->setItem(row1, 0, new QStandardItem(QString::fromStdString(i->getID())));
+                    ui_course_model_y->setItem(row1, 1, new QStandardItem(QString::fromStdString(i->getName())));
+                    row1++;
+                }
+            }
+
+            //打印选修课
+            for(auto i : m_admin->getEnvir()->getElectiveCourse())
             {
                 int is_find = 0;
                 for(auto j : ((Student*)m_user)->getCourse())
@@ -124,10 +149,35 @@ void Information_user::updateCourse()
 
         case user_type::teacher:
         {
+            //打印必修课
             for(auto i : m_admin->getEnvir()->getObligatoryCourse())
             {
                 int is_find = 0;
-                for(auto j : ((Student*)m_user)->getCourse())
+                for(auto j : ((Teacher*)m_user)->getCourse())
+                {
+                    if(j->getID() == i->getID()){
+                        is_find = 1;
+                        break;
+                    }
+                }
+                if(!is_find)
+                {
+                    ui_course_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i->getID())));
+                    ui_course_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i->getName())));
+                    row2++;
+                }
+                else{
+                    ui_course_model_y->setItem(row1, 0, new QStandardItem(QString::fromStdString(i->getID())));
+                    ui_course_model_y->setItem(row1, 1, new QStandardItem(QString::fromStdString(i->getName())));
+                    row1++;
+                }
+            }
+
+            //打印选修课
+            for(auto i : m_admin->getEnvir()->getElectiveCourse())
+            {
+                int is_find = 0;
+                for(auto j : ((Teacher*)m_user)->getCourse())
                 {
                     if(j->getID() == i->getID()){
                         is_find = 1;
@@ -153,8 +203,16 @@ void Information_user::updateCourse()
             break;
         }
     }
+
+    //添加一个用户显示的课程
     else{
         for(auto i : m_admin->getEnvir()->getObligatoryCourse())
+        {
+            ui_course_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i->getID())));
+            ui_course_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i->getName())));
+            row2++;
+        }
+        for(auto i : m_admin->getEnvir()->getElectiveCourse())
         {
             ui_course_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i->getID())));
             ui_course_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i->getName())));

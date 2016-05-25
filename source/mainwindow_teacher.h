@@ -51,6 +51,8 @@ private:
     QStandardItemModel* ui_course_model;
     QStandardItemModel* ui_student_model;
 
+    Information_user* info_student;
+
     Teacher* m_user = NULL;
 };
 

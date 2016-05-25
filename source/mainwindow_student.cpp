@@ -109,6 +109,19 @@ void MainWindow_student::updateTable()
             row1++;
         }
     }
+
+    //更新可选课程列表
+    int row = 0;
+    for(auto i : m_user->getSelectCourse())
+    {
+        ui_course_model_s->setItem(row, 0, new QStandardItem(QString::fromStdString(i->getID())));
+        ui_course_model_s->setItem(row, 1, new QStandardItem(QString::fromStdString(i->getName())));
+        ui_course_model_s->setItem(row, 2, new QStandardItem(QString::number(i->getCredit())));
+        ui_course_model_s->setItem(row, 3, new QStandardItem(QString::fromLocal8Bit("选修")));
+        ui_course_model_s->setItem(row, 4, new QStandardItem(QString::number(i->getElectiveNum())));
+        ui_course_model_s->setItem(row, 5, new QStandardItem(QString::number(i->getCapicity())));
+        row++;
+    }
 }
 
 //链接菜单栏按钮的槽函数
@@ -122,6 +135,9 @@ void MainWindow_student::creatAction()
     connect(ui->action_about, SIGNAL(triggered()), this, SLOT(action_about_triggered()));
     connect(ui->action_help, SIGNAL(triggered()), this, SLOT(action_help_triggered()));
     connect(ui->action_password, SIGNAL(triggered()), this, SLOT(action_change_pass_triggered()));
+
+    connect(ui->tableView_course_s, SIGNAL(clicked(QModelIndex)), this, SLOT(add_course_slots()));
+    connect(ui->tableView_course_e, SIGNAL(clicked(QModelIndex)), this, SLOT(delete_course_slots()));
 }
 
 void MainWindow_student::action_login_triggered()
@@ -167,4 +183,45 @@ void MainWindow_student::action_about_triggered()
 void MainWindow_student::action_help_triggered()
 {
 
+}
+
+void MainWindow_student::add_course_slots()
+{
+    int row = ui->tableView_course_s->currentIndex().row();
+    std::string id = ui_course_model_s->item(row, 0)->text().toStdString();
+    Course_student* temp_find = NULL;
+    for(auto i : m_user->getSelectCourse())
+    {
+        if(i->getID() == id){
+            temp_find = i;
+        }
+    }
+    if(temp_find){
+        if(temp_find->getCapicity() > temp_find->getElectiveNum()){
+            m_user->addCourse(temp_find);
+            updateTable();      //更新用户列表信息
+            QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("选择课程成功"));
+        }
+        else{
+            QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("课程人数已满"));
+        }
+    }
+}
+
+void MainWindow_student::delete_course_slots()
+{
+    int row = ui->tableView_course_e->currentIndex().row();
+    std::string id = ui_course_model_e->item(row, 0)->text().toStdString();
+    Course_student* temp_find = NULL;
+    for(auto i : m_user->getCourse())
+    {
+        if(i->getID() == id){
+            temp_find = i;
+        }
+    }
+    if(temp_find){
+        m_user->deleteCourse(temp_find);
+        updateTable();
+        QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("删除课程成功"));
+    }
 }

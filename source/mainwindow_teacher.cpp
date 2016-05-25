@@ -98,14 +98,18 @@ void MainWindow_teacher::updateStudent()
 
         ui_student_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("学号")));
         ui_student_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("姓名")));
-        ui_student_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("成绩")));
+        ui_student_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("班级")));
+        ui_student_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("学院")));
+        ui_student_model->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("成绩")));
 
         int row = 0;
         for(auto i : temp->getStudentGrade())
         {
             ui_student_model->setItem(row, 0, new QStandardItem(QString::fromStdString(i.first->getID())));
             ui_student_model->setItem(row, 1, new QStandardItem(QString::fromStdString(i.first->getName())));
-            ui_student_model->setItem(row, 2, new QStandardItem(QString("%1").arg(i.second)));
+            ui_student_model->setItem(row, 2, new QStandardItem(QString::fromStdString(i.first->getClass())));
+            ui_student_model->setItem(row, 3, new QStandardItem(QString::fromStdString(i.first->getInsititude())));
+            ui_student_model->setItem(row, 4, new QStandardItem(QString("%1").arg(i.second)));
             row++;
         }
     }
@@ -194,7 +198,7 @@ void MainWindow_teacher::on_confirm_btn_clicked()
                         break;
                     }
                 }
-                float grade = ui_student_model->item(i, 2)->text().toFloat();
+                float grade = ui_student_model->item(i, 4)->text().toFloat();
                 temp->setGrade(std::make_pair(cur_student, grade));
             }
         }

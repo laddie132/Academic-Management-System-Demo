@@ -81,6 +81,7 @@ bool Course::deleteStudent(Student* student)
 	if (i != m_student.end())
 	{
 		m_student.erase(i);
+        return true;
 	}
 	return false;
 }
@@ -213,6 +214,14 @@ float Course_student::calculateGPA(Student* student)
 std::string Course_student::getTeacherName()
 {
 	return m_course->getTeacher()->getName();
+}
+
+int Course_student::getElectiveNum()
+{
+    if(!this->getCourseType()){
+        return m_course->getStudent().size();
+    }
+    return -1;
 }
 
 bool Course_student::addElectiveStudent(Student* student)
