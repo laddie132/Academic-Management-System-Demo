@@ -58,6 +58,9 @@ void Information_user::showInfo()
         ui->lineEdit_user_institude->setEnabled(false);
         ui->lineEdit_user_password->clear();
         ui->comboBox_user_type->setEnabled(false);
+        ui->add_btn->setEnabled(false);
+        ui->update_btn->setEnabled(true);
+        ui->del_btn->setEnabled(true);
         switch(m_user->getUserType())
         {
         case user_type::student:
@@ -92,6 +95,9 @@ void Information_user::showInfo()
         ui->lineEdit_user_institude->setEnabled(true);
         ui->comboBox_user_type->setEnabled(true);
         ui->comboBox_user_type->setCurrentIndex(0);
+        ui->add_btn->setEnabled(true);
+        ui->update_btn->setEnabled(false);
+        ui->del_btn->setEnabled(false);
     }
     updateCourse();
 }
@@ -239,6 +245,33 @@ void Information_user::on_cancel_btn_clicked()
 
 void Information_user::on_add_btn_clicked()
 {
+    std::string id = ui->lineEdit_user_id->text().toStdString();
+    if(id == ""){
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("用户ID不能为空"));
+        ui->lineEdit_user_id->setFocus();
+        return;
+    }
+    if(m_admin->getEnvir()->findUser(id)){
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("重复的用户ID"));
+        ui->lineEdit_user_id->clear();
+        ui->lineEdit_user_id->setFocus();
+        return;
+    }
+
+    std::string name = ui->lineEdit_user_name->text().toStdString();
+    if(name == ""){
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("用户姓名不能为空"));
+        ui->lineEdit_user_name->setFocus();
+        return;
+    }
+
+    std::string institude = ui->lineEdit_user_institude->text().toStdString();
+    if(institude == ""){
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("用户学院不能为空"));
+        ui->lineEdit_user_institude->setFocus();
+        return;
+    }
+
     QString password;
     if(ui->lineEdit_user_password->text() == ""){
         password = QCryptographicHash::hash(ui->lineEdit_user_id->text().toLocal8Bit(), QCryptographicHash::Md5).toHex();
@@ -246,13 +279,7 @@ void Information_user::on_add_btn_clicked()
     else{
         password = QCryptographicHash::hash(ui->lineEdit_user_password->text().toLocal8Bit(), QCryptographicHash::Md5).toHex();
     }
-    std::string id = ui->lineEdit_user_id->text().toStdString();
-    std::string name = ui->lineEdit_user_name->text().toStdString();
-    std::string institude = ui->lineEdit_user_institude->text().toStdString();
-    if(m_admin->getEnvir()->findUser(id)){
-        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("重复的用户ID"));
-        return;
-    }
+
     switch (ui->comboBox_user_type->currentIndex()) {
     //添加学生用户
     case 0:
@@ -297,6 +324,20 @@ void Information_user::on_comboBox_user_type_currentIndexChanged(int index)
     else{
         ui->label_user_class->setEnabled(true);
         ui->lineEdit_user_class->setEnabled(true);
+    }
+    if(index == 2){
+        ui->label_course->setEnabled(false);
+        ui->tableView_course_n->setEnabled(false);
+        ui->tableView_course_y->setEnabled(false);
+        ui->select_course_btn->setEnabled(false);
+        ui->cancel_course_btn->setEnabled(false);
+    }
+    else{
+        ui->label_course->setEnabled(true);
+        ui->tableView_course_n->setEnabled(true);
+        ui->tableView_course_y->setEnabled(true);
+        ui->select_course_btn->setEnabled(true);
+        ui->cancel_course_btn->setEnabled(true);
     }
 }
 

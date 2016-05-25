@@ -68,6 +68,9 @@ void Information_course::showInfo()
         ui->lineEdit_course_capicity->setText(QString::number(m_course->getCapicity()));
         ui->label_course_student->setText(QString::number(m_course->getStudent().size()));
         ui->comboBox_type->setCurrentIndex(!m_course->getCourseType());
+        ui->add_btn->setEnabled(false);
+        ui->update_btn->setEnabled(true);
+        ui->del_btn->setEnabled(true);
         if(m_course->getTeacher() != NULL){
             int i = 0;
             for(i = 0; i <= ui->comboBox_teacher->count(); i++)
@@ -90,6 +93,9 @@ void Information_course::showInfo()
         ui->lineEdit_course_name->setEnabled(true);
         ui->lineEdit_course_credit->setEnabled(true);
         ui->comboBox_type->setEnabled(true);
+        ui->add_btn->setEnabled(true);
+        ui->update_btn->setEnabled(false);
+        ui->del_btn->setEnabled(false);
     }
     updateStudent();
 }
@@ -130,14 +136,33 @@ void Information_course::updateStudent()
 void Information_course::on_add_btn_clicked()
 {
     std::string id = ui->lineEdit_course_id->text().toStdString();
+    if(id == ""){
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("课程ID不能为空"));
+        ui->lineEdit_course_id->setFocus();
+        return;
+    }
     if(m_user->getEnvir()->findCourse(id)){
         QMessageBox::warning(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("课程ID重复"));
         ui->lineEdit_course_id->clear();
         ui->lineEdit_course_id->setFocus();
         return;
     }
+
     std::string name = ui->lineEdit_course_name->text().toStdString();
-    int credit = ui->lineEdit_course_credit->text().toInt();
+    if(name == ""){
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("课程名称不能为空"));
+        ui->lineEdit_course_name->setFocus();
+        return;
+    }
+
+    QString credit_string = ui->lineEdit_course_credit->text();
+    if(credit_string == ""){
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("课程学分不能为空"));
+        ui->lineEdit_course_credit->setFocus();
+        return;
+    }
+    int credit = credit_string.toInt();
+
     int capicity = ui->lineEdit_course_capicity->text().toInt();
     Teacher* teacher = NULL;
     if(ui->comboBox_teacher->currentText() != QString::fromLocal8Bit("无")){
