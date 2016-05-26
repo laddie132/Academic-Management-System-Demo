@@ -1,4 +1,8 @@
-//course.cpp 课程对象
+/**
+ * Name: course.cpp
+ * User: L.Laddie
+ * Function: 课程对象
+ */
 
 #include <cmath>
 #include "course.h"

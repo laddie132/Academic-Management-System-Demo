@@ -1,3 +1,9 @@
+/**
+ * Name: information_user.cpp
+ * User: L.Laddie
+ * Function: 添加/编辑用户信息
+ */
+
 #include <QDebug>
 #include <QMessageBox>
 #include <QCryptographicHash>
@@ -355,6 +361,12 @@ void Information_user::on_update_btn_clicked()
         QString pass = QCryptographicHash::hash(password.toLocal8Bit(), QCryptographicHash::Md5).toHex();
         m_admin->getEnvir()->changeUserPass(m_user, pass.toStdString());
     }
+
+    if(m_user->getUserType() == user_type::student){
+        std::string class_name = ui->lineEdit_user_class->text().toStdString();
+        ((Student*)m_user)->setClass(class_name);
+    }
+
     deleteCourse();
     addCourse(m_user);
     QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("修改用户成功"));

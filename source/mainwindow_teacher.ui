@@ -27,7 +27,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 25 10pt &quot;微软雅黑&quot;;</string>
+     <string notr="true">font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
     </property>
     <property name="currentIndex">
      <number>0</number>
@@ -117,14 +117,14 @@
         <x>310</x>
         <y>20</y>
         <width>221</width>
-        <height>76</height>
+        <height>88</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
         <widget class="QLabel" name="label_6">
          <property name="styleSheet">
-          <string notr="true">font: 25 11pt &quot;微软雅黑&quot;;</string>
+          <string notr="true">font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
          </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;ID:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -134,7 +134,7 @@
        <item row="2" column="0">
         <widget class="QLabel" name="label_8">
          <property name="styleSheet">
-          <string notr="true">font: 25 11pt &quot;微软雅黑&quot;;</string>
+          <string notr="true">font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
          </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;学分:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -144,7 +144,7 @@
        <item row="0" column="1">
         <widget class="QLabel" name="label_course_id">
          <property name="styleSheet">
-          <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+          <string notr="true">font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
          </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -154,7 +154,7 @@
        <item row="2" column="1">
         <widget class="QLabel" name="label_course_credit">
          <property name="styleSheet">
-          <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+          <string notr="true">font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
          </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -164,7 +164,7 @@
        <item row="0" column="2">
         <widget class="QLabel" name="label_7">
          <property name="styleSheet">
-          <string notr="true">font: 25 11pt &quot;微软雅黑&quot;;</string>
+          <string notr="true">font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
          </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;名称:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -174,7 +174,7 @@
        <item row="0" column="3">
         <widget class="QLabel" name="label_course_name">
          <property name="styleSheet">
-          <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+          <string notr="true">font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
          </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -184,7 +184,7 @@
        <item row="2" column="2">
         <widget class="QLabel" name="label_9">
          <property name="styleSheet">
-          <string notr="true">font: 25 11pt &quot;微软雅黑&quot;;</string>
+          <string notr="true">font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
          </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;类型:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -194,7 +194,7 @@
        <item row="2" column="3">
         <widget class="QLabel" name="label_course_type">
          <property name="styleSheet">
-          <string notr="true">font: 11pt &quot;宋体&quot;;</string>
+          <string notr="true">font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
          </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -213,7 +213,7 @@
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 25 11pt &quot;微软雅黑&quot;;</string>
+       <string notr="true">font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
       </property>
       <property name="text">
        <string>确认修改</string>
@@ -229,7 +229,7 @@
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 25 11pt &quot;微软雅黑&quot;;</string>
+       <string notr="true">font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
       </property>
       <property name="text">
        <string>取消修改</string>

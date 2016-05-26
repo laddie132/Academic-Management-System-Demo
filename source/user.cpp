@@ -1,4 +1,9 @@
-//user.cpp 用户对象
+/**
+ * Name: user.cpp
+ * User: L.Laddie
+ * Function: 用户对象
+ */
+
 #include <QDebug>
 #include <QString>
 #include "user.h"

@@ -1,3 +1,9 @@
+/**
+ * Name: envir_widget.cpp
+ * User: L.Laddie
+ * Function: 界面相关环境
+ */
+
 #include "include.h"
 #include "envir_widget.h"
 #include "mainwindow_admin.h"

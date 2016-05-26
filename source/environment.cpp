@@ -1,3 +1,9 @@
+/**
+ * Name: environment.cpp
+ * User: L.Laddie
+ * Function: 系统环境
+ */
+
 #include <QCryptographicHash>
 #include <QString>
 #include <QDebug>

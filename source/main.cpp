@@ -1,3 +1,9 @@
+/**
+ * Name: main.cpp
+ * User: L.Laddie
+ * Function: 主函数入口
+ */
+
 #include <QDialog>
 #include <QDebug>
 #include <QApplication>

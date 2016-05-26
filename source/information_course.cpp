@@ -1,3 +1,9 @@
+/**
+ * Name: information_course.cpp
+ * User: L.Laddie
+ * Function: 添加/编辑课程信息
+ */
+
 #include <QDebug>
 #include <QMessageBox>
 

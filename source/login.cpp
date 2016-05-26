@@ -1,3 +1,9 @@
+/**
+ * Name: login.cpp
+ * User: L.Laddie
+ * Function: µÇÂ¼½çÃæ
+ */
+
 #include <QDebug>
 #include <QString>
 #include <QCryptographicHash>

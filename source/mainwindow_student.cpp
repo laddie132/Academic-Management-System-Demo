@@ -1,3 +1,9 @@
+/**
+ * Name: mainwindow_student.cpp
+ * User: L.Laddie
+ * Function: 学生界面
+ */
+
 #include <QMessageBox>
 
 #include "mainwindow_student.h"

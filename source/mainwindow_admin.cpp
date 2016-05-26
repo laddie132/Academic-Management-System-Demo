@@ -1,3 +1,9 @@
+/**
+ * Name: mainwindow_admin.cpp
+ * User: L.Laddie
+ * Function: 管理员界面
+ */
+
 #include <QAction>
 #include <QDebug>
 #include <QtSql/QSqlRecord>

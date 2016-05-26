@@ -1,3 +1,9 @@
+/**
+ * Name: mainwindow_teacher.cpp
+ * User: L.Laddie
+ * Function: 教师界面
+ */
+
 #include <QDebug>
 #include <QMessageBox>
 
@@ -202,5 +208,6 @@ void MainWindow_teacher::on_confirm_btn_clicked()
                 temp->setGrade(std::make_pair(cur_student, grade));
             }
         }
+        QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("修改学生成绩成功"));
     }
 }
