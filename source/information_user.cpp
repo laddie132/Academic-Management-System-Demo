@@ -292,7 +292,17 @@ void Information_user::on_add_btn_clicked()
     {
         Student* temp_student = new Student(id, name, institude);
         temp_student->setClass(ui->lineEdit_user_class->text().toStdString());
-        addCourse((User*)temp_student);
+        try{
+            addCourse((User*)temp_student);
+        }
+        catch(std::out_of_range& e)         //课程超出容量
+        {
+            QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromStdString(e.what()));
+            this->updateCourse();
+            delete temp_student;
+            return;
+        }
+
         m_admin->getEnvir()->addUserStudent(temp_student, password.toStdString());
         break;
     }
@@ -368,8 +378,16 @@ void Information_user::on_update_btn_clicked()
     }
 
     deleteCourse();
-    addCourse(m_user);
-    QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("修改用户成功"));
+
+    try{
+        addCourse(m_user);
+        QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("修改用户成功"));
+    }
+    catch(std::out_of_range& e){
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromStdString(e.what()));
+        this->updateCourse();
+    }
+
     emit updateUser();
 }
 
@@ -453,12 +471,7 @@ void Information_user::addCourse(User* user)
             case user_type::student:
             {
                 Student* temp_student = (Student*) user;
-                if(course->getStudent().size() < course->getCapicity()){
-                    course->addStudent(temp_student);
-                }
-                else{
-                    QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("课程容量已满"));
-                }
+                course->addStudent(temp_student);
                 break;
             }
 

@@ -58,14 +58,11 @@ std::set<Course_student*> Student::getSelectCourse()
     return m_select_course;
 }
 
-bool Student::addCourse(Course_student* course)
+void Student::addCourse(Course_student* course)
 {
-	if (course->addElectiveStudent(this)) {
-		this->m_course.insert(course);
-        this->m_select_course.erase(course);
-		return true;
-	}
-	return false;
+    course->addElectiveStudent(this);
+    this->m_course.insert(course);
+    this->m_select_course.erase(course);
 }
 
 bool Student::deleteCourse(Course_student* course)

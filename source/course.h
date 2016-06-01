@@ -1,5 +1,6 @@
 #pragma once
 
+#include <exception>
 #include "include.h"
 #include "environment.h"
 #include "user.h"
@@ -27,7 +28,7 @@ public:
 	void setTeacher(Teacher* teacher);				//设置当前课程教师信息
 
 	std::set<Student*> getStudent();				//获取当前学生信息
-	bool addStudent(Student* student);				//添加学生信息
+    void addStudent(Student* student);				//添加学生信息
 	bool deleteStudent(Student* student);			//删除当前学生信息
     void clearStudent();                             //清空学生信息
 
@@ -35,7 +36,7 @@ public:
     bool checkTeacher(Teacher* teacher);
 
 	std::map<Student*, float> getStudentGrade();				//获取当前课程学生成绩
-	bool setGrade(std::pair<Student*, float> student_grade);	//设置学生成绩
+    void setGrade(std::pair<Student*, float> student_grade);	//设置学生成绩
 
 	float getMyGrade(Student* student);				//获取指定学生的成绩
 
@@ -118,7 +119,7 @@ public:
 	std::string getTeacherName();				//获取当前教师信息
 
     int getElectiveNum();                       //学生获取选修课人数
-	bool addElectiveStudent(Student* student);			//学生增加选修课
+    void addElectiveStudent(Student* student);			//学生增加选修课
 	bool deleteElectiveStudent(Student* student);		//学生删除选修课
 };
 
@@ -132,7 +133,7 @@ public:
 	std::set<Student*> getStudent();				//获取当前学生信息
 
 	std::map<Student*, float> getStudentGrade();	//获取当前课程学生成绩
-	bool setGrade(std::pair<Student*, float> student_grade);	//设置学生成绩
+    void setGrade(std::pair<Student*, float> student_grade);	//设置学生成绩
 };
 
 /*
@@ -152,3 +153,12 @@ public:
 	bool deleteStudent(Student* student);			//删除学生
 };
 */
+
+class AuthorityError: public std::exception
+{
+public:
+    const char* what()const throw()
+    {
+        return "该用户无操作权限";
+    }
+};

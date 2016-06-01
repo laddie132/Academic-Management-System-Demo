@@ -42,6 +42,8 @@ private slots:
     void add_course_slots();
     void delete_course_slots();
 
+//    void sort_course();
+
 private:
     Ui::MainWindow_student *ui;
     Envir_widget* m_envir_widget;

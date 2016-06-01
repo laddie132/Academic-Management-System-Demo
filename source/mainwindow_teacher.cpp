@@ -196,7 +196,7 @@ void MainWindow_teacher::on_confirm_btn_clicked()
             {
                 Student* cur_student = NULL;
                 QString student_id = ui_student_model->item(i, 0)->text();
-               for(auto j : temp->getStudent())
+                for(auto j : temp->getStudent())
                 {
                     if(j->getID() == student_id.toStdString())
                     {
@@ -205,7 +205,13 @@ void MainWindow_teacher::on_confirm_btn_clicked()
                     }
                 }
                 float grade = ui_student_model->item(i, 4)->text().toFloat();
-                temp->setGrade(std::make_pair(cur_student, grade));
+                try{
+                    temp->setGrade(std::make_pair(cur_student, grade));
+                }
+                catch(std::invalid_argument& e){
+                    ui_student_model->item(i, 4)->setText(QString("%1").arg(temp->getStudentGrade()[cur_student]));
+                    QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromStdString(e.what()));
+                }
             }
         }
         QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("修改学生成绩成功"));

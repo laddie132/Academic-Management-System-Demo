@@ -51,3 +51,5 @@ DISTFILES +=
 
 RESOURCES += \
     resourse.qrc
+
+RC_FILE = icon.rc 

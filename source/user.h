@@ -51,7 +51,7 @@ public:
 
     std::set<Course_student*> getSelectCourse();    //学生获取可选课程
 
-	bool addCourse(Course_student* course);			//学生选课
+    void addCourse(Course_student* course);			//学生选课
 	bool deleteCourse(Course_student* course);		//学生删除已选课程
 
     user_type getUserType() final override;				//获取用户类型

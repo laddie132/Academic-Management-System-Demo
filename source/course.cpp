@@ -44,7 +44,12 @@ int Course::getCapicity()
 
 void Course::setCapicity(int num)
 {
-	this->m_capicity = num;
+    if(this->m_student.size() <= num){
+        this->m_capicity = num;
+    }
+    else{
+        throw std::out_of_range(QString::fromLocal8Bit("课程容量过小").toStdString());
+    }
 }
 
 Teacher* Course::getTeacher()
@@ -67,16 +72,17 @@ std::set<Student*> Course::getStudent()
 	return s;
 }
 
-bool Course::addStudent(Student* student)
+void Course::addStudent(Student* student)
 {
     if ((int)m_student.size() < m_capicity) {
         auto i = m_student.find(student);
         if (i == m_student.end()) {
 			m_student.insert(std::make_pair(student, -1));
-			return true;
 		}
 	}
-	return false;
+    else{
+        throw std::out_of_range(QString::fromLocal8Bit("超出课程容量").toStdString());
+    }
 }
 
 bool Course::deleteStudent(Student* student)
@@ -114,14 +120,17 @@ std::map<Student*, float> Course::getStudentGrade()
 	return m_student;
 }
 
-bool Course::setGrade(std::pair<Student*, float> student_grade)
+void Course::setGrade(std::pair<Student*, float> student_grade)
 {
     auto i = m_student.find(student_grade.first);
 	if (i != m_student.end()) {
-		i->second = student_grade.second;
-		return true;
+        if(student_grade.second >= 0){
+            i->second = student_grade.second;
+        }
+        else{
+            throw std::invalid_argument(QString::fromLocal8Bit("学生成绩不能为负数").toStdString());
+        }
 	}
-	return false;
 }
 
 float Course::getMyGrade(Student* student)
@@ -228,13 +237,15 @@ int Course_student::getElectiveNum()
     return -1;
 }
 
-bool Course_student::addElectiveStudent(Student* student)
+void Course_student::addElectiveStudent(Student* student)
 {
 	//判断待增加课程是否为选修课
 	if (!this->getCourseType()) {
-		return m_course->addStudent(student);
+        m_course->addStudent(student);
 	}
-	return false;
+    else{
+        throw AuthorityError();
+    }
 }
 
 bool Course_student::deleteElectiveStudent(Student* student)
@@ -257,9 +268,9 @@ std::map<Student*, float> Course_teacher::getStudentGrade()
 	return m_course->getStudentGrade();
 }
 
-bool Course_teacher::setGrade(std::pair<Student*, float> student_grade)
+void Course_teacher::setGrade(std::pair<Student*, float> student_grade)
 {
-	return m_course->setGrade(student_grade);
+    m_course->setGrade(student_grade);
 }
 /*
 //Course_admin类函数实现

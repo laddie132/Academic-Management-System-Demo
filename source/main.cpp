@@ -22,7 +22,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    a.setWindowIcon(QIcon(":/image/icon.png"));
+    a.setWindowIcon(QIcon(":/image/icon.ico"));
 
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("gbk"));
 

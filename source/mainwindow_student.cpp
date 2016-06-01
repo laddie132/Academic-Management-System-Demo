@@ -144,6 +144,8 @@ void MainWindow_student::creatAction()
 
     connect(ui->tableView_course_s, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(add_course_slots()));
     connect(ui->tableView_course_e, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(delete_course_slots()));
+
+//    connect(ui->tableView_course_o, SIGNAL(clicked(QModelIndex)), this, SLOT(sort_course());
 }
 
 void MainWindow_student::action_login_triggered()
@@ -203,13 +205,16 @@ void MainWindow_student::add_course_slots()
         }
     }
     if(temp_find){
-        if(temp_find->getCapicity() > temp_find->getElectiveNum()){
+        try{
             m_user->addCourse(temp_find);
             updateTable();      //更新用户列表信息
             QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("选择课程成功"));
         }
-        else{
-            QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("课程人数已满"));
+        catch(std::out_of_range& e){
+            QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromStdString(e.what()));
+        }
+        catch(AuthorityError){
+            QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("学生无法选择必修课"));
         }
     }
 }

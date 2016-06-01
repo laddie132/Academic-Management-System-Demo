@@ -219,7 +219,15 @@ void Information_course::on_update_btn_clicked()
     std::string name = ui->lineEdit_course_name->text().toStdString();
     int credit = ui->lineEdit_course_credit->text().toInt();
     int capicity = ui->lineEdit_course_capicity->text().toInt();
-    m_course->setCapicity(capicity);
+    try{
+        m_course->setCapicity(capicity);
+    }
+    catch(std::out_of_range& e)
+    {
+        ui->lineEdit_course_capicity->setText(QString::number(m_course->getCapicity()));
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromStdString(e.what()));
+    }
+
     QString teacher_id = "";
     if(ui->comboBox_teacher->currentText() != QString::fromLocal8Bit("无")){
         teacher_id = ui->comboBox_teacher->currentText();
@@ -231,8 +239,16 @@ void Information_course::on_update_btn_clicked()
     else{
         m_course->setTeacher(NULL);
     }
-    addStudent(m_course);
-    QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("更新课程成功"));
+
+    try{
+        addStudent(m_course);
+        QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("更新课程成功"));
+    }
+    catch(std::out_of_range& e)
+    {
+        this->updateStudent();
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromStdString(e.what()));
+    }
 
     emit updateCourse();
 }
