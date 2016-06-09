@@ -60,7 +60,6 @@ class Obligatory_course: public Course
 {
 public:
 	using Course::Course;
-	using Course::operator<;
 
 	float calculateGPA(Student* student) final override;	//重载课程中计算GPA的虚函数
 
@@ -72,7 +71,6 @@ class Elective_course: public Course
 {
 public:
 	using Course::Course;
-	using Course::operator<;
 
 	float calculateGPA(Student* student) final override;	//重载课程中计算GPA的虚函数
 

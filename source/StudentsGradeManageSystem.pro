@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     mainwindow_teacher.cpp \
     information_course.cpp \
     envir_widget.cpp \
-    information_user.cpp
+    information_user.cpp \
+    config.cpp
 
 HEADERS  += \
     course.h \
@@ -35,7 +36,8 @@ HEADERS  += \
     mainwindow_teacher.h \
     information_course.h \
     envir_widget.h \
-    information_user.h
+    information_user.h \
+    config.h
 
 FORMS    += \
     login.ui \

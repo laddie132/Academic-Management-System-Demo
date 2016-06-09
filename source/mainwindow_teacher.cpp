@@ -39,9 +39,6 @@ void MainWindow_teacher::initActivex()
     ui_course_model = new QStandardItemModel();
     ui_student_model = new QStandardItemModel();
 
-    ui_course_model->sort(0);
-    ui_student_model->sort(0);
-
     ui->tableView_course->setModel(ui_course_model);
     ui->tableView_student->setModel(ui_student_model);
 }
@@ -69,6 +66,9 @@ void MainWindow_teacher::updateTable()
         ui_course_model->setItem(row, 5, new QStandardItem(QString::number(i->getCapicity())));
         row++;
     }
+
+    ui_course_model->sort(0);
+    ui_student_model->sort(0);
 }
 
 void MainWindow_teacher::showInfo()

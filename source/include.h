@@ -23,6 +23,7 @@ class Student;
 class Teacher;
 class Admin;
 class Envir;
+class Config_file;
 
 //ΩÁ√Ê¿‡
 class Login;

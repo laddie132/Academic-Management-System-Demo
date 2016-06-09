@@ -39,10 +39,6 @@ void MainWindow_student::initActivex()
     ui_course_model_e = new QStandardItemModel();
     ui_course_model_s = new QStandardItemModel();
 
-    ui_course_model_o->sort(0);
-    ui_course_model_e->sort(0);
-    ui_course_model_s->sort(0);
-
     ui->tableView_course_o->setModel(ui_course_model_o);
     ui->tableView_course_e->setModel(ui_course_model_e);
     ui->tableView_course_s->setModel(ui_course_model_s);
@@ -128,6 +124,10 @@ void MainWindow_student::updateTable()
         ui_course_model_s->setItem(row, 5, new QStandardItem(QString::number(i->getCapicity())));
         row++;
     }
+
+    ui_course_model_o->sort(0);
+    ui_course_model_e->sort(0);
+    ui_course_model_s->sort(0);
 }
 
 //链接菜单栏按钮的槽函数

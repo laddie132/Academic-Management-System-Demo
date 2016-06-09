@@ -187,16 +187,36 @@ void Admin::addUserAdmin(std::string ID, std::string name, std::string insititud
 
 std::map<Student*, std::string> Admin::getUserStudent()
 {
-	return m_envir->getUserStudent();
+    return m_envir->getUserStudent();
 }
 
 std::map<Teacher*, std::string> Admin::getUserTeacher()
 {
-	return m_envir->getUserTeacher();
+    return m_envir->getUserTeacher();
 }
 
 std::map<Admin*, std::string> Admin::getUserAdmin()
 {
-	return m_envir->getUserAdmin();
+    return m_envir->getUserAdmin();
 }
 */
+
+std::istream& operator >> (std::istream& input, User& user)
+{
+    input >> user.m_ID >> user.m_name >> user.m_insititude;
+}
+
+std::ostream& operator << (std::ostream& output, User& user)
+{
+    output << user.m_ID << ' ' << user.m_name << ' ' << user.m_insititude;
+}
+
+std::istream& operator >> (std::istream& input, Student& student)
+{
+    input >> student.m_ID >> student.m_name >> student.m_insititude >> student.m_class;
+}
+
+std::ostream& operator << (std::ostream& output, Student& student)
+{
+    output << student.m_ID << ' ' << student.m_name << ' ' << student.m_insititude << ' ' << student.m_class;
+}

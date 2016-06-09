@@ -8,14 +8,18 @@
 class User
 {
 public:
+    User(){}
 	User(std::string ID, std::string name, std::string insititude) : 
 			m_name(name), m_ID(ID), m_insititude(insititude) {}
 	~User(){}
 
-	bool operator < (const User* user)
-	{
-		return this->m_ID < user->m_ID;
-	}
+    bool operator <(User& user)
+    {
+        return this->m_ID < user.getID();
+    }
+
+    friend std::istream& operator >> (std::istream& input, User& user);
+    friend std::ostream& operator << (std::ostream& output, User& user);
 
  	std::string getID();
 	std::string getName();
@@ -23,7 +27,7 @@ public:
 
     virtual user_type getUserType() {}	//获取用户类型
 
-private:
+protected:
 	std::string m_name;			//用户姓名
 	std::string m_ID;			//用户学号或者教工号
 	std::string m_insititude;	//用户所属学院
@@ -38,7 +42,8 @@ public:
         eraseCourse();
 	}
 
-	using User::operator<;
+    friend std::istream& operator >> (std::istream& input, Student& student);
+    friend std::ostream& operator << (std::ostream& output, Student& student);
 
 	std::string getClass();
 	void setClass(std::string class_name);
@@ -71,8 +76,6 @@ public:
         eraseCourse();
     }
 
-	using User::operator<;
-
     void initCourse(std::set<Course_teacher*> course);
     void eraseCourse();
 
@@ -92,8 +95,6 @@ class Admin : public User
 public:
 	using User::User;
     ~Admin(){}
-
-	using User::operator<;
 
 	void activateEnvir(Envir* envir);		//激活当前工作环境
 

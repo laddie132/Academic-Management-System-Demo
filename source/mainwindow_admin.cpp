@@ -62,23 +62,18 @@ void MainWindow_admin::showInfo()
 void MainWindow_admin::initTable()
 {
     ui_course_model_o = new QStandardItemModel();
-    ui_course_model_o->sort(0);
     ui->tableView_course_o->setModel(ui_course_model_o);
 
     ui_course_model_e = new QStandardItemModel();
-    ui_course_model_e->sort(0);
     ui->tableView_course_e->setModel(ui_course_model_e);
 
     ui_student_model = new QStandardItemModel();
-    ui_student_model->sort(0);
     ui->tableView_student->setModel(ui_student_model);
 
     ui_teacher_model = new QStandardItemModel();
-    ui_teacher_model->sort(0);
     ui->tableView_teacher->setModel(ui_teacher_model);
 
     ui_admin_model = new QStandardItemModel();
-    ui_admin_model->sort(0);
     ui->tableView_admin->setModel(ui_admin_model);
 }
 
@@ -188,6 +183,13 @@ void MainWindow_admin::updateTable()
         ui_admin_model->setItem(row, 3, new QStandardItem(QString::fromStdString(i.second)));
         row++;
     }
+
+    //ÅÅÐò
+    ui_course_model_o->sort(0);
+    ui_course_model_e->sort(0);
+    ui_student_model->sort(0);
+    ui_teacher_model->sort(0);
+    ui_admin_model->sort(0);
 }
 
 //Á´½Ó²Ëµ¥À¸°´Å¥µÄ²Ûº¯Êý

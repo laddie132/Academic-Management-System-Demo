@@ -8,10 +8,12 @@
 #include <QDebug>
 #include <QApplication>
 #include <QTextCodec>
+#include <QMessageBox>
 #include <QCryptographicHash>
 
 #include "login.h"
 #include "user.h"
+#include "config.h"
 #include "include.h"
 #include "environment.h"
 #include "envir_widget.h"
@@ -28,11 +30,8 @@ int main(int argc, char *argv[])
 
     //设置运行环境
     Envir envir;
-    QString default_name = "admin";         //默认账户
-    Admin* admin = new Admin(default_name.toStdString(), default_name.toStdString(), QString::fromLocal8Bit("计算机学院").toStdString());
-    QString password = QCryptographicHash::hash(default_name.toLocal8Bit(), QCryptographicHash::Md5).toHex();
-    envir.addUserAdmin(admin, password.toStdString());
 
+    //设置界面环境
     Envir_widget envir_widget;
 
     //设置登录界面
@@ -51,6 +50,17 @@ int main(int argc, char *argv[])
 
     //保存所有主界面指针
     envir_widget.setWidget(&widget_login, &widget_main_student, &widget_main_teacher, &widget_main_admin);
+
+    //设置配置文件
+    Config_file config;
+    config.setEnvir(&envir);
+    try{
+        config.readConfig();
+    }
+    catch(std::ios_base::failure){
+        QMessageBox::warning(&widget_main_admin, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("配置文件不存在"));
+        exit(1);
+    }
 
     //显示登录界面
     widget_login.show();
