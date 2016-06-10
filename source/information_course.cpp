@@ -220,9 +220,9 @@ void Information_course::on_update_btn_clicked()
         QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("无课程信息"));
         return;
     }
-    std::string id = ui->lineEdit_course_id->text().toStdString();
-    std::string name = ui->lineEdit_course_name->text().toStdString();
-    int credit = ui->lineEdit_course_credit->text().toInt();
+//    std::string id = ui->lineEdit_course_id->text().toStdString();
+//    std::string name = ui->lineEdit_course_name->text().toStdString();
+//    int credit = ui->lineEdit_course_credit->text().toInt();
     int capicity = ui->lineEdit_course_capicity->text().toInt();
     try{
         m_course->setCapicity(capicity);

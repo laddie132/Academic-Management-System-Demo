@@ -1,6 +1,8 @@
 ﻿#ifndef MAINWINDOW_ADMIN_H
 #define MAINWINDOW_ADMIN_H
 
+#include <QLabel>
+#include <QTimer>
 #include <QMainWindow>
 #include <QStandardItemModel>
 
@@ -30,6 +32,8 @@ public:
     void initTable();       //表格信息初始化
     void updateTable();    //表格信息更新
 
+    void initStatusBar();
+
 private slots:
     void action_login_triggered();
     void action_quit_triggered();
@@ -48,6 +52,8 @@ private slots:
     void update_course_slots();
     void update_user_slots();
 
+    void updateStatusBar();
+
 private:
     Ui::MainWindow_admin *ui;
     Envir_widget* m_envir_widget;
@@ -61,6 +67,10 @@ private:
 
     Information_course* m_info_course_widget;
     Information_user* m_info_user_widget;
+
+    QLabel* ui_label_status;
+    QLabel* ui_label_time;
+    QTimer* m_timer_status;
 };
 
 #endif // MAINWINDOW_ADMIN_H

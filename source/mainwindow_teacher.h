@@ -1,6 +1,8 @@
 ﻿#ifndef MAINWINDOW_TEACHER_H
 #define MAINWINDOW_TEACHER_H
 
+#include <QLabel>
+#include <QTimer>
 #include <QMainWindow>
 #include <QStandardItemModel>
 
@@ -30,6 +32,8 @@ public:
     void setEnvirWidget(Envir_widget* envir_widget);
     void setUser(Teacher* user);   //设置当前登录用户
 
+    void initStatusBar();
+
 signals:
     void updateConfig();
 
@@ -48,6 +52,8 @@ private slots:
 
     void on_confirm_btn_clicked();
 
+    void updateStatusBar();
+
 private:
     Ui::MainWindow_teacher *ui;
     Envir_widget* m_envir_widget;
@@ -57,6 +63,10 @@ private:
     Information_user* info_student;
 
     Teacher* m_user = NULL;
+
+    QLabel* ui_label_status;
+    QLabel* ui_label_time;
+    QTimer* m_timer_status;
 };
 
 #endif // MAINWINDOW_TEACHER_H

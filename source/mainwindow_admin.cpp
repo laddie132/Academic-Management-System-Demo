@@ -6,6 +6,8 @@
 
 #include <QAction>
 #include <QDebug>
+#include <QFont>
+#include <QDateTime>
 #include <QtSql/QSqlRecord>
 #include <QApplication>
 #include <QMessageBox>
@@ -25,15 +27,22 @@ MainWindow_admin::MainWindow_admin(Envir_widget* envir_widget, QWidget *parent) 
     m_envir_widget(envir_widget),
     ui(new Ui::MainWindow_admin)
 {
+    ui_label_status = new QLabel();
+    ui_label_time = new QLabel();
+    m_timer_status = new QTimer(this);
     m_info_course_widget = new Information_course(this);
     m_info_user_widget = new Information_user(this);
     ui->setupUi(this);
-    creatAction();
-    initTable();
+    setFixedSize(800, 500);         //禁止更改大小
+
+    creatAction();      //链接信号与槽
+    initTable();        //初始化表格信息
+    initStatusBar();    //初始化状态栏
 }
 
 MainWindow_admin::~MainWindow_admin()
 {
+    delete ui_label_status;
     delete ui_course_model_o;
     delete ui_course_model_e;
     delete ui_student_model;
@@ -52,12 +61,40 @@ void MainWindow_admin::setUser(Admin* user)
     this->m_user = user;
 }
 
+void MainWindow_admin::initStatusBar()
+{
+    ui_label_time->setAlignment(Qt::AlignRight);
+
+    ui->statusbar->addWidget(ui_label_status, 1);
+    ui->statusbar->addWidget(ui_label_time, 6);
+    ui->statusbar->setStyleSheet(QString("QStatusBar::item{border: 0px}, *{font-size : 8px}"));
+}
+
+void MainWindow_admin::updateStatusBar()
+{
+    //设置实时人数信息
+    QString student_num = "学生：" + QString::number(m_user->getEnvir()->getUserStudent().size()) + "人";
+    QString teacher_num = "教师：" + QString::number(m_user->getEnvir()->getUserTeacher().size()) + "人";
+    QString admin_num = "管理员：" + QString::number(m_user->getEnvir()->getUserAdmin().size()) + "人";
+    QString obligatory_num = "必修课：" + QString::number(m_user->getEnvir()->getObligatoryCourse().size()) + "个";
+    QString elective_num = "选修课：" + QString::number(m_user->getEnvir()->getElectiveCourse().size()) + "个";
+    ui_label_status->setText("实时信息：" + student_num + " " + teacher_num + " " + admin_num + " " + obligatory_num + " " + elective_num);
+
+    //设置实时系统时间
+    QDateTime cur_time = QDateTime::currentDateTime();
+    QString cur_time_str = cur_time.toString("hh:mm:ss");
+    ui_label_time->setText("系统时间：" + cur_time_str);
+}
+
 void MainWindow_admin::showInfo()
 {
     ui->label_id->setText(QString::fromStdString(m_user->getID()));
     ui->label_name->setText(QString::fromStdString(m_user->getName()));
     ui->label_institude->setText(QString::fromStdString(m_user->getInsititude()));
-    updateTable();
+    updateTable();   
+
+    updateStatusBar();
+    m_timer_status->start(1000);        //每一秒刷新一次状态栏
 }
 
 void MainWindow_admin::initTable()
@@ -223,16 +260,24 @@ void MainWindow_admin::creatAction()
 
     connect(ui->add_course_btn, SIGNAL(clicked()), this, SLOT(action_course_add_triggered()));
     connect(ui->add_user_btn, SIGNAL(clicked()), this, SLOT(action_user_add_triggered()));
+
+    connect(m_timer_status, SIGNAL(timeout()), this, SLOT(updateStatusBar()));
 }
 
 void MainWindow_admin::action_login_triggered()
 {
+    if(m_timer_status->isActive()){
+        m_timer_status->stop();         //停止状态栏计时器
+    }
     this->close();
     m_envir_widget->showLoginWidget();
 }
 
 void MainWindow_admin::action_quit_triggered()
 {
+    if(m_timer_status->isActive()){
+        m_timer_status->stop();         //停止状态栏计时器
+    }
     this->close();
 }
 
@@ -285,7 +330,7 @@ void MainWindow_admin::action_start_course_triggered()
 void MainWindow_admin::action_about_triggered()
 {
     QMessageBox::about(this, QString::fromLocal8Bit("关于"),
-          QString::fromLocal8Bit(" <font color='red'>Students` Grade Manage System 1.9.0 (opensource)</font>"
+          QString::fromLocal8Bit(" <font color='red'>Students` Grade Manage System 2.7.0 (opensource)</font>"
                                  "<br>项目主页：https://github.com/laddie132/StudentsGradeManageSystem"
                                  " <br>作者：L.Laddie"
                                "  <br><br>Copyright 2016-2016 The Qt Company Ltd. All rights reserved." ));

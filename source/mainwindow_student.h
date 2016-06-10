@@ -1,6 +1,8 @@
 ﻿#ifndef MAINWINDOW_STUDENT_H
 #define MAINWINDOW_STUDENT_H
 
+#include <QLabel>
+#include <QTimer>
 #include <QMainWindow>
 #include <QStandardItemModel>
 
@@ -27,7 +29,9 @@ public:
     void updateTable();        //表格信息初始化
 
     void setEnvirWidget(Envir_widget* envir_widget);
-    void setUser(Student* user);   //设置当前登录用户
+    void setUser(Student* user);                        //设置当前登录用户
+
+    void initStatusBar();
 
 signals:
     void updateConfig();
@@ -45,6 +49,7 @@ private slots:
     void add_course_slots();
     void delete_course_slots();
 
+    void updateStatusBar();
 //    void sort_course();
 
 private:
@@ -55,6 +60,10 @@ private:
     QStandardItemModel* ui_course_model_s;
 
     Student* m_user = NULL;
+
+    QLabel* ui_label_status;
+    QLabel* ui_label_time;
+    QTimer* m_timer_status;
 };
 
 #endif // MAINWINDOW_STUDENT_H
