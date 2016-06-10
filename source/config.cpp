@@ -100,7 +100,7 @@ void Config_file::readConfig()
             std::string id = "";
             file_line >> *new_course >> id;
 
-            if(id != ""){
+            if(id != "-1"){
                 User* teacher = this->m_envir->findUser(id);
                 if(teacher->getUserType() == user_type::teacher){
                     new_course->setTeacher((Teacher*)teacher);
@@ -128,7 +128,7 @@ void Config_file::readConfig()
             std::string id = "";
             file_line >> *new_course >> id;
 
-            if(id != ""){
+            if(id != "-1"){
                 User* teacher = this->m_envir->findUser(id);
                 if(teacher->getUserType() == user_type::teacher){
                     new_course->setTeacher((Teacher*)teacher);
@@ -190,6 +190,8 @@ void Config_file::writeConfig()
         if(i->getTeacher()){
             file << " " << i->getTeacher()->getID();
         }
+        else
+            file << " -1";
         for(auto j : i->getStudentGrade())
         {
             file << " <" << j.first->getID() << ", " << j.second << ">";
@@ -204,6 +206,8 @@ void Config_file::writeConfig()
         if(i->getTeacher()){
             file << " " << i->getTeacher()->getID();
         }
+        else
+            file << " -1";
         for(auto j : i->getStudentGrade())
         {
             file << " <" << j.first->getID() << ", " << j.second << ">";

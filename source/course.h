@@ -13,10 +13,7 @@ public:
 	Course(std::string id, std::string name, int credit);
 	~Course();
 
-	bool operator < (const Course* course)
-	{
-		return this->m_ID < course->m_ID;
-	}
+    friend bool operator < (const Course& course1, const Course& course2);
 
     friend std::istream& operator >> (std::istream& input, Course& course);
     friend std::ostream& operator << (std::ostream& output, Course& course);
@@ -91,10 +88,7 @@ public:
     }
     ~Course_user(){}
 
-	bool operator < (const Course_user* course)
-	{
-		return m_course->getID() < course->m_course->getID();
-	}
+    friend bool operator < (const Course_user& course1, const Course_user& course2);
 
 	//学生与教师公共权限
 	std::string getID();
@@ -112,7 +106,6 @@ class Course_student: virtual public Course_user
 {
 public:
     Course_student(Course* course): Course_user(course){}
-	using Course_user::operator<;
 
 	float getMyGrade(Student* student);			//学生获取自己的成绩
 
@@ -130,7 +123,6 @@ class Course_teacher: virtual public Course_user
 {
 public:
     Course_teacher(Course* course): Course_user(course){}
-	using Course_user::operator<;
 
 	std::set<Student*> getStudent();				//获取当前学生信息
 

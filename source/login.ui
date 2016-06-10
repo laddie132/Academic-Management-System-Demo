@@ -94,7 +94,16 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgb
     <item row="1" column="1">
      <widget class="QLineEdit" name="passowrd_edit">
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">QLineEdit {
+    border: 1px solid rgb(41, 57, 85); 
+    border-radius: 3px; 
+    background: white;   
+    selection-background-color: green; 
+}
+ 
+QLineEdit:hover {
+    border: 1px solid blue; 
+}</string>
       </property>
       <property name="frame">
        <bool>true</bool>
@@ -107,7 +116,16 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgb
     <item row="0" column="1">
      <widget class="QLineEdit" name="username_edit">
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">QLineEdit {
+    border: 1px solid rgb(41, 57, 85); 
+    border-radius: 3px; 
+    background: white;   
+    selection-background-color: green; 
+}
+ 
+QLineEdit:hover {
+    border: 1px solid blue; 
+}</string>
       </property>
      </widget>
     </item>

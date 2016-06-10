@@ -48,6 +48,8 @@ private slots:
 
     void on_cancel_student_btn_clicked();
 
+    void on_comboBox_teacher_currentIndexChanged(const QString &arg1);
+
 private:
     Ui::Information_course *ui;
     QStandardItemModel* ui_student_model_n;

@@ -308,3 +308,14 @@ void Information_course::addStudent(Course * course)
         }
     }
 }
+
+void Information_course::on_comboBox_teacher_currentIndexChanged(const QString &arg1)
+{
+    User* teacher = this->m_user->getEnvir()->findUser(arg1.toStdString());
+    if(teacher && teacher->getUserType() == user_type::teacher){
+        ui->label_teacher_name->setText(QString::fromStdString(teacher->getName()));
+    }
+    else{
+        ui->label_teacher_name->setText("无");
+    }
+}

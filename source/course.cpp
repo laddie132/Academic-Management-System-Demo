@@ -302,6 +302,16 @@ void Course_admin::setCapicity(int num)
 */
 
 //重载运算符
+bool operator < (const Course& course1, const Course& course2)
+{
+    return course1.m_ID < course2.m_ID;
+}
+
+bool operator < (const Course_user& course1, const Course_user& course2)
+{
+    return course1.m_course < course2.m_course;
+}
+
 std::istream& operator >> (std::istream& input, Course& course)
 {
     input >> course.m_ID >> course.m_name >> course.m_credit >> course.m_capicity;

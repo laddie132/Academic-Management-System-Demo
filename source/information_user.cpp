@@ -50,6 +50,8 @@ void Information_user::creatActivex()
 
     ui->tableView_course_n->resizeColumnsToContents();
     ui->tableView_course_y->resizeColumnsToContents();
+
+    ui->lineEdit_user_password->setPlaceholderText("默认用户ID");
 }
 
 void Information_user::showInfo()
@@ -294,7 +296,10 @@ void Information_user::on_add_btn_clicked()
     case 0:
     {
         Student* temp_student = new Student(id, name, institude);
-        temp_student->setClass(ui->lineEdit_user_class->text().toStdString());
+        std::string class_name = ui->lineEdit_user_class->text().toStdString();
+        if(class_name == "")
+            class_name = "-1";
+        temp_student->setClass(class_name);
         try{
             addCourse((User*)temp_student);
         }
@@ -378,6 +383,8 @@ void Information_user::on_update_btn_clicked()
 
     if(m_user->getUserType() == user_type::student){
         std::string class_name = ui->lineEdit_user_class->text().toStdString();
+        if(class_name == "")
+            class_name = "-1";
         ((Student*)m_user)->setClass(class_name);
     }
 

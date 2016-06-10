@@ -13,10 +13,7 @@ public:
 			m_name(name), m_ID(ID), m_insititude(insititude) {}
 	~User(){}
 
-    bool operator <(User& user)
-    {
-        return this->m_ID < user.getID();
-    }
+    friend bool operator <(const User& user1, const User& user2);
 
     friend std::istream& operator >> (std::istream& input, User& user);
     friend std::ostream& operator << (std::ostream& output, User& user);
