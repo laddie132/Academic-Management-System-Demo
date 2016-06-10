@@ -133,6 +133,8 @@ void MainWindow_teacher::creatAction()
     connect(ui->action_password, SIGNAL(triggered()), this, SLOT(action_change_pass_triggered()));
 
     connect(ui->set_grade_btn, SIGNAL(clicked()), this, SLOT(action_set_grade_triggered()));
+
+    connect(this, SIGNAL(updateConfig()), this->m_envir_widget, SLOT(updateConfig()));
 }
 
 void MainWindow_teacher::action_login_triggered()
@@ -215,5 +217,6 @@ void MainWindow_teacher::on_confirm_btn_clicked()
             }
         }
         QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("修改学生成绩成功"));
+        emit updateConfig();
     }
 }

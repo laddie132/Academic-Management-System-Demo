@@ -31,6 +31,7 @@ public:
 
 signals:
     void updateCourse();
+    void updateConfig();
 
 private slots:
     void on_add_btn_clicked();

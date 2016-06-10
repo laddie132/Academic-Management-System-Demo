@@ -210,6 +210,10 @@ void MainWindow_admin::creatAction()
 
     connect(m_info_user_widget, SIGNAL(updateUser()), this, SLOT(updateTable_slots()));
     connect(m_info_course_widget, SIGNAL(updateCourse()), this, SLOT(updateTable_slots()));
+
+    connect(m_info_user_widget, SIGNAL(updateConfig()), this->m_envir_widget, SLOT(updateConfig()));
+    connect(m_info_course_widget, SIGNAL(updateConfig()), this->m_envir_widget, SLOT(updateConfig()));
+
     connect(ui->tableView_course_o, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(update_course_slots()));
     connect(ui->tableView_course_e, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(update_course_slots()));
     connect(ui->tableView_student, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(update_user_slots()));

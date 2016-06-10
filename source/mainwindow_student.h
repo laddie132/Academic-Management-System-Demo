@@ -29,6 +29,9 @@ public:
     void setEnvirWidget(Envir_widget* envir_widget);
     void setUser(Student* user);   //设置当前登录用户
 
+signals:
+    void updateConfig();
+
 private slots:
     void action_login_triggered();
     void action_quit_triggered();

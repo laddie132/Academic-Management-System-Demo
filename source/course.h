@@ -9,6 +9,7 @@
 class Course
 {
 public:
+    Course(){}
 	Course(std::string id, std::string name, int credit);
 	~Course();
 
@@ -16,6 +17,9 @@ public:
 	{
 		return this->m_ID < course->m_ID;
 	}
+
+    friend std::istream& operator >> (std::istream& input, Course& course);
+    friend std::ostream& operator << (std::ostream& output, Course& course);
 
 	std::string getID();					
 	std::string getName();

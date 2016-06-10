@@ -242,6 +242,9 @@ void Information_user::updateCourse()
             row2++;
         }
     }
+
+    ui_course_model_n->sort(0);
+    ui_course_model_y->sort(0);
 }
 
 void Information_user::on_cancel_btn_clicked()
@@ -329,6 +332,7 @@ void Information_user::on_add_btn_clicked()
      }
     QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("添加用户成功"));
     emit updateUser();
+    emit updateConfig();
 }
 
 void Information_user::on_comboBox_user_type_currentIndexChanged(int index)
@@ -389,6 +393,7 @@ void Information_user::on_update_btn_clicked()
     }
 
     emit updateUser();
+    emit updateConfig();
 }
 
 void Information_user::deleteCourse()
@@ -435,7 +440,9 @@ void Information_user::on_del_btn_clicked()
     m_admin->getEnvir()->deleteUser(m_user);
     m_user = NULL;
     QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("删除用户成功"));
+
     emit updateUser();
+    emit updateConfig();
 }
 
 void Information_user::on_select_course_btn_clicked()

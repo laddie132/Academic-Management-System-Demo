@@ -142,6 +142,8 @@ void MainWindow_student::creatAction()
     connect(ui->action_help, SIGNAL(triggered()), this, SLOT(action_help_triggered()));
     connect(ui->action_password, SIGNAL(triggered()), this, SLOT(action_change_pass_triggered()));
 
+    connect(this, SIGNAL(updateConfig()), this->m_envir_widget, SLOT(updateConfig()));
+
     connect(ui->tableView_course_s, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(add_course_slots()));
     connect(ui->tableView_course_e, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(delete_course_slots()));
 
@@ -217,6 +219,8 @@ void MainWindow_student::add_course_slots()
             QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("学生无法选择必修课"));
         }
     }
+
+    emit updateConfig();
 }
 
 void MainWindow_student::delete_course_slots()
@@ -235,4 +239,6 @@ void MainWindow_student::delete_course_slots()
         updateTable();
         QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("删除课程成功"));
     }
+
+    emit updateConfig();
 }

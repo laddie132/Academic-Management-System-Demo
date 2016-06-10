@@ -137,6 +137,9 @@ void Information_course::updateStudent()
             row2++;
         }
     }
+
+    ui_student_model_n->sort(0);
+    ui_student_model_y->sort(0);
 }
 
 void Information_course::on_add_btn_clicked()
@@ -193,7 +196,9 @@ void Information_course::on_add_btn_clicked()
         m_user->getEnvir()->addObligatoryCourse(temp_course);
     }
     QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("添加课程成功"));
+
     emit updateCourse();
+    emit updateConfig();
 }
 
 void Information_course::on_cancel_btn_clicked()
@@ -251,6 +256,7 @@ void Information_course::on_update_btn_clicked()
     }
 
     emit updateCourse();
+    emit updateConfig();
 }
 
 void Information_course::on_del_btn_clicked()
@@ -262,7 +268,9 @@ void Information_course::on_del_btn_clicked()
     m_user->getEnvir()->deleteCourse(m_course);
     m_course = NULL;
     QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("删除课程成功"));
+
     emit updateCourse();
+    emit updateConfig();
 }
 
 void Information_course::on_select_student_btn_clicked()

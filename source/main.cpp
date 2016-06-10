@@ -61,6 +61,7 @@ int main(int argc, char *argv[])
         QMessageBox::warning(&widget_main_admin, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("配置文件不存在"));
         exit(1);
     }
+    envir_widget.setConfigFile(&config);
 
     //显示登录界面
     widget_login.show();

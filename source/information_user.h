@@ -30,6 +30,7 @@ public:
 
 signals:
     void updateUser();
+    void updateConfig();
 
 private slots:
     void on_cancel_btn_clicked();

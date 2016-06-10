@@ -300,3 +300,14 @@ void Course_admin::setCapicity(int num)
     Course_student::m_course->setCapicity(num);
 }
 */
+
+//ÖØÔØÔËËã·û
+std::istream& operator >> (std::istream& input, Course& course)
+{
+    input >> course.m_ID >> course.m_name >> course.m_credit >> course.m_capicity;
+}
+
+std::ostream& operator << (std::ostream& output, Course& course)
+{
+    output << course.m_ID << ' ' << course.m_name << ' ' << course.m_credit << ' ' << course.m_capicity;
+}

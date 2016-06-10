@@ -92,13 +92,57 @@ void Config_file::readConfig()
 
         case config_state::obligatory:
         {
-            qDebug() << '3';
+            Obligatory_course* new_course = new Obligatory_course();
+            std::string id = "";
+            file_line >> *new_course >> id;
+
+            if(id != ""){
+                User* teacher = this->m_envir->findUser(id);
+                if(teacher->getUserType() == user_type::teacher){
+                    new_course->setTeacher((Teacher*)teacher);
+                }
+            }
+
+            std::regex pattern2("<([\\d.]*)\\s*,\\s*([\\d.]*)>");
+            std::sregex_iterator pos(str.begin(), str.end(), pattern2);
+            std::sregex_iterator end;
+            while(pos != end){
+                User* student = this->m_envir->findUser((*pos)[1]);
+                new_course->addStudent((Student*)student);
+                new_course->setGrade(std::make_pair((Student*)student, std::atof((*pos)[2].str().c_str())));
+//                qDebug() << QString::fromStdString((*pos)[1]) << ' ' << QString::fromStdString((*pos)[2]) << endl;
+                pos++;
+            }
+
+            this->m_envir->addObligatoryCourse(new_course);
             break;
         }
 
         case config_state::elective:
         {
-            qDebug() << '4';
+            Elective_course* new_course = new Elective_course();
+            std::string id = "";
+            file_line >> *new_course >> id;
+
+            if(id != ""){
+                User* teacher = this->m_envir->findUser(id);
+                if(teacher->getUserType() == user_type::teacher){
+                    new_course->setTeacher((Teacher*)teacher);
+                }
+            }
+
+            std::regex pattern2("<([\\d.]*)\\s*,\\s*([\\d.]*)>");
+            std::sregex_iterator pos(str.begin(), str.end(), pattern2);
+            std::sregex_iterator end;
+            while(pos != end){
+                User* student = this->m_envir->findUser((*pos)[1]);
+                new_course->addStudent((Student*)student);
+                new_course->setGrade(std::make_pair((Student*)student, std::atof((*pos)[2].str().c_str())));
+//                qDebug() << QString::fromStdString((*pos)[1]) << ' ' << QString::fromStdString((*pos)[2]) << endl;
+                pos++;
+            }
+
+            this->m_envir->addElectiveCourse(new_course);
             break;
         }
 
@@ -106,9 +150,63 @@ void Config_file::readConfig()
             break;
         }
     }
+    file.close();
 }
 
 void Config_file::writeConfig()
 {
+    std::ofstream file;
+    file.open("config.ini", std::ios_base::out);
+    file << "#This is a config file" << endl << "[user]\n";
 
+    file << "\n[student]\n" << "#学号-姓名-学院-班级-md5密码\n";
+    for(auto i : this->m_envir->getUserStudent())
+    {
+        file << i.first->getID() << " " << i.first->getName() << " "
+             << i.first->getInsititude() << " " << i.first->getClass() << " " << i.second << "\n";
+    }
+
+    file << "\n[teacher]\n" << "#工号-姓名-学院-md5密码\n";
+    for(auto i : this->m_envir->getUserTeacher())
+    {
+        file << i.first->getID() << " " << i.first->getName() << " "
+             << i.first->getInsititude() << " " << i.second << "\n";
+    }
+
+    file << "\n[admin]\n" << "#用户名-姓名-学院-md5密码\n";
+    for(auto i : this->m_envir->getUserTeacher())
+    {
+        file << i.first->getID() << " " << i.first->getName() << " "
+             << i.first->getInsititude() << " " << i.second << "\n";
+    }
+
+    file << "\n[course]\n";
+
+    file << "\n[obligatory]\n" << "#课程编号-课程名称-学分-课程容量-教师工号-学生及成绩\n";
+    for(auto i : this->m_envir->getObligatoryCourse())
+    {
+        file << i->getID() << " " << i->getName() << " "
+             << i->getCredit() << " " << i->getCapicity();
+        if(i->getTeacher()){
+            file << " " << i->getTeacher()->getID();
+        }
+        for(auto j : i->getStudentGrade())
+        {
+            file << " <" << j.first->getID() << ", " << j.second << ">";
+        }
+    }
+
+    file << "\n[elective]\n" << "#课程编号-课程名称-学分-课程容量-教师工号-学生及成绩\n";
+    for(auto i : this->m_envir->getElectiveCourse())
+    {
+        file << i->getID() << " " << i->getName() << " "
+             << i->getCredit() << " " << i->getCapicity();
+        if(i->getTeacher()){
+            file << " " << i->getTeacher()->getID();
+        }
+        for(auto j : i->getStudentGrade())
+        {
+            file << " <" << j.first->getID() << ", " << j.second << ">";
+        }
+    }
 }

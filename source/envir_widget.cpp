@@ -4,6 +4,7 @@
  * Function: 界面相关环境
  */
 
+#include "config.h"
 #include "include.h"
 #include "envir_widget.h"
 #include "mainwindow_admin.h"
@@ -44,4 +45,14 @@ void Envir_widget::showTeacherWidget(Teacher* user)
     m_widget_teacher->show();
     m_widget_teacher->setUser(user);
     m_widget_teacher->showInfo();
+}
+
+void Envir_widget::setConfigFile(Config_file *config)
+{
+    this->m_config = config;
+}
+
+void Envir_widget::updateConfig()
+{
+    this->m_config->writeConfig();
 }
