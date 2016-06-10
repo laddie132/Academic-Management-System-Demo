@@ -1,10 +1,10 @@
-#ifndef ENVIR_WIDGET_H
+ï»¿#ifndef ENVIR_WIDGET_H
 #define ENVIR_WIDGET_H
 
 #include "include.h"
 #include <QApplication>
 
-//½çÃæ»·¾³
+//ç•Œé¢ç¯å¢ƒ
 class Envir_widget : public QObject
 {
     Q_OBJECT
@@ -14,26 +14,26 @@ public:
 
     void setWidget(Login* login, MainWindow_student* student, MainWindow_teacher* teacher, MainWindow_admin* admin);
 
-    //´ò¿ªÖ¸¶¨½çÃæ
+    //æ‰“å¼€æŒ‡å®šç•Œé¢
     void showLoginWidget();
     void showAdminWidget(Admin* user);
     void showStudentWidget(Student* user);
     void showTeacherWidget(Teacher* user);
 
-    //¸üĞÂÅäÖÃÎÄ¼ş
+    //æ›´æ–°é…ç½®æ–‡ä»¶
     void setConfigFile(Config_file* config);
 
 public slots:
     void updateConfig();
 
 private:
-    //±£´æµ±Ç°½çÃæÖ¸Õë
+    //ä¿å­˜å½“å‰ç•Œé¢æŒ‡é’ˆ
     Login* m_widget_login;
     MainWindow_admin* m_widget_admin;
     MainWindow_student* m_widget_student;
     MainWindow_teacher* m_widget_teacher;
 
-    //ÅäÖÃÎÄ¼ş
+    //é…ç½®æ–‡ä»¶
     Config_file* m_config;
 };
 

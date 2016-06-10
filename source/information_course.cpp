@@ -1,7 +1,7 @@
-/**
+ï»¿/**
  * Name: information_course.cpp
  * User: L.Laddie
- * Function: Ìí¼Ó/±à¼­¿Î³ÌĞÅÏ¢
+ * Function: æ·»åŠ /ç¼–è¾‘è¯¾ç¨‹ä¿¡æ¯
  */
 
 #include <QDebug>
@@ -55,14 +55,14 @@ void Information_course::creatActivex()
 void Information_course::showInfo()
 {
     ui->comboBox_teacher->clear();
-    ui->comboBox_teacher->addItem(QString::fromLocal8Bit("ÎŞ"));
+    ui->comboBox_teacher->addItem(QString::fromLocal8Bit("æ— "));
     for(auto i : m_user->getEnvir()->getUserTeacher())
     {
         ui->comboBox_teacher->addItem(QString::fromStdString(i.first->getID()));
     }
     ui->comboBox_teacher->setCurrentIndex(0);
 
-    //±à¼­¿Î³ÌÊ±
+    //ç¼–è¾‘è¯¾ç¨‹æ—¶
     if(m_course){
         ui->lineEdit_course_id->setText(QString::fromStdString(m_course->getID()));
         ui->lineEdit_course_id->setEnabled(false);
@@ -89,7 +89,7 @@ void Information_course::showInfo()
         }
     }
 
-    //Ìí¼Ó¿Î³ÌÊ±
+    //æ·»åŠ è¯¾ç¨‹æ—¶
     else{
         ui->lineEdit_course_id->clear();
         ui->lineEdit_course_capicity->clear();
@@ -146,12 +146,12 @@ void Information_course::on_add_btn_clicked()
 {
     std::string id = ui->lineEdit_course_id->text().toStdString();
     if(id == ""){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("¿Î³ÌID²»ÄÜÎª¿Õ"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("è¯¾ç¨‹IDä¸èƒ½ä¸ºç©º"));
         ui->lineEdit_course_id->setFocus();
         return;
     }
     if(m_user->getEnvir()->findCourse(id)){
-        QMessageBox::warning(this, QString::fromLocal8Bit("ÌáÊ¾"), QString::fromLocal8Bit("¿Î³ÌIDÖØ¸´"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("æç¤º"), QString::fromLocal8Bit("è¯¾ç¨‹IDé‡å¤"));
         ui->lineEdit_course_id->clear();
         ui->lineEdit_course_id->setFocus();
         return;
@@ -159,14 +159,14 @@ void Information_course::on_add_btn_clicked()
 
     std::string name = ui->lineEdit_course_name->text().toStdString();
     if(name == ""){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("¿Î³ÌÃû³Æ²»ÄÜÎª¿Õ"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("è¯¾ç¨‹åç§°ä¸èƒ½ä¸ºç©º"));
         ui->lineEdit_course_name->setFocus();
         return;
     }
 
     QString credit_string = ui->lineEdit_course_credit->text();
     if(credit_string == ""){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("¿Î³ÌÑ§·Ö²»ÄÜÎª¿Õ"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("è¯¾ç¨‹å­¦åˆ†ä¸èƒ½ä¸ºç©º"));
         ui->lineEdit_course_credit->setFocus();
         return;
     }
@@ -174,7 +174,7 @@ void Information_course::on_add_btn_clicked()
 
     int capicity = ui->lineEdit_course_capicity->text().toInt();
     Teacher* teacher = NULL;
-    if(ui->comboBox_teacher->currentText() != QString::fromLocal8Bit("ÎŞ")){
+    if(ui->comboBox_teacher->currentText() != QString::fromLocal8Bit("æ— ")){
         User* temp = m_user->getEnvir()->findUser(ui->comboBox_teacher->currentText().toStdString());
         if(temp->getUserType() == user_type::teacher){
             teacher = (Teacher*)temp;
@@ -195,7 +195,7 @@ void Information_course::on_add_btn_clicked()
         addStudent((Course*)temp_course);
         m_user->getEnvir()->addObligatoryCourse(temp_course);
     }
-    QMessageBox::information(this, QString::fromLocal8Bit("ÌáÊ¾"), QString::fromLocal8Bit("Ìí¼Ó¿Î³Ì³É¹¦"));
+    QMessageBox::information(this, QString::fromLocal8Bit("æç¤º"), QString::fromLocal8Bit("æ·»åŠ è¯¾ç¨‹æˆåŠŸ"));
 
     emit updateCourse();
     emit updateConfig();
@@ -217,7 +217,7 @@ void Information_course::on_comboBox_type_currentIndexChanged(int index)
 void Information_course::on_update_btn_clicked()
 {
     if(!m_course){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("ÎŞ¿Î³ÌĞÅÏ¢"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("æ— è¯¾ç¨‹ä¿¡æ¯"));
         return;
     }
     std::string id = ui->lineEdit_course_id->text().toStdString();
@@ -230,11 +230,11 @@ void Information_course::on_update_btn_clicked()
     catch(std::out_of_range& e)
     {
         ui->lineEdit_course_capicity->setText(QString::number(m_course->getCapicity()));
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromStdString(e.what()));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromStdString(e.what()));
     }
 
     QString teacher_id = "";
-    if(ui->comboBox_teacher->currentText() != QString::fromLocal8Bit("ÎŞ")){
+    if(ui->comboBox_teacher->currentText() != QString::fromLocal8Bit("æ— ")){
         teacher_id = ui->comboBox_teacher->currentText();
     }
     User* temp = m_user->getEnvir()->findUser(teacher_id.toStdString());
@@ -247,12 +247,12 @@ void Information_course::on_update_btn_clicked()
 
     try{
         addStudent(m_course);
-        QMessageBox::information(this, QString::fromLocal8Bit("ÌáÊ¾"), QString::fromLocal8Bit("¸üĞÂ¿Î³Ì³É¹¦"));
+        QMessageBox::information(this, QString::fromLocal8Bit("æç¤º"), QString::fromLocal8Bit("æ›´æ–°è¯¾ç¨‹æˆåŠŸ"));
     }
     catch(std::out_of_range& e)
     {
         this->updateStudent();
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromStdString(e.what()));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromStdString(e.what()));
     }
 
     emit updateCourse();
@@ -262,12 +262,12 @@ void Information_course::on_update_btn_clicked()
 void Information_course::on_del_btn_clicked()
 {
     if(!m_course){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("ÎŞ¿Î³ÌĞÅÏ¢"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("æ— è¯¾ç¨‹ä¿¡æ¯"));
         return;
     }
     m_user->getEnvir()->deleteCourse(m_course);
     m_course = NULL;
-    QMessageBox::information(this, QString::fromLocal8Bit("ÌáÊ¾"), QString::fromLocal8Bit("É¾³ı¿Î³Ì³É¹¦"));
+    QMessageBox::information(this, QString::fromLocal8Bit("æç¤º"), QString::fromLocal8Bit("åˆ é™¤è¯¾ç¨‹æˆåŠŸ"));
 
     emit updateCourse();
     emit updateConfig();
@@ -277,7 +277,7 @@ void Information_course::on_select_student_btn_clicked()
 {
     int row = ui->tableView_student_n->currentIndex().row();
     if(row == -1){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("Î´Ñ¡ÖĞÑ§ÉúĞÅÏ¢"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("æœªé€‰ä¸­å­¦ç”Ÿä¿¡æ¯"));
         return;
     }
     ui_student_model_y->insertRow(0, ui_student_model_n->takeRow(row));
@@ -287,7 +287,7 @@ void Information_course::on_cancel_student_btn_clicked()
 {
     int row = ui->tableView_student_y->currentIndex().row();
     if(row == -1){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("Î´Ñ¡ÖĞÑ§ÉúĞÅÏ¢"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("æœªé€‰ä¸­å­¦ç”Ÿä¿¡æ¯"));
         return;
     }
     ui_student_model_n->insertRow(0, ui_student_model_y->takeRow(row));

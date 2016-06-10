@@ -1,7 +1,7 @@
-/**
+ï»¿/**
  * Name: mainwindow_student.cpp
  * User: L.Laddie
- * Function: Ñ§Éú½çÃæ
+ * Function: å­¦ç”Ÿç•Œé¢
  */
 
 #include <QMessageBox>
@@ -9,8 +9,9 @@
 #include "mainwindow_student.h"
 #include "ui_mainwindow_student.h"
 
-MainWindow_student::MainWindow_student(QWidget *parent) :
+MainWindow_student::MainWindow_student(Envir_widget* envir_widget, QWidget *parent) :
     QMainWindow(parent),
+    m_envir_widget(envir_widget),
     ui(new Ui::MainWindow_student)
 {
     ui->setupUi(this);
@@ -59,44 +60,44 @@ void MainWindow_student::updateTable()
     ui_course_model_e->clear();
     ui_course_model_s->clear();
 
-    //ÉèÖÃ±ØĞŞ¿Î³ÌÁĞ±í
-    ui_course_model_o->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("¿Î³Ì±àºÅ")));
-    ui_course_model_o->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÃû³Æ")));
-    ui_course_model_o->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÑ§·Ö")));
-    ui_course_model_o->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÀàĞÍ")));
-    ui_course_model_o->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÈİÁ¿")));
-    ui_course_model_o->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("¿Î³Ì³É¼¨")));
-    ui_course_model_o->setHorizontalHeaderItem(6, new QStandardItem(QString::fromLocal8Bit("¿Î³Ì¼¨µã")));
+    //è®¾ç½®å¿…ä¿®è¯¾ç¨‹åˆ—è¡¨
+    ui_course_model_o->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹ç¼–å·")));
+    ui_course_model_o->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹åç§°")));
+    ui_course_model_o->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹å­¦åˆ†")));
+    ui_course_model_o->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹ç±»å‹")));
+    ui_course_model_o->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹å®¹é‡")));
+    ui_course_model_o->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹æˆç»©")));
+    ui_course_model_o->setHorizontalHeaderItem(6, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹ç»©ç‚¹")));
 
-    //ÉèÖÃÑ¡ĞŞ¿ÎÁĞ±í
-    ui_course_model_e->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("¿Î³Ì±àºÅ")));
-    ui_course_model_e->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÃû³Æ")));
-    ui_course_model_e->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÑ§·Ö")));
-    ui_course_model_e->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÀàĞÍ")));
-    ui_course_model_e->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÈİÁ¿")));
-    ui_course_model_e->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("¿Î³Ì³É¼¨")));
-    ui_course_model_e->setHorizontalHeaderItem(6, new QStandardItem(QString::fromLocal8Bit("¿Î³Ì¼¨µã")));
+    //è®¾ç½®é€‰ä¿®è¯¾åˆ—è¡¨
+    ui_course_model_e->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹ç¼–å·")));
+    ui_course_model_e->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹åç§°")));
+    ui_course_model_e->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹å­¦åˆ†")));
+    ui_course_model_e->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹ç±»å‹")));
+    ui_course_model_e->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹å®¹é‡")));
+    ui_course_model_e->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹æˆç»©")));
+    ui_course_model_e->setHorizontalHeaderItem(6, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹ç»©ç‚¹")));
 
-    //ÉèÖÃÑ¡¿ÎÁĞ±í
-    ui_course_model_s->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("¿Î³Ì±àºÅ")));
-    ui_course_model_s->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÃû³Æ")));
-    ui_course_model_s->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÑ§·Ö")));
-    ui_course_model_s->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÀàĞÍ")));
-    ui_course_model_s->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÈËÊı")));
-    ui_course_model_s->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÈİÁ¿")));
+    //è®¾ç½®é€‰è¯¾åˆ—è¡¨
+    ui_course_model_s->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹ç¼–å·")));
+    ui_course_model_s->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹åç§°")));
+    ui_course_model_s->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹å­¦åˆ†")));
+    ui_course_model_s->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹ç±»å‹")));
+    ui_course_model_s->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹äººæ•°")));
+    ui_course_model_s->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹å®¹é‡")));
 
     int row1 = 0, row2 = 0;
 
-    //¸üĞÂ±ØĞŞºÍÑ¡ĞŞ¿Î
+    //æ›´æ–°å¿…ä¿®å’Œé€‰ä¿®è¯¾
     for (auto i : m_user->getGrade())
     {
         if(!i.first->getCourseType()){
             ui_course_model_e->setItem(row2, 0, new QStandardItem(QString::fromStdString(i.first->getID())));
             ui_course_model_e->setItem(row2, 1, new QStandardItem(QString::fromStdString(i.first->getName())));
             ui_course_model_e->setItem(row2, 2, new QStandardItem(QString::number(i.first->getCredit())));
-            ui_course_model_e->setItem(row2, 3, new QStandardItem(QString::fromLocal8Bit("Ñ¡ĞŞ")));
+            ui_course_model_e->setItem(row2, 3, new QStandardItem(QString::fromLocal8Bit("é€‰ä¿®")));
             ui_course_model_e->setItem(row2, 4, new QStandardItem(QString::number(i.first->getCapicity())));
-            ui_course_model_e->setItem(row2, 5, new QStandardItem(i.second != -1 ? QString("%1").arg(i.second) : QString::fromLocal8Bit("ÎŞ")));
+            ui_course_model_e->setItem(row2, 5, new QStandardItem(i.second != -1 ? QString("%1").arg(i.second) : QString::fromLocal8Bit("æ— ")));
             ui_course_model_e->setItem(row2, 6, new QStandardItem(QString("%1").arg(i.first->calculateGPA(m_user))));
             row2++;
         }
@@ -104,22 +105,22 @@ void MainWindow_student::updateTable()
             ui_course_model_o->setItem(row1, 0, new QStandardItem(QString::fromStdString(i.first->getID())));
             ui_course_model_o->setItem(row1, 1, new QStandardItem(QString::fromStdString(i.first->getName())));
             ui_course_model_o->setItem(row1, 2, new QStandardItem(QString::number(i.first->getCredit())));
-            ui_course_model_o->setItem(row1, 3, new QStandardItem(QString::fromLocal8Bit("±ØĞŞ")));
+            ui_course_model_o->setItem(row1, 3, new QStandardItem(QString::fromLocal8Bit("å¿…ä¿®")));
             ui_course_model_o->setItem(row1, 4, new QStandardItem(QString::number(i.first->getCapicity())));
-            ui_course_model_o->setItem(row1, 5, new QStandardItem(i.second != -1 ? QString("%1").arg(i.second) : QString::fromLocal8Bit("ÎŞ")));
+            ui_course_model_o->setItem(row1, 5, new QStandardItem(i.second != -1 ? QString("%1").arg(i.second) : QString::fromLocal8Bit("æ— ")));
             ui_course_model_o->setItem(row1, 6, new QStandardItem(QString("%1").arg(i.first->calculateGPA(m_user))));
             row1++;
         }
     }
 
-    //¸üĞÂ¿ÉÑ¡¿Î³ÌÁĞ±í
+    //æ›´æ–°å¯é€‰è¯¾ç¨‹åˆ—è¡¨
     int row = 0;
     for(auto i : m_user->getSelectCourse())
     {
         ui_course_model_s->setItem(row, 0, new QStandardItem(QString::fromStdString(i->getID())));
         ui_course_model_s->setItem(row, 1, new QStandardItem(QString::fromStdString(i->getName())));
         ui_course_model_s->setItem(row, 2, new QStandardItem(QString::number(i->getCredit())));
-        ui_course_model_s->setItem(row, 3, new QStandardItem(QString::fromLocal8Bit("Ñ¡ĞŞ")));
+        ui_course_model_s->setItem(row, 3, new QStandardItem(QString::fromLocal8Bit("é€‰ä¿®")));
         ui_course_model_s->setItem(row, 4, new QStandardItem(QString::number(i->getElectiveNum())));
         ui_course_model_s->setItem(row, 5, new QStandardItem(QString::number(i->getCapicity())));
         row++;
@@ -130,7 +131,7 @@ void MainWindow_student::updateTable()
     ui_course_model_s->sort(0);
 }
 
-//Á´½Ó²Ëµ¥À¸°´Å¥µÄ²Ûº¯Êı
+//é“¾æ¥èœå•æ æŒ‰é’®çš„æ§½å‡½æ•°
 void MainWindow_student::creatAction()
 {
     connect(ui->action_login, SIGNAL(triggered()), this, SLOT(action_login_triggered()));
@@ -183,10 +184,10 @@ void MainWindow_student::action_change_pass_triggered()
 
 void MainWindow_student::action_about_triggered()
 {
-    QMessageBox::about(this, QString::fromLocal8Bit("¹ØÓÚ"),
+    QMessageBox::about(this, QString::fromLocal8Bit("å…³äº"),
           QString::fromLocal8Bit(" <font color='red'>Students` Grade Manage System 1.1.0 (opensource)</font>"
-                                 "<br>ÏîÄ¿Ö÷Ò³£ºhttps://github.com/laddie132/StudentsGradeManageSystem"
-                                 " <br>×÷Õß£ºL.Laddie"
+                                 "<br>é¡¹ç›®ä¸»é¡µï¼šhttps://github.com/laddie132/StudentsGradeManageSystem"
+                                 " <br>ä½œè€…ï¼šL.Laddie"
                                "  <br><br>Copyright 2016-2016 The Qt Company Ltd. All rights reserved." ));
 }
 
@@ -209,14 +210,14 @@ void MainWindow_student::add_course_slots()
     if(temp_find){
         try{
             m_user->addCourse(temp_find);
-            updateTable();      //¸üĞÂÓÃ»§ÁĞ±íĞÅÏ¢
-            QMessageBox::information(this, QString::fromLocal8Bit("ÌáÊ¾"), QString::fromLocal8Bit("Ñ¡Ôñ¿Î³Ì³É¹¦"));
+            updateTable();      //æ›´æ–°ç”¨æˆ·åˆ—è¡¨ä¿¡æ¯
+            QMessageBox::information(this, QString::fromLocal8Bit("æç¤º"), QString::fromLocal8Bit("é€‰æ‹©è¯¾ç¨‹æˆåŠŸ"));
         }
         catch(std::out_of_range& e){
-            QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromStdString(e.what()));
+            QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromStdString(e.what()));
         }
         catch(AuthorityError){
-            QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("Ñ§ÉúÎŞ·¨Ñ¡Ôñ±ØĞŞ¿Î"));
+            QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("å­¦ç”Ÿæ— æ³•é€‰æ‹©å¿…ä¿®è¯¾"));
         }
     }
 
@@ -237,7 +238,7 @@ void MainWindow_student::delete_course_slots()
     if(temp_find){
         m_user->deleteCourse(temp_find);
         updateTable();
-        QMessageBox::information(this, QString::fromLocal8Bit("ÌáÊ¾"), QString::fromLocal8Bit("É¾³ı¿Î³Ì³É¹¦"));
+        QMessageBox::information(this, QString::fromLocal8Bit("æç¤º"), QString::fromLocal8Bit("åˆ é™¤è¯¾ç¨‹æˆåŠŸ"));
     }
 
     emit updateConfig();

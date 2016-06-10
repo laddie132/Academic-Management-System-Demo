@@ -1,7 +1,7 @@
-/**
+ï»¿/**
  * Name: mainwindow_teacher.cpp
  * User: L.Laddie
- * Function: ½ÌÊ¦½çÃæ
+ * Function: æ•™å¸ˆç•Œé¢
  */
 
 #include <QDebug>
@@ -10,8 +10,9 @@
 #include "mainwindow_teacher.h"
 #include "ui_mainwindow_teacher.h"
 
-MainWindow_teacher::MainWindow_teacher(QWidget *parent) :
+MainWindow_teacher::MainWindow_teacher(Envir_widget* envir_widget, QWidget *parent) :
     QMainWindow(parent),
+    m_envir_widget(envir_widget),
     ui(new Ui::MainWindow_teacher)
 {
     ui->setupUi(this);
@@ -47,13 +48,13 @@ void MainWindow_teacher::updateTable()
 {
     ui_course_model->clear();
 
-    //ÉèÖÃ±ØĞŞ¿Î³ÌÁĞ±í
-    ui_course_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("¿Î³Ì±àºÅ")));
-    ui_course_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÃû³Æ")));
-    ui_course_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÑ§·Ö")));
-    ui_course_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÀàĞÍ")));
-    ui_course_model->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÈËÊı")));
-    ui_course_model->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÈİÁ¿")));
+    //è®¾ç½®å¿…ä¿®è¯¾ç¨‹åˆ—è¡¨
+    ui_course_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹ç¼–å·")));
+    ui_course_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹åç§°")));
+    ui_course_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹å­¦åˆ†")));
+    ui_course_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹ç±»å‹")));
+    ui_course_model->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹äººæ•°")));
+    ui_course_model->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹å®¹é‡")));
 
     int row = 0;
     for(auto i : m_user->getCourse())
@@ -61,7 +62,7 @@ void MainWindow_teacher::updateTable()
         ui_course_model->setItem(row, 0, new QStandardItem(QString::fromStdString(i->getID())));
         ui_course_model->setItem(row, 1, new QStandardItem(QString::fromStdString(i->getName())));
         ui_course_model->setItem(row, 2, new QStandardItem(QString::number(i->getCredit())));
-        ui_course_model->setItem(row, 3, new QStandardItem(i->getCourseType() ? QString::fromLocal8Bit("±ØĞŞ") : QString::fromLocal8Bit("Ñ¡ĞŞ")));
+        ui_course_model->setItem(row, 3, new QStandardItem(i->getCourseType() ? QString::fromLocal8Bit("å¿…ä¿®") : QString::fromLocal8Bit("é€‰ä¿®")));
         ui_course_model->setItem(row, 4, new QStandardItem(QString::number(i->getStudent().size())));
         ui_course_model->setItem(row, 5, new QStandardItem(QString::number(i->getCapicity())));
         row++;
@@ -96,17 +97,17 @@ void MainWindow_teacher::updateStudent()
             ui->label_course_id->setText(QString::fromStdString(temp->getID()));
             ui->label_course_name->setText(QString::fromStdString(temp->getName()));
             ui->label_course_credit->setText(QString::number(temp->getCredit()));
-            ui->label_course_type->setText(temp->getCourseType() ? QString::fromLocal8Bit("±ØĞŞ") : QString::fromLocal8Bit("Ñ¡ĞŞ"));
+            ui->label_course_type->setText(temp->getCourseType() ? QString::fromLocal8Bit("å¿…ä¿®") : QString::fromLocal8Bit("é€‰ä¿®"));
         }
 
-        //¸üĞÂÑ§Éú±í¸ñĞÅÏ¢
+        //æ›´æ–°å­¦ç”Ÿè¡¨æ ¼ä¿¡æ¯
         ui_student_model->clear();
 
-        ui_student_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("Ñ§ºÅ")));
-        ui_student_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("ĞÕÃû")));
-        ui_student_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("°à¼¶")));
-        ui_student_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("Ñ§Ôº")));
-        ui_student_model->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("³É¼¨")));
+        ui_student_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("å­¦å·")));
+        ui_student_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("å§“å")));
+        ui_student_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("ç­çº§")));
+        ui_student_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("å­¦é™¢")));
+        ui_student_model->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("æˆç»©")));
 
         int row = 0;
         for(auto i : temp->getStudentGrade())
@@ -121,7 +122,7 @@ void MainWindow_teacher::updateStudent()
     }
 }
 
-//Á´½Ó²Ëµ¥À¸°´Å¥µÄ²Ûº¯Êı
+//é“¾æ¥èœå•æ æŒ‰é’®çš„æ§½å‡½æ•°
 void MainWindow_teacher::creatAction()
 {
     connect(ui->action_login, SIGNAL(triggered()), this, SLOT(action_login_triggered()));
@@ -165,10 +166,10 @@ void MainWindow_teacher::action_change_pass_triggered()
 
 void MainWindow_teacher::action_about_triggered()
 {
-    QMessageBox::about(this, QString::fromLocal8Bit("¹ØÓÚ"),
+    QMessageBox::about(this, QString::fromLocal8Bit("å…³äº"),
           QString::fromLocal8Bit(" <font color='red'>Students` Grade Manage System 1.1.0 (opensource)</font>"
-                                 "<br>ÏîÄ¿Ö÷Ò³£ºhttps://github.com/laddie132/StudentsGradeManageSystem"
-                                 " <br>×÷Õß£ºL.Laddie"
+                                 "<br>é¡¹ç›®ä¸»é¡µï¼šhttps://github.com/laddie132/StudentsGradeManageSystem"
+                                 " <br>ä½œè€…ï¼šL.Laddie"
                                "  <br><br>Copyright 2016-2016 The Qt Company Ltd. All rights reserved." ));
 }
 
@@ -212,11 +213,11 @@ void MainWindow_teacher::on_confirm_btn_clicked()
                 }
                 catch(std::invalid_argument& e){
                     ui_student_model->item(i, 4)->setText(QString("%1").arg(temp->getStudentGrade()[cur_student]));
-                    QMessageBox::information(this, QString::fromLocal8Bit("ÌáÊ¾"), QString::fromStdString(e.what()));
+                    QMessageBox::information(this, QString::fromLocal8Bit("æç¤º"), QString::fromStdString(e.what()));
                 }
             }
         }
-        QMessageBox::information(this, QString::fromLocal8Bit("ÌáÊ¾"), QString::fromLocal8Bit("ĞŞ¸ÄÑ§Éú³É¼¨³É¹¦"));
+        QMessageBox::information(this, QString::fromLocal8Bit("æç¤º"), QString::fromLocal8Bit("ä¿®æ”¹å­¦ç”Ÿæˆç»©æˆåŠŸ"));
         emit updateConfig();
     }
 }

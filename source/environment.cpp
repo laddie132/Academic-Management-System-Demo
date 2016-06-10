@@ -1,7 +1,7 @@
-/**
+ï»¿/**
  * Name: environment.cpp
  * User: L.Laddie
- * Function: ÏµÍ³»·¾³
+ * Function: ç³»ç»Ÿç¯å¢ƒ
  */
 
 #include <QCryptographicHash>
@@ -10,7 +10,7 @@
 
 #include "environment.h"
 
-//Îö¹¹º¯ÊıÊµÏÖ
+//ææ„å‡½æ•°å®ç°
 Envir::~Envir()
 {
     for (auto i : m_obligatory_course)
@@ -39,7 +39,7 @@ Envir::~Envir()
 	}
 }
 
-//Ìí¼ÓºÍÉ¾³ı¿Î³Ìº¯ÊıÊµÏÖ
+//æ·»åŠ å’Œåˆ é™¤è¯¾ç¨‹å‡½æ•°å®ç°
 
 void Envir::addObligatoryCourse(Obligatory_course* course)
 {
@@ -72,7 +72,7 @@ void Envir::deleteCourse(Course *course)
     delete (*i);
 }
 
-//¶ÔÓÃ»§È¨ÏŞ¿Î³ÌÀà²Ù×÷
+//å¯¹ç”¨æˆ·æƒé™è¯¾ç¨‹ç±»æ“ä½œ
 
 void Envir::setCourseStudent(Student* student)
 {
@@ -151,7 +151,7 @@ Course* Envir::findCourse(std::string id)
     return NULL;
 }
 
-//Ìí¼ÓÓÃ»§º¯ÊıÊµÏÖ
+//æ·»åŠ ç”¨æˆ·å‡½æ•°å®ç°
 
 void Envir::addUserStudent(Student* student, std::string password)
 {
@@ -168,7 +168,7 @@ void Envir::addUserAdmin(Admin* admin, std::string password)
     m_admin.insert(std::make_pair(admin, password));
 }
 
-//»ñÈ¡ÓÃ»§º¯ÊıÊµÏÖ
+//è·å–ç”¨æˆ·å‡½æ•°å®ç°
 
 std::map<Student*, std::string> Envir::getUserStudent()
 {

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "include.h"
 #include "user.h"
@@ -9,7 +9,7 @@
 #include "mainwindow_student.h"
 #include "mainwindow_teacher.h"
 
-//ÏµÍ³¹¤×÷»·¾³£¨×î¸ßÈ¨ÏŞ·ÃÎÊ£©
+//ç³»ç»Ÿå·¥ä½œç¯å¢ƒï¼ˆæœ€é«˜æƒé™è®¿é—®ï¼‰
 class Envir
 {
 public:
@@ -26,7 +26,7 @@ public:
 
     void deleteCourse(Course* course);
 
-    //¶ÔÓÚÑ§ÉúºÍ½ÌÊ¦ÖØĞÂ°ü×°¿Î³ÌÈ¨ÏŞºóÊ¹ÓÃ
+    //å¯¹äºå­¦ç”Ÿå’Œæ•™å¸ˆé‡æ–°åŒ…è£…è¯¾ç¨‹æƒé™åä½¿ç”¨
     void setCourseStudent(Student* student);
     void setCourseTeacher(Teacher* teacher);
 
@@ -48,11 +48,11 @@ public:
     Admin* checkUserAdmin(std::string username, std::string password);
 
 private:
-	//±£´æµ±Ç°ÏµÍ³¿Î³Ì
+	//ä¿å­˜å½“å‰ç³»ç»Ÿè¯¾ç¨‹
 	std::set<Course*> m_obligatory_course;
 	std::set<Course*> m_elective_course;
 
-	//±£´æÓÃ»§µÇÂ¼ĞÅÏ¢(md5ÃÜÂë)
+	//ä¿å­˜ç”¨æˆ·ç™»å½•ä¿¡æ¯(md5å¯†ç )
     std::map<Student*, std::string> m_student;
     std::map<Teacher*, std::string> m_teacher;
     std::map<Admin*, std::string> m_admin;

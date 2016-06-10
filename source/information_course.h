@@ -1,4 +1,4 @@
-#ifndef INFORMATION_COURSE_H
+ï»¿#ifndef INFORMATION_COURSE_H
 #define INFORMATION_COURSE_H
 
 #include <QDialog>
@@ -27,7 +27,7 @@ public:
 
     void creatActivex();
 
-    void addStudent(Course* course);       //´ÓÑ¡Ôñ¿ò»ñÈ¡Ñ§Éú²¢Ìí¼Óµ½¿Î³Ì
+    void addStudent(Course* course);       //ä»é€‰æ‹©æ¡†è·å–å­¦ç”Ÿå¹¶æ·»åŠ åˆ°è¯¾ç¨‹
 
 signals:
     void updateCourse();

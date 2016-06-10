@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 
 #include <exception>
 #include "include.h"
 #include "environment.h"
 #include "user.h"
 
-//¿Î³ÌÀà
+//è¯¾ç¨‹ç±»
 class Course
 {
 public:
@@ -26,62 +26,62 @@ public:
 	int getCredit();		
 
     int getCapicity();
-	void setCapicity(int num);						//ÉèÖÃ¿Î³ÌÈİÁ¿
+	void setCapicity(int num);						//è®¾ç½®è¯¾ç¨‹å®¹é‡
 
-	Teacher* getTeacher();							//»ñÈ¡µ±Ç°¿Î³Ì½ÌÊ¦ĞÅÏ¢
-	void setTeacher(Teacher* teacher);				//ÉèÖÃµ±Ç°¿Î³Ì½ÌÊ¦ĞÅÏ¢
+	Teacher* getTeacher();							//è·å–å½“å‰è¯¾ç¨‹æ•™å¸ˆä¿¡æ¯
+	void setTeacher(Teacher* teacher);				//è®¾ç½®å½“å‰è¯¾ç¨‹æ•™å¸ˆä¿¡æ¯
 
-	std::set<Student*> getStudent();				//»ñÈ¡µ±Ç°Ñ§ÉúĞÅÏ¢
-    void addStudent(Student* student);				//Ìí¼ÓÑ§ÉúĞÅÏ¢
-	bool deleteStudent(Student* student);			//É¾³ıµ±Ç°Ñ§ÉúĞÅÏ¢
-    void clearStudent();                             //Çå¿ÕÑ§ÉúĞÅÏ¢
+	std::set<Student*> getStudent();				//è·å–å½“å‰å­¦ç”Ÿä¿¡æ¯
+    void addStudent(Student* student);				//æ·»åŠ å­¦ç”Ÿä¿¡æ¯
+	bool deleteStudent(Student* student);			//åˆ é™¤å½“å‰å­¦ç”Ÿä¿¡æ¯
+    void clearStudent();                             //æ¸…ç©ºå­¦ç”Ÿä¿¡æ¯
 
     bool checkStudent(Student* student);
     bool checkTeacher(Teacher* teacher);
 
-	std::map<Student*, float> getStudentGrade();				//»ñÈ¡µ±Ç°¿Î³ÌÑ§Éú³É¼¨
-    void setGrade(std::pair<Student*, float> student_grade);	//ÉèÖÃÑ§Éú³É¼¨
+	std::map<Student*, float> getStudentGrade();				//è·å–å½“å‰è¯¾ç¨‹å­¦ç”Ÿæˆç»©
+    void setGrade(std::pair<Student*, float> student_grade);	//è®¾ç½®å­¦ç”Ÿæˆç»©
 
-	float getMyGrade(Student* student);				//»ñÈ¡Ö¸¶¨Ñ§ÉúµÄ³É¼¨
+	float getMyGrade(Student* student);				//è·å–æŒ‡å®šå­¦ç”Ÿçš„æˆç»©
 
-	virtual float calculateGPA(Student* student) {}	//¼ÆËã¼¨µã
-	virtual int getCourseType() {}					//»ñÈ¡¿Î³ÌÀàĞÍ(·µ»Ø0´ú±íÑ¡ĞŞ£¬1´ú±í±ØĞŞ)
+	virtual float calculateGPA(Student* student) {}	//è®¡ç®—ç»©ç‚¹
+	virtual int getCourseType() {}					//è·å–è¯¾ç¨‹ç±»å‹(è¿”å›0ä»£è¡¨é€‰ä¿®ï¼Œ1ä»£è¡¨å¿…ä¿®)
 
 protected:
-	std::map<Student*, float> m_student;	//Ñ¡¿ÎÑ§ÉúÓë¶ÔÓ¦³É¼¨
+	std::map<Student*, float> m_student;	//é€‰è¯¾å­¦ç”Ÿä¸å¯¹åº”æˆç»©
 
 private:
-	std::string m_ID;						//¿Î³Ì±àºÅ
-	std::string m_name;						//¿Î³ÌÃû³Æ
-	int m_credit;							//¿Î³ÌÑ§·Ö
-	int m_capicity = 100;					//×î´ó¿Î³ÌÈİÁ¿
+	std::string m_ID;						//è¯¾ç¨‹ç¼–å·
+	std::string m_name;						//è¯¾ç¨‹åç§°
+	int m_credit;							//è¯¾ç¨‹å­¦åˆ†
+	int m_capicity = 100;					//æœ€å¤§è¯¾ç¨‹å®¹é‡
 
-    Teacher* m_teacher = NULL;						//ÊÚ¿Î½ÌÊ¦
+    Teacher* m_teacher = NULL;						//æˆè¯¾æ•™å¸ˆ
 };
 
-//±ØĞŞ¿Î
+//å¿…ä¿®è¯¾
 class Obligatory_course: public Course
 {
 public:
 	using Course::Course;
 
-	float calculateGPA(Student* student) final override;	//ÖØÔØ¿Î³ÌÖĞ¼ÆËãGPAµÄĞéº¯Êı
+	float calculateGPA(Student* student) final override;	//é‡è½½è¯¾ç¨‹ä¸­è®¡ç®—GPAçš„è™šå‡½æ•°
 
 	int getCourseType() final override;
 };
 
-//Ñ¡ĞŞ¿Î
+//é€‰ä¿®è¯¾
 class Elective_course: public Course
 {
 public:
 	using Course::Course;
 
-	float calculateGPA(Student* student) final override;	//ÖØÔØ¿Î³ÌÖĞ¼ÆËãGPAµÄĞéº¯Êı
+	float calculateGPA(Student* student) final override;	//é‡è½½è¯¾ç¨‹ä¸­è®¡ç®—GPAçš„è™šå‡½æ•°
 
 	int getCourseType() final override;
 };
 
-//ÖØĞÂ°ü×°È¨ÏŞºóµÄ¿Î³ÌÀà
+//é‡æ–°åŒ…è£…æƒé™åçš„è¯¾ç¨‹ç±»
 class Course_user
 {
 public:
@@ -96,7 +96,7 @@ public:
 		return m_course->getID() < course->m_course->getID();
 	}
 
-	//Ñ§ÉúÓë½ÌÊ¦¹«¹²È¨ÏŞ
+	//å­¦ç”Ÿä¸æ•™å¸ˆå…¬å…±æƒé™
 	std::string getID();
 	std::string getName();
 	int getCredit();
@@ -107,52 +107,52 @@ protected:
 	Course* m_course;
 };
 
-//Ñ§Éú¶Ë¿É²Ù×÷µÄ¿Î³ÌÀà
+//å­¦ç”Ÿç«¯å¯æ“ä½œçš„è¯¾ç¨‹ç±»
 class Course_student: virtual public Course_user
 {
 public:
     Course_student(Course* course): Course_user(course){}
 	using Course_user::operator<;
 
-	float getMyGrade(Student* student);			//Ñ§Éú»ñÈ¡×Ô¼ºµÄ³É¼¨
+	float getMyGrade(Student* student);			//å­¦ç”Ÿè·å–è‡ªå·±çš„æˆç»©
 
-	float calculateGPA(Student* student);		//¼ÆËã¼¨µã
+	float calculateGPA(Student* student);		//è®¡ç®—ç»©ç‚¹
 
-	std::string getTeacherName();				//»ñÈ¡µ±Ç°½ÌÊ¦ĞÅÏ¢
+	std::string getTeacherName();				//è·å–å½“å‰æ•™å¸ˆä¿¡æ¯
 
-    int getElectiveNum();                       //Ñ§Éú»ñÈ¡Ñ¡ĞŞ¿ÎÈËÊı
-    void addElectiveStudent(Student* student);			//Ñ§ÉúÔö¼ÓÑ¡ĞŞ¿Î
-	bool deleteElectiveStudent(Student* student);		//Ñ§ÉúÉ¾³ıÑ¡ĞŞ¿Î
+    int getElectiveNum();                       //å­¦ç”Ÿè·å–é€‰ä¿®è¯¾äººæ•°
+    void addElectiveStudent(Student* student);			//å­¦ç”Ÿå¢åŠ é€‰ä¿®è¯¾
+	bool deleteElectiveStudent(Student* student);		//å­¦ç”Ÿåˆ é™¤é€‰ä¿®è¯¾
 };
 
-//½ÌÊ¦¶Ë¿É²Ù×÷µÄ¿Î³ÌÀà
+//æ•™å¸ˆç«¯å¯æ“ä½œçš„è¯¾ç¨‹ç±»
 class Course_teacher: virtual public Course_user
 {
 public:
     Course_teacher(Course* course): Course_user(course){}
 	using Course_user::operator<;
 
-	std::set<Student*> getStudent();				//»ñÈ¡µ±Ç°Ñ§ÉúĞÅÏ¢
+	std::set<Student*> getStudent();				//è·å–å½“å‰å­¦ç”Ÿä¿¡æ¯
 
-	std::map<Student*, float> getStudentGrade();	//»ñÈ¡µ±Ç°¿Î³ÌÑ§Éú³É¼¨
-    void setGrade(std::pair<Student*, float> student_grade);	//ÉèÖÃÑ§Éú³É¼¨
+	std::map<Student*, float> getStudentGrade();	//è·å–å½“å‰è¯¾ç¨‹å­¦ç”Ÿæˆç»©
+    void setGrade(std::pair<Student*, float> student_grade);	//è®¾ç½®å­¦ç”Ÿæˆç»©
 };
 
 /*
-//×î¸ß¹ÜÀíÔ±È¨ÏŞµÄ¿Î³ÌÀà
+//æœ€é«˜ç®¡ç†å‘˜æƒé™çš„è¯¾ç¨‹ç±»
 class Course_admin: public Course_teacher, public Course_student
 {
 public:
     Course_admin(Course* course): Course_teacher(course), Course_student(course){}
     using Course_student::operator<;
 
-	Teacher* getTeacher();							//»ñÈ¡µ±Ç°¿Î³Ì½ÌÊ¦ĞÅÏ¢
-	void setTeacher(Teacher* teacher);				//ÉèÖÃµ±Ç°¿Î³Ì½ÌÊ¦ĞÅÏ¢
+	Teacher* getTeacher();							//è·å–å½“å‰è¯¾ç¨‹æ•™å¸ˆä¿¡æ¯
+	void setTeacher(Teacher* teacher);				//è®¾ç½®å½“å‰è¯¾ç¨‹æ•™å¸ˆä¿¡æ¯
 
 	void setCapicity(int num);
 
-	bool addStudent(Student* student);				//Ìí¼ÓÑ§Éú
-	bool deleteStudent(Student* student);			//É¾³ıÑ§Éú
+	bool addStudent(Student* student);				//æ·»åŠ å­¦ç”Ÿ
+	bool deleteStudent(Student* student);			//åˆ é™¤å­¦ç”Ÿ
 };
 */
 
@@ -161,6 +161,6 @@ class AuthorityError: public std::exception
 public:
     const char* what()const throw()
     {
-        return "¸ÃÓÃ»§ÎŞ²Ù×÷È¨ÏŞ";
+        return "è¯¥ç”¨æˆ·æ— æ“ä½œæƒé™";
     }
 };

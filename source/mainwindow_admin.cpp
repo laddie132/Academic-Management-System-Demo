@@ -1,7 +1,7 @@
-/**
+ï»¿/**
  * Name: mainwindow_admin.cpp
  * User: L.Laddie
- * Function: ¹ÜÀíÔ±½çÃæ
+ * Function: ç®¡ç†å‘˜ç•Œé¢
  */
 
 #include <QAction>
@@ -20,8 +20,9 @@
 #include "environment.h"
 #include "envir_widget.h"
 
-MainWindow_admin::MainWindow_admin(QWidget *parent) :
+MainWindow_admin::MainWindow_admin(Envir_widget* envir_widget, QWidget *parent) :
     QMainWindow(parent),
+    m_envir_widget(envir_widget),
     ui(new Ui::MainWindow_admin)
 {
     m_info_course_widget = new Information_course(this);
@@ -85,72 +86,72 @@ void MainWindow_admin::updateTable()
     ui_teacher_model->clear();
     ui_admin_model->clear();
 
-    //ÉèÖÃ±ØĞŞ¿ÎÁĞ±í
-    ui_course_model_o->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("¿Î³Ì±àºÅ")));
-    ui_course_model_o->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÃû³Æ")));
-    ui_course_model_o->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÑ§·Ö")));
-    ui_course_model_o->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÀàĞÍ")));
-    ui_course_model_o->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÈËÊı")));
-    ui_course_model_o->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÈİÁ¿")));
+    //è®¾ç½®å¿…ä¿®è¯¾åˆ—è¡¨
+    ui_course_model_o->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹ç¼–å·")));
+    ui_course_model_o->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹åç§°")));
+    ui_course_model_o->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹å­¦åˆ†")));
+    ui_course_model_o->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹ç±»å‹")));
+    ui_course_model_o->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹äººæ•°")));
+    ui_course_model_o->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹å®¹é‡")));
 
-    //ÉèÖÃÑ¡ĞŞ¿ÎÁĞ±í
-    ui_course_model_e->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("¿Î³Ì±àºÅ")));
-    ui_course_model_e->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÃû³Æ")));
-    ui_course_model_e->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÑ§·Ö")));
-    ui_course_model_e->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÀàĞÍ")));
-    ui_course_model_e->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÈËÊı")));
-    ui_course_model_e->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("¿Î³ÌÈİÁ¿")));
+    //è®¾ç½®é€‰ä¿®è¯¾åˆ—è¡¨
+    ui_course_model_e->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹ç¼–å·")));
+    ui_course_model_e->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹åç§°")));
+    ui_course_model_e->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹å­¦åˆ†")));
+    ui_course_model_e->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹ç±»å‹")));
+    ui_course_model_e->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹äººæ•°")));
+    ui_course_model_e->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("è¯¾ç¨‹å®¹é‡")));
 
-    //ÉèÖÃÑ§ÉúÁĞ±í
-    ui_student_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("Ñ§ºÅ")));
-    ui_student_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("ĞÕÃû")));
-    ui_student_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("°à¼¶")));
-    ui_student_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("Ñ§Ôº")));
-    ui_student_model->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("ÃÜÂë")));
+    //è®¾ç½®å­¦ç”Ÿåˆ—è¡¨
+    ui_student_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("å­¦å·")));
+    ui_student_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("å§“å")));
+    ui_student_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("ç­çº§")));
+    ui_student_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("å­¦é™¢")));
+    ui_student_model->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("å¯†ç ")));
     ui->tableView_student->setColumnWidth(4, 220);
 
-    //ÉèÖÃ½ÌÊ¦ÁĞ±í
-    ui_teacher_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("¹¤ºÅ")));
-    ui_teacher_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("ĞÕÃû")));
-    ui_teacher_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("Ñ§Ôº")));
-    ui_teacher_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("ÃÜÂë")));
+    //è®¾ç½®æ•™å¸ˆåˆ—è¡¨
+    ui_teacher_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("å·¥å·")));
+    ui_teacher_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("å§“å")));
+    ui_teacher_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("å­¦é™¢")));
+    ui_teacher_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("å¯†ç ")));
     ui->tableView_teacher->setColumnWidth(3, 250);
 
-    //ÉèÖÃ¹ÜÀíÔ±ÁĞ±í
-    ui_admin_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("ÓÃ»§Ãû")));
-    ui_admin_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("ĞÕÃû")));
-    ui_admin_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("Ñ§Ôº")));
-    ui_admin_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("ÃÜÂë")));
+    //è®¾ç½®ç®¡ç†å‘˜åˆ—è¡¨
+    ui_admin_model->setHorizontalHeaderItem(0, new QStandardItem(QString::fromLocal8Bit("ç”¨æˆ·å")));
+    ui_admin_model->setHorizontalHeaderItem(1, new QStandardItem(QString::fromLocal8Bit("å§“å")));
+    ui_admin_model->setHorizontalHeaderItem(2, new QStandardItem(QString::fromLocal8Bit("å­¦é™¢")));
+    ui_admin_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("å¯†ç ")));
     ui->tableView_admin->setColumnWidth(3, 250);
 
     int row = 0;
 
-    //¸üĞÂ±ØĞŞ¿Î
+    //æ›´æ–°å¿…ä¿®è¯¾
     for (auto i : m_user->getEnvir()->getObligatoryCourse())
     {
         ui_course_model_o->setItem(row, 0, new QStandardItem(QString::fromStdString(i->getID())));
         ui_course_model_o->setItem(row, 1, new QStandardItem(QString::fromStdString(i->getName())));
         ui_course_model_o->setItem(row, 2, new QStandardItem(QString::number(i->getCredit())));
-        ui_course_model_o->setItem(row, 3, new QStandardItem(QString::fromLocal8Bit("±ØĞŞ")));
+        ui_course_model_o->setItem(row, 3, new QStandardItem(QString::fromLocal8Bit("å¿…ä¿®")));
         ui_course_model_o->setItem(row, 4, new QStandardItem(QString::number(i->getStudent().size())));
         ui_course_model_o->setItem(row, 5, new QStandardItem(QString::number(i->getCapicity())));
         row++;
     }
 
-    //¸üĞÂÑ¡ĞŞ¿Î
+    //æ›´æ–°é€‰ä¿®è¯¾
     row = 0;
     for(auto i : m_user->getEnvir()->getElectiveCourse())
     {
         ui_course_model_e->setItem(row, 0, new QStandardItem(QString::fromStdString(i->getID())));
         ui_course_model_e->setItem(row, 1, new QStandardItem(QString::fromStdString(i->getName())));
         ui_course_model_e->setItem(row, 2, new QStandardItem(QString::number(i->getCredit())));
-        ui_course_model_e->setItem(row, 3, new QStandardItem(QString::fromLocal8Bit("Ñ¡ĞŞ")));
+        ui_course_model_e->setItem(row, 3, new QStandardItem(QString::fromLocal8Bit("é€‰ä¿®")));
         ui_course_model_e->setItem(row, 4, new QStandardItem(QString::number(i->getStudent().size())));
         ui_course_model_e->setItem(row, 5, new QStandardItem(QString::number(i->getCapicity())));
         row++;
     }
 
-    //¸üĞÂÑ§ÉúÁĞ±í
+    //æ›´æ–°å­¦ç”Ÿåˆ—è¡¨
     row = 0;
     for(auto i : m_user->getEnvir()->getUserStudent())
     {
@@ -162,7 +163,7 @@ void MainWindow_admin::updateTable()
         row++;
     }
 
-    //¸üĞÂ½ÌÊ¦ÁĞ±í
+    //æ›´æ–°æ•™å¸ˆåˆ—è¡¨
     row = 0;
     for(auto i : m_user->getEnvir()->getUserTeacher())
     {
@@ -173,7 +174,7 @@ void MainWindow_admin::updateTable()
         row++;
     }
 
-    //¸üĞÂ¹ÜÀíÔ±ÁĞ±í
+    //æ›´æ–°ç®¡ç†å‘˜åˆ—è¡¨
     row = 0;
     for(auto i : m_user->getEnvir()->getUserAdmin())
     {
@@ -184,7 +185,7 @@ void MainWindow_admin::updateTable()
         row++;
     }
 
-    //ÅÅĞò
+    //æ’åº
     ui_course_model_o->sort(0);
     ui_course_model_e->sort(0);
     ui_student_model->sort(0);
@@ -192,7 +193,7 @@ void MainWindow_admin::updateTable()
     ui_admin_model->sort(0);
 }
 
-//Á´½Ó²Ëµ¥À¸°´Å¥µÄ²Ûº¯Êı
+//é“¾æ¥èœå•æ æŒ‰é’®çš„æ§½å‡½æ•°
 void MainWindow_admin::creatAction()
 {
     connect(ui->action_login, SIGNAL(triggered()), this, SLOT(action_login_triggered()));
@@ -283,10 +284,10 @@ void MainWindow_admin::action_start_course_triggered()
 
 void MainWindow_admin::action_about_triggered()
 {
-    QMessageBox::about(this, QString::fromLocal8Bit("¹ØÓÚ"),
+    QMessageBox::about(this, QString::fromLocal8Bit("å…³äº"),
           QString::fromLocal8Bit(" <font color='red'>Students` Grade Manage System 1.9.0 (opensource)</font>"
-                                 "<br>ÏîÄ¿Ö÷Ò³£ºhttps://github.com/laddie132/StudentsGradeManageSystem"
-                                 " <br>×÷Õß£ºL.Laddie"
+                                 "<br>é¡¹ç›®ä¸»é¡µï¼šhttps://github.com/laddie132/StudentsGradeManageSystem"
+                                 " <br>ä½œè€…ï¼šL.Laddie"
                                "  <br><br>Copyright 2016-2016 The Qt Company Ltd. All rights reserved." ));
 }
 
@@ -343,7 +344,7 @@ void MainWindow_admin::update_user_slots()
         int row = ui->tableView_student->currentIndex().row();
         id = ui_student_model->item(row, 0)->text();
         temp = m_user->getEnvir()->findUser(id.toStdString());
-        m_user->getEnvir()->setCourseStudent((Student*)temp);   //³õÊ¼»¯Ñ§ÉúÈ¨ÏŞ¿Î³Ì
+        m_user->getEnvir()->setCourseStudent((Student*)temp);   //åˆå§‹åŒ–å­¦ç”Ÿæƒé™è¯¾ç¨‹
         break;
     }
 
@@ -352,7 +353,7 @@ void MainWindow_admin::update_user_slots()
         int row = ui->tableView_teacher->currentIndex().row();
         id = ui_teacher_model->item(row, 0)->text();
         temp = m_user->getEnvir()->findUser(id.toStdString());
-        m_user->getEnvir()->setCourseTeacher((Teacher*)temp);   //³õÊ¼»¯½ÌÊ¦È¨ÏŞ¿Î³Ì
+        m_user->getEnvir()->setCourseTeacher((Teacher*)temp);   //åˆå§‹åŒ–æ•™å¸ˆæƒé™è¯¾ç¨‹
         break;
     }
 

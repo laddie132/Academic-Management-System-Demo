@@ -1,4 +1,4 @@
-#ifndef INFORMATION_USER_H
+ï»¿#ifndef INFORMATION_USER_H
 #define INFORMATION_USER_H
 
 #include <QDialog>
@@ -25,8 +25,8 @@ public:
 
     void creatActivex();
 
-    void addCourse(User* user);       //½«ËùÑ¡Ôñ¿Î³ÌÌí¼Óµ½Ñ§Éú
-    void deleteCourse();              //ÏÈÉ¾³ı¿Î³ÌÔÙ¸üĞÂ¿Î³Ì
+    void addCourse(User* user);       //å°†æ‰€é€‰æ‹©è¯¾ç¨‹æ·»åŠ åˆ°å­¦ç”Ÿ
+    void deleteCourse();              //å…ˆåˆ é™¤è¯¾ç¨‹å†æ›´æ–°è¯¾ç¨‹
 
 signals:
     void updateUser();

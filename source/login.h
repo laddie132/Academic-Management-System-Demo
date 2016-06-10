@@ -1,4 +1,4 @@
-#ifndef LOGIN_H
+ï»¿#ifndef LOGIN_H
 #define LOGIN_H
 
 #include <QDialog>
@@ -19,7 +19,7 @@ public:
     explicit Login(QWidget *parent = 0);
     ~Login();
 
-    void setEnvir(Envir* envir, Envir_widget* envir_widget);        //ÉèÖÃÏµÍ³ÔËĞĞ»·¾³
+    void setEnvir(Envir* envir, Envir_widget* envir_widget);        //è®¾ç½®ç³»ç»Ÿè¿è¡Œç¯å¢ƒ
 
 private slots:
     void on_login_btn_clicked();

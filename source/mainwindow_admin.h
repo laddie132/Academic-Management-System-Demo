@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_ADMIN_H
+ï»¿#ifndef MAINWINDOW_ADMIN_H
 #define MAINWINDOW_ADMIN_H
 
 #include <QMainWindow>
@@ -18,17 +18,17 @@ class MainWindow_admin : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow_admin(QWidget *parent = 0);
+    explicit MainWindow_admin(Envir_widget* envir_widget, QWidget *parent = 0);
     ~MainWindow_admin();
 
     void setEnvirWidget(Envir_widget* envir_widget);
-    void setUser(Admin* user);   //ÉèÖÃµ±Ç°µÇÂ¼ÓÃ»§
+    void setUser(Admin* user);   //è®¾ç½®å½“å‰ç™»å½•ç”¨æˆ·
 
     void creatAction();
 
-    void showInfo();         //ÏÔÊ¾ÓÃ»§ĞÅÏ¢
-    void initTable();       //±í¸ñĞÅÏ¢³õÊ¼»¯
-    void updateTable();    //±í¸ñĞÅÏ¢¸üĞÂ
+    void showInfo();         //æ˜¾ç¤ºç”¨æˆ·ä¿¡æ¯
+    void initTable();       //è¡¨æ ¼ä¿¡æ¯åˆå§‹åŒ–
+    void updateTable();    //è¡¨æ ¼ä¿¡æ¯æ›´æ–°
 
 private slots:
     void action_login_triggered();

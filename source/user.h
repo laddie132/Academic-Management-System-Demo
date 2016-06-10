@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 
 #include "include.h"
 #include "course.h"
 #include "environment.h"
 
-//UserÀà´ú±íËùÓĞÓÃ»§ÀàĞÍ
+//Userç±»ä»£è¡¨æ‰€æœ‰ç”¨æˆ·ç±»å‹
 class User
 {
 public:
@@ -25,15 +25,15 @@ public:
 	std::string getName();
 	std::string getInsititude();
 
-    virtual user_type getUserType() {}	//»ñÈ¡ÓÃ»§ÀàĞÍ
+    virtual user_type getUserType() {}	//è·å–ç”¨æˆ·ç±»å‹
 
 protected:
-	std::string m_name;			//ÓÃ»§ĞÕÃû
-	std::string m_ID;			//ÓÃ»§Ñ§ºÅ»òÕß½Ì¹¤ºÅ
-	std::string m_insititude;	//ÓÃ»§ËùÊôÑ§Ôº
+	std::string m_name;			//ç”¨æˆ·å§“å
+	std::string m_ID;			//ç”¨æˆ·å­¦å·æˆ–è€…æ•™å·¥å·
+	std::string m_insititude;	//ç”¨æˆ·æ‰€å±å­¦é™¢
 };
 
-//ÓÉUserÀàÅÉÉú³öÑ§Éú×ÓÀà£¬´ú±íÑ§ÉúÓÃ»§
+//ç”±Userç±»æ´¾ç”Ÿå‡ºå­¦ç”Ÿå­ç±»ï¼Œä»£è¡¨å­¦ç”Ÿç”¨æˆ·
 class Student: public User
 {
 public:
@@ -48,26 +48,26 @@ public:
 	std::string getClass();
 	void setClass(std::string class_name);
 
-    void initCourse(std::set<Course_student*> course, std::set<Course_student *> select_course);  //Í¬²½Ñ§Éú¿Î³ÌÁĞ±í
+    void initCourse(std::set<Course_student*> course, std::set<Course_student *> select_course);  //åŒæ­¥å­¦ç”Ÿè¯¾ç¨‹åˆ—è¡¨
     void eraseCourse();
 
-	std::map<Course_student*, float> getGrade();	//Ñ§Éú»ñÈ¡×Ô¼ºµÄ¿Î³Ì¼°Æä¶ÔÓ¦³É¼¨
-	std::set<Course_student*> getCourse();			//Ñ§Éú»ñÈ¡×Ô¼ºµÄ¿Î³Ì£¨¿É¶ÔÆä¿Î³Ì½øĞĞÉèÖÃ£©
+	std::map<Course_student*, float> getGrade();	//å­¦ç”Ÿè·å–è‡ªå·±çš„è¯¾ç¨‹åŠå…¶å¯¹åº”æˆç»©
+	std::set<Course_student*> getCourse();			//å­¦ç”Ÿè·å–è‡ªå·±çš„è¯¾ç¨‹ï¼ˆå¯å¯¹å…¶è¯¾ç¨‹è¿›è¡Œè®¾ç½®ï¼‰
 
-    std::set<Course_student*> getSelectCourse();    //Ñ§Éú»ñÈ¡¿ÉÑ¡¿Î³Ì
+    std::set<Course_student*> getSelectCourse();    //å­¦ç”Ÿè·å–å¯é€‰è¯¾ç¨‹
 
-    void addCourse(Course_student* course);			//Ñ§ÉúÑ¡¿Î
-	bool deleteCourse(Course_student* course);		//Ñ§ÉúÉ¾³ıÒÑÑ¡¿Î³Ì
+    void addCourse(Course_student* course);			//å­¦ç”Ÿé€‰è¯¾
+	bool deleteCourse(Course_student* course);		//å­¦ç”Ÿåˆ é™¤å·²é€‰è¯¾ç¨‹
 
-    user_type getUserType() final override;				//»ñÈ¡ÓÃ»§ÀàĞÍ
+    user_type getUserType() final override;				//è·å–ç”¨æˆ·ç±»å‹
 
 private:
-	std::string m_class;							//Ñ§ÉúËùÊô°à¼¶
-	std::set<Course_student*> m_course;				//Ñ§Éú¶ÔÓ¦¿Î³Ì
-    std::set<Course_student*> m_select_course;      //Ñ§Éú¶ÔÓ¦¿ÉÑ¡¿Î³Ì
+	std::string m_class;							//å­¦ç”Ÿæ‰€å±ç­çº§
+	std::set<Course_student*> m_course;				//å­¦ç”Ÿå¯¹åº”è¯¾ç¨‹
+    std::set<Course_student*> m_select_course;      //å­¦ç”Ÿå¯¹åº”å¯é€‰è¯¾ç¨‹
 };
 
-//ÓÉUserÀàÅÉÉú³ö½ÌÊ¦×ÓÀà£¬´ú±í½ÌÊ¦ÓÃ»§
+//ç”±Userç±»æ´¾ç”Ÿå‡ºæ•™å¸ˆå­ç±»ï¼Œä»£è¡¨æ•™å¸ˆç”¨æˆ·
 class Teacher : public User
 {
 public:
@@ -81,26 +81,26 @@ public:
 
     Course_teacher* findCourse(std::string id);
 
-	std::set<Course_teacher*> getCourse();	//½ÌÊ¦»ñÈ¡×Ô¼º¿Î³ÌÁĞ±í
+	std::set<Course_teacher*> getCourse();	//æ•™å¸ˆè·å–è‡ªå·±è¯¾ç¨‹åˆ—è¡¨
 
-    user_type getUserType() final override;		//»ñÈ¡ÓÃ»§ÀàĞÍ
+    user_type getUserType() final override;		//è·å–ç”¨æˆ·ç±»å‹
 
 private:
-	std::set<Course_teacher*> m_course;		//½ÌÊ¦ÈÎ¿Î¿Î³Ì
+	std::set<Course_teacher*> m_course;		//æ•™å¸ˆä»»è¯¾è¯¾ç¨‹
 };
 
-//³¬¼¶¹ÜÀíÔ±ÓÃ»§
+//è¶…çº§ç®¡ç†å‘˜ç”¨æˆ·
 class Admin : public User
 {
 public:
 	using User::User;
     ~Admin(){}
 
-	void activateEnvir(Envir* envir);		//¼¤»îµ±Ç°¹¤×÷»·¾³
+	void activateEnvir(Envir* envir);		//æ¿€æ´»å½“å‰å·¥ä½œç¯å¢ƒ
 
-    user_type getUserType() final override;		//»ñÈ¡ÓÃ»§ÀàĞÍ
+    user_type getUserType() final override;		//è·å–ç”¨æˆ·ç±»å‹
 
-    Envir* getEnvir();                      //»ñÈ¡µ±Ç°ÏµÍ³»·¾³
+    Envir* getEnvir();                      //è·å–å½“å‰ç³»ç»Ÿç¯å¢ƒ
 
 /*    void addObligatoryCourse(std::string ID, std::string name, int credit);
     void addElectiveCourse(std::string ID, std::string name, int credit);
@@ -114,5 +114,5 @@ public:
     std::map<Admin*, std::string> getUserAdmin();
 */
 private:
-	Envir* m_envir;							//µ±Ç°ÏµÍ³»·¾³
+	Envir* m_envir;							//å½“å‰ç³»ç»Ÿç¯å¢ƒ
 };

@@ -1,14 +1,14 @@
-/**
+ï»¿/**
  * Name: course.cpp
  * User: L.Laddie
- * Function: ¿Î³Ì¶ÔÏó
+ * Function: è¯¾ç¨‹å¯¹è±¡
  */
 
 #include <cmath>
 #include "course.h"
 #include "user.h"
 
-//¿Î³Ì»ùÀàº¯ÊıÊµÏÖ
+//è¯¾ç¨‹åŸºç±»å‡½æ•°å®ç°
 
 Course::Course(std::string id, std::string name, int credit)
 {
@@ -48,7 +48,7 @@ void Course::setCapicity(int num)
         this->m_capicity = num;
     }
     else{
-        throw std::out_of_range(QString::fromLocal8Bit("¿Î³ÌÈİÁ¿¹ıĞ¡").toStdString());
+        throw std::out_of_range(QString::fromLocal8Bit("è¯¾ç¨‹å®¹é‡è¿‡å°").toStdString());
     }
 }
 
@@ -81,7 +81,7 @@ void Course::addStudent(Student* student)
 		}
 	}
     else{
-        throw std::out_of_range(QString::fromLocal8Bit("³¬³ö¿Î³ÌÈİÁ¿").toStdString());
+        throw std::out_of_range(QString::fromLocal8Bit("è¶…å‡ºè¯¾ç¨‹å®¹é‡").toStdString());
     }
 }
 
@@ -128,7 +128,7 @@ void Course::setGrade(std::pair<Student*, float> student_grade)
             i->second = student_grade.second;
         }
         else{
-            throw std::invalid_argument(QString::fromLocal8Bit("Ñ§Éú³É¼¨²»ÄÜÎª¸ºÊı").toStdString());
+            throw std::invalid_argument(QString::fromLocal8Bit("å­¦ç”Ÿæˆç»©ä¸èƒ½ä¸ºè´Ÿæ•°").toStdString());
         }
 	}
 }
@@ -143,7 +143,7 @@ float Course::getMyGrade(Student* student)
 	return -1;
 }
 
-//±ØĞŞ¿Îº¯ÊıÊµÏÖ
+//å¿…ä¿®è¯¾å‡½æ•°å®ç°
 
 float Obligatory_course::calculateGPA(Student* student)
 {
@@ -168,7 +168,7 @@ int Obligatory_course::getCourseType()
 	return 1;
 }
 
-//Ñ¡ĞŞ¿Îº¯ÊıÊµÏÖ
+//é€‰ä¿®è¯¾å‡½æ•°å®ç°
 
 float Elective_course::calculateGPA(Student* student)
 {
@@ -185,7 +185,7 @@ int Elective_course::getCourseType()
 	return 0;
 }
 
-//Course_userÀàº¯ÊıÊµÏÖ
+//Course_userç±»å‡½æ•°å®ç°
 
 std::string Course_user::getID()
 {
@@ -212,7 +212,7 @@ int Course_user::getCapicity()
     return m_course->getCapicity();
 }
 
-//Course_studentÀàº¯ÊıÊµÏÖ
+//Course_studentç±»å‡½æ•°å®ç°
 
 float Course_student::getMyGrade(Student* student)
 {
@@ -239,7 +239,7 @@ int Course_student::getElectiveNum()
 
 void Course_student::addElectiveStudent(Student* student)
 {
-	//ÅĞ¶Ï´ıÔö¼Ó¿Î³ÌÊÇ·ñÎªÑ¡ĞŞ¿Î
+	//åˆ¤æ–­å¾…å¢åŠ è¯¾ç¨‹æ˜¯å¦ä¸ºé€‰ä¿®è¯¾
 	if (!this->getCourseType()) {
         m_course->addStudent(student);
 	}
@@ -256,7 +256,7 @@ bool Course_student::deleteElectiveStudent(Student* student)
 	return false;
 }
 
-//Course_teacherÀàº¯ÊıÊµÏÖ
+//Course_teacherç±»å‡½æ•°å®ç°
 
 std::set<Student*> Course_teacher::getStudent()
 {
@@ -273,7 +273,7 @@ void Course_teacher::setGrade(std::pair<Student*, float> student_grade)
     m_course->setGrade(student_grade);
 }
 /*
-//Course_adminÀàº¯ÊıÊµÏÖ
+//Course_adminç±»å‡½æ•°å®ç°
 
 Teacher* Course_admin::getTeacher()
 {
@@ -301,7 +301,7 @@ void Course_admin::setCapicity(int num)
 }
 */
 
-//ÖØÔØÔËËã·û
+//é‡è½½è¿ç®—ç¬¦
 std::istream& operator >> (std::istream& input, Course& course)
 {
     input >> course.m_ID >> course.m_name >> course.m_credit >> course.m_capicity;

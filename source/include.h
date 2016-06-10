@@ -1,5 +1,5 @@
-#pragma once
-//¶¨ÒåC++±ê×¼Í·ÎÄ¼şÒÔ¼°ËùÓĞÀàµÄÇ°ÏòÉùÃ÷
+ï»¿#pragma once
+//å®šä¹‰C++æ ‡å‡†å¤´æ–‡ä»¶ä»¥åŠæ‰€æœ‰ç±»çš„å‰å‘å£°æ˜
 
 #include <cstdio>
 #include <cstdlib>
@@ -10,7 +10,7 @@
 #include <set>
 #include <exception>
 
-//ÆÕÍ¨Àà
+//æ™®é€šç±»
 class Course;
 class Obligatory_course;
 class Elective_course;
@@ -25,7 +25,7 @@ class Admin;
 class Envir;
 class Config_file;
 
-//½çÃæÀà
+//ç•Œé¢ç±»
 class Login;
 class MainWindow_student;
 class MainWindow_teacher;

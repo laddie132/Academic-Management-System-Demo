@@ -1,7 +1,7 @@
-/**
+ï»¿/**
  * Name: information_user.cpp
  * User: L.Laddie
- * Function: Ìí¼Ó/±à¼­ÓÃ»§ĞÅÏ¢
+ * Function: æ·»åŠ /ç¼–è¾‘ç”¨æˆ·ä¿¡æ¯
  */
 
 #include <QDebug>
@@ -54,7 +54,7 @@ void Information_user::creatActivex()
 
 void Information_user::showInfo()
 {
-    //±à¼­ÓÃ»§Ê±
+    //ç¼–è¾‘ç”¨æˆ·æ—¶
     if(m_user){
         ui->lineEdit_user_id->setText(QString::fromStdString(m_user->getID()));
         ui->lineEdit_user_id->setEnabled(false);
@@ -89,7 +89,7 @@ void Information_user::showInfo()
         }
     }
 
-    //Ìí¼ÓÓÃ»§Ê±
+    //æ·»åŠ ç”¨æˆ·æ—¶
     else{
         ui->lineEdit_user_id->clear();
         ui->lineEdit_user_class->clear();
@@ -120,7 +120,7 @@ void Information_user::updateCourse()
         {
         case user_type::student:
         {
-            //´òÓ¡±ØĞŞ¿Î
+            //æ‰“å°å¿…ä¿®è¯¾
             for(auto i : m_admin->getEnvir()->getObligatoryCourse())
             {
                 int is_find = 0;
@@ -144,7 +144,7 @@ void Information_user::updateCourse()
                 }
             }
 
-            //´òÓ¡Ñ¡ĞŞ¿Î
+            //æ‰“å°é€‰ä¿®è¯¾
             for(auto i : m_admin->getEnvir()->getElectiveCourse())
             {
                 int is_find = 0;
@@ -172,7 +172,7 @@ void Information_user::updateCourse()
 
         case user_type::teacher:
         {
-            //´òÓ¡±ØĞŞ¿Î
+            //æ‰“å°å¿…ä¿®è¯¾
             for(auto i : m_admin->getEnvir()->getObligatoryCourse())
             {
                 int is_find = 0;
@@ -196,7 +196,7 @@ void Information_user::updateCourse()
                 }
             }
 
-            //´òÓ¡Ñ¡ĞŞ¿Î
+            //æ‰“å°é€‰ä¿®è¯¾
             for(auto i : m_admin->getEnvir()->getElectiveCourse())
             {
                 int is_find = 0;
@@ -227,7 +227,7 @@ void Information_user::updateCourse()
         }
     }
 
-    //Ìí¼ÓÒ»¸öÓÃ»§ÏÔÊ¾µÄ¿Î³Ì
+    //æ·»åŠ ä¸€ä¸ªç”¨æˆ·æ˜¾ç¤ºçš„è¯¾ç¨‹
     else{
         for(auto i : m_admin->getEnvir()->getObligatoryCourse())
         {
@@ -256,12 +256,12 @@ void Information_user::on_add_btn_clicked()
 {
     std::string id = ui->lineEdit_user_id->text().toStdString();
     if(id == ""){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("ÓÃ»§ID²»ÄÜÎª¿Õ"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("ç”¨æˆ·IDä¸èƒ½ä¸ºç©º"));
         ui->lineEdit_user_id->setFocus();
         return;
     }
     if(m_admin->getEnvir()->findUser(id)){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("ÖØ¸´µÄÓÃ»§ID"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("é‡å¤çš„ç”¨æˆ·ID"));
         ui->lineEdit_user_id->clear();
         ui->lineEdit_user_id->setFocus();
         return;
@@ -269,14 +269,14 @@ void Information_user::on_add_btn_clicked()
 
     std::string name = ui->lineEdit_user_name->text().toStdString();
     if(name == ""){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("ÓÃ»§ĞÕÃû²»ÄÜÎª¿Õ"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("ç”¨æˆ·å§“åä¸èƒ½ä¸ºç©º"));
         ui->lineEdit_user_name->setFocus();
         return;
     }
 
     std::string institude = ui->lineEdit_user_institude->text().toStdString();
     if(institude == ""){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("ÓÃ»§Ñ§Ôº²»ÄÜÎª¿Õ"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("ç”¨æˆ·å­¦é™¢ä¸èƒ½ä¸ºç©º"));
         ui->lineEdit_user_institude->setFocus();
         return;
     }
@@ -290,7 +290,7 @@ void Information_user::on_add_btn_clicked()
     }
 
     switch (ui->comboBox_user_type->currentIndex()) {
-    //Ìí¼ÓÑ§ÉúÓÃ»§
+    //æ·»åŠ å­¦ç”Ÿç”¨æˆ·
     case 0:
     {
         Student* temp_student = new Student(id, name, institude);
@@ -298,9 +298,9 @@ void Information_user::on_add_btn_clicked()
         try{
             addCourse((User*)temp_student);
         }
-        catch(std::out_of_range& e)         //¿Î³Ì³¬³öÈİÁ¿
+        catch(std::out_of_range& e)         //è¯¾ç¨‹è¶…å‡ºå®¹é‡
         {
-            QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromStdString(e.what()));
+            QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromStdString(e.what()));
             this->updateCourse();
             delete temp_student;
             return;
@@ -310,7 +310,7 @@ void Information_user::on_add_btn_clicked()
         break;
     }
 
-    //Ìí¼Ó½ÌÊ¦ÓÃ»§
+    //æ·»åŠ æ•™å¸ˆç”¨æˆ·
     case 1:
     {
         Teacher* temp_teacher = new Teacher(id, name, institude);
@@ -319,7 +319,7 @@ void Information_user::on_add_btn_clicked()
         break;
     }
 
-    //Ìí¼Ó¹ÜÀíÔ±ÓÃ»§
+    //æ·»åŠ ç®¡ç†å‘˜ç”¨æˆ·
     case 2:
     {
         Admin* temp_admin = new Admin(id, name, institude);
@@ -330,7 +330,7 @@ void Information_user::on_add_btn_clicked()
     default:
         break;
      }
-    QMessageBox::information(this, QString::fromLocal8Bit("ÌáÊ¾"), QString::fromLocal8Bit("Ìí¼ÓÓÃ»§³É¹¦"));
+    QMessageBox::information(this, QString::fromLocal8Bit("æç¤º"), QString::fromLocal8Bit("æ·»åŠ ç”¨æˆ·æˆåŠŸ"));
     emit updateUser();
     emit updateConfig();
 }
@@ -364,7 +364,7 @@ void Information_user::on_comboBox_user_type_currentIndexChanged(int index)
 void Information_user::on_update_btn_clicked()
 {
     if(!m_user){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("ÎŞÓÃ»§ĞÅÏ¢"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("æ— ç”¨æˆ·ä¿¡æ¯"));
         return;
     }
     std::string id = ui->lineEdit_user_id->text().toStdString();
@@ -385,10 +385,10 @@ void Information_user::on_update_btn_clicked()
 
     try{
         addCourse(m_user);
-        QMessageBox::information(this, QString::fromLocal8Bit("ÌáÊ¾"), QString::fromLocal8Bit("ĞŞ¸ÄÓÃ»§³É¹¦"));
+        QMessageBox::information(this, QString::fromLocal8Bit("æç¤º"), QString::fromLocal8Bit("ä¿®æ”¹ç”¨æˆ·æˆåŠŸ"));
     }
     catch(std::out_of_range& e){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromStdString(e.what()));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromStdString(e.what()));
         this->updateCourse();
     }
 
@@ -430,16 +430,16 @@ void Information_user::deleteCourse()
 void Information_user::on_del_btn_clicked()
 {
     if(!m_user){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("ÎŞÓÃ»§ĞÅÏ¢"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("æ— ç”¨æˆ·ä¿¡æ¯"));
         return;
     }
     if(m_user->getID() == m_admin->getID()){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("ÎŞ·¨É¾³ıÕıÔÚÊ¹ÓÃµÄ¹ÜÀíÔ±"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("æ— æ³•åˆ é™¤æ­£åœ¨ä½¿ç”¨çš„ç®¡ç†å‘˜"));
         return;
     }
     m_admin->getEnvir()->deleteUser(m_user);
     m_user = NULL;
-    QMessageBox::information(this, QString::fromLocal8Bit("ÌáÊ¾"), QString::fromLocal8Bit("É¾³ıÓÃ»§³É¹¦"));
+    QMessageBox::information(this, QString::fromLocal8Bit("æç¤º"), QString::fromLocal8Bit("åˆ é™¤ç”¨æˆ·æˆåŠŸ"));
 
     emit updateUser();
     emit updateConfig();
@@ -449,7 +449,7 @@ void Information_user::on_select_course_btn_clicked()
 {
     int row = ui->tableView_course_n->currentIndex().row();
     if(row == -1){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("Î´Ñ¡ÖĞ¿Î³ÌĞÅÏ¢"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("æœªé€‰ä¸­è¯¾ç¨‹ä¿¡æ¯"));
         return;
     }
     ui_course_model_y->insertRow(0, ui_course_model_n->takeRow(row));
@@ -459,7 +459,7 @@ void Information_user::on_cancel_course_btn_clicked()
 {
     int row = ui->tableView_course_y->currentIndex().row();
     if(row == -1){
-        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("Î´Ñ¡ÖĞ¿Î³ÌĞÅÏ¢"));
+        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("æœªé€‰ä¸­è¯¾ç¨‹ä¿¡æ¯"));
         return;
     }
     ui_course_model_n->insertRow(0, ui_course_model_y->takeRow(row));
@@ -487,7 +487,7 @@ void Information_user::addCourse(User* user)
                 Teacher* temp_teacher = (Teacher*) user;
                 if(course->getTeacher()){
                     if(course->getTeacher()->getID() != temp_teacher->getID()){
-                        QMessageBox::warning(this, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("¿Î³ÌÒÑÉèÖÃ½ÌÊ¦"));
+                        QMessageBox::warning(this, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromLocal8Bit("è¯¾ç¨‹å·²è®¾ç½®æ•™å¸ˆ"));
                     }
                 }
                 else{

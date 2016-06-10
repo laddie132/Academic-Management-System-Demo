@@ -1,7 +1,7 @@
-/**
+ï»¿/**
  * Name: main.cpp
  * User: L.Laddie
- * Function: Ö÷º¯ÊıÈë¿Ú
+ * Function: ä¸»å‡½æ•°å…¥å£
  */
 
 #include <QDialog>
@@ -26,44 +26,41 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setWindowIcon(QIcon(":/image/icon.ico"));
 
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("gbk"));
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("utf-8"));
 
-    //ÉèÖÃÔËĞĞ»·¾³
+    //è®¾ç½®è¿è¡Œç¯å¢ƒ
     Envir envir;
 
-    //ÉèÖÃ½çÃæ»·¾³
-    Envir_widget envir_widget;
+    //è®¾ç½®é…ç½®æ–‡ä»¶
+    Config_file config;
+    config.setEnvir(&envir);
 
-    //ÉèÖÃµÇÂ¼½çÃæ
+    //è®¾ç½®ç•Œé¢ç¯å¢ƒ
+    Envir_widget envir_widget;
+    envir_widget.setConfigFile(&config);
+
+    //è®¾ç½®ç™»å½•ç•Œé¢
     Login widget_login;
     widget_login.setEnvir(&envir, &envir_widget);
 
-    //ÉèÖÃÖ÷½çÃæ
-    MainWindow_admin widget_main_admin;
-    widget_main_admin.setEnvirWidget(&envir_widget);
+    //è®¾ç½®ä¸»ç•Œé¢
+    MainWindow_admin widget_main_admin(&envir_widget);
+    MainWindow_teacher widget_main_teacher(&envir_widget);
+    MainWindow_student widget_main_student(&envir_widget);
 
-    MainWindow_teacher widget_main_teacher;
-    widget_main_teacher.setEnvirWidget(&envir_widget);
-
-    MainWindow_student widget_main_student;
-    widget_main_student.setEnvirWidget(&envir_widget);
-
-    //±£´æËùÓĞÖ÷½çÃæÖ¸Õë
+    //ä¿å­˜æ‰€æœ‰ä¸»ç•Œé¢æŒ‡é’ˆ
     envir_widget.setWidget(&widget_login, &widget_main_student, &widget_main_teacher, &widget_main_admin);
 
-    //ÉèÖÃÅäÖÃÎÄ¼ş
-    Config_file config;
-    config.setEnvir(&envir);
+    //è¯»å–é…ç½®æ–‡ä»¶
     try{
         config.readConfig();
     }
-    catch(std::ios_base::failure){
-        QMessageBox::warning(&widget_main_admin, QString::fromLocal8Bit("¾¯¸æ"), QString::fromLocal8Bit("ÅäÖÃÎÄ¼ş²»´æÔÚ"));
+    catch(std::runtime_error &e){
+        QMessageBox::warning(&widget_main_admin, QString::fromLocal8Bit("è­¦å‘Š"), QString::fromStdString(e.what()));
         exit(1);
     }
-    envir_widget.setConfigFile(&config);
 
-    //ÏÔÊ¾µÇÂ¼½çÃæ
+    //æ˜¾ç¤ºç™»å½•ç•Œé¢
     widget_login.show();
 
     return a.exec();

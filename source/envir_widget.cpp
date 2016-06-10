@@ -1,17 +1,18 @@
-/**
+ï»¿/**
  * Name: envir_widget.cpp
  * User: L.Laddie
- * Function: ½çÃæÏà¹Ø»·¾³
+ * Function: ç•Œé¢ç›¸å…³ç¯å¢ƒ
  */
 
 #include "config.h"
 #include "include.h"
+#include "moc_envir_widget.cpp"
 #include "envir_widget.h"
 #include "mainwindow_admin.h"
 #include "mainwindow_student.h"
 #include "mainwindow_teacher.h"
 
-//½çÃæÏà¹Øº¯ÊıÊµÏÖ
+//ç•Œé¢ç›¸å…³å‡½æ•°å®ç°
 
 void Envir_widget::setWidget(Login* login, MainWindow_student* student, MainWindow_teacher* teacher, MainWindow_admin* admin)
 {

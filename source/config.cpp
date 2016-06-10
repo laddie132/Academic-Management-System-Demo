@@ -1,15 +1,17 @@
-/**
+ï»¿/**
  * Name: config.cpp
  * User: L.Laddie
- * Function: ÅäÖÃÎÄ¼ş
+ * Function: é…ç½®æ–‡ä»¶
  */
 
 #include <QDebug>
+#include <QString>
 #include <regex>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include "config.h"
+#include "include.h"
 
 Config_file::Config_file()
 {
@@ -28,24 +30,26 @@ void Config_file::setEnvir(Envir *envir)
 
 void Config_file::readConfig()
 {
-    //´ò¿ªÅäÖÃÎÄ¼ş
+    //æ‰“å¼€é…ç½®æ–‡ä»¶
     std::ifstream file;
-    file.exceptions(std::ios_base::failbit | std::ios_base::badbit);
+//    file.exceptions(std::ios_base::failbit | std::ios_base::badbit);
     file.open("config.ini", std::ios_base::in);
+    if(!file)
+        throw std::runtime_error(QString::fromLocal8Bit("é…ç½®æ–‡ä»¶ä¸å­˜åœ¨").toStdString());
 
-    //¶¨ÒåÕıÔò±í´ïÊ½Æ¥ÅäÅäÖÃÎÄ¼ş
+    //å®šä¹‰æ­£åˆ™è¡¨è¾¾å¼åŒ¹é…é…ç½®æ–‡ä»¶
     std::regex pattern("\\[(.*)\\]");
     std::string str;
     std::match_results<std::string::const_iterator> result;
 
-    //Ò»ĞĞÒ»ĞĞ¶ÁÈ¡
+    //ä¸€è¡Œä¸€è¡Œè¯»å–
     config_state state = config_state::nop;
     while(!file.eof()){
         std::getline(file, str);
-        if(str[0] == '#' || str == "")       //Ò»ĞĞÎª×¢ÊÍ»òÕßÎª¿Õ
+        if(str[0] == '#' || str == "")       //ä¸€è¡Œä¸ºæ³¨é‡Šæˆ–è€…ä¸ºç©º
             continue;
 
-        //È·¶¨ÏÂÒ»¸ö×´Ì¬
+        //ç¡®å®šä¸‹ä¸€ä¸ªçŠ¶æ€
         if(std::regex_match(str, result, pattern)){
             if(result[1] == "student")
                 state = config_state::student;
@@ -157,36 +161,32 @@ void Config_file::writeConfig()
 {
     std::ofstream file;
     file.open("config.ini", std::ios_base::out);
-    file << "#This is a config file" << endl << "[user]\n";
+    file << "#This is a config file\n" << "[user]\n";
 
-    file << "\n[student]\n" << "#Ñ§ºÅ-ĞÕÃû-Ñ§Ôº-°à¼¶-md5ÃÜÂë\n";
+    file << "\n[student]\n" << "#å­¦å·-å§“å-å­¦é™¢-ç­çº§-md5å¯†ç \n";
     for(auto i : this->m_envir->getUserStudent())
     {
-        file << i.first->getID() << " " << i.first->getName() << " "
-             << i.first->getInsititude() << " " << i.first->getClass() << " " << i.second << "\n";
+        file << *(i.first) << " " << i.second << "\n";
     }
 
-    file << "\n[teacher]\n" << "#¹¤ºÅ-ĞÕÃû-Ñ§Ôº-md5ÃÜÂë\n";
+    file << "\n[teacher]\n" << "#å·¥å·-å§“å-å­¦é™¢-md5å¯†ç \n";
     for(auto i : this->m_envir->getUserTeacher())
     {
-        file << i.first->getID() << " " << i.first->getName() << " "
-             << i.first->getInsititude() << " " << i.second << "\n";
+        file << *(i.first) << " " << i.second << "\n";
     }
 
-    file << "\n[admin]\n" << "#ÓÃ»§Ãû-ĞÕÃû-Ñ§Ôº-md5ÃÜÂë\n";
-    for(auto i : this->m_envir->getUserTeacher())
+    file << "\n[admin]\n" << "#ç”¨æˆ·å-å§“å-å­¦é™¢-md5å¯†ç \n";
+    for(auto i : this->m_envir->getUserAdmin())
     {
-        file << i.first->getID() << " " << i.first->getName() << " "
-             << i.first->getInsititude() << " " << i.second << "\n";
+        file << *(i.first) << " " << i.second << "\n";
     }
 
     file << "\n[course]\n";
 
-    file << "\n[obligatory]\n" << "#¿Î³Ì±àºÅ-¿Î³ÌÃû³Æ-Ñ§·Ö-¿Î³ÌÈİÁ¿-½ÌÊ¦¹¤ºÅ-Ñ§Éú¼°³É¼¨\n";
+    file << "\n[obligatory]\n" << "#è¯¾ç¨‹ç¼–å·-è¯¾ç¨‹åç§°-å­¦åˆ†-è¯¾ç¨‹å®¹é‡-æ•™å¸ˆå·¥å·-å­¦ç”ŸåŠæˆç»©\n";
     for(auto i : this->m_envir->getObligatoryCourse())
     {
-        file << i->getID() << " " << i->getName() << " "
-             << i->getCredit() << " " << i->getCapicity();
+        file << *i;
         if(i->getTeacher()){
             file << " " << i->getTeacher()->getID();
         }
@@ -194,13 +194,13 @@ void Config_file::writeConfig()
         {
             file << " <" << j.first->getID() << ", " << j.second << ">";
         }
+        file << "\n";
     }
 
-    file << "\n[elective]\n" << "#¿Î³Ì±àºÅ-¿Î³ÌÃû³Æ-Ñ§·Ö-¿Î³ÌÈİÁ¿-½ÌÊ¦¹¤ºÅ-Ñ§Éú¼°³É¼¨\n";
+    file << "\n[elective]\n" << "#è¯¾ç¨‹ç¼–å·-è¯¾ç¨‹åç§°-å­¦åˆ†-è¯¾ç¨‹å®¹é‡-æ•™å¸ˆå·¥å·-å­¦ç”ŸåŠæˆç»©\n";
     for(auto i : this->m_envir->getElectiveCourse())
     {
-        file << i->getID() << " " << i->getName() << " "
-             << i->getCredit() << " " << i->getCapicity();
+        file << *i;
         if(i->getTeacher()){
             file << " " << i->getTeacher()->getID();
         }
@@ -208,5 +208,7 @@ void Config_file::writeConfig()
         {
             file << " <" << j.first->getID() << ", " << j.second << ">";
         }
+        file << "\n";
     }
+    file.close();
 }

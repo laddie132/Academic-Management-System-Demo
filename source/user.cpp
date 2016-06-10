@@ -1,14 +1,14 @@
-/**
+ï»¿/**
  * Name: user.cpp
  * User: L.Laddie
- * Function: ÓÃ»§¶ÔÏó
+ * Function: ç”¨æˆ·å¯¹è±¡
  */
 
 #include <QDebug>
 #include <QString>
 #include "user.h"
 
-//User»ùÀàº¯ÊıÊµÏÖ
+//UseråŸºç±»å‡½æ•°å®ç°
 
 std::string User::getID()
 {
@@ -25,7 +25,7 @@ std::string User::getInsititude()
 	return m_insititude;
 }
 
-//Ñ§Éúº¯ÊıÊµÏÖ
+//å­¦ç”Ÿå‡½æ•°å®ç°
 
 std::string Student::getClass()
 {
@@ -101,7 +101,7 @@ user_type Student::getUserType()
     return user_type::student;
 }
 
-//½ÌÊ¦º¯ÊıÊµÏÖ
+//æ•™å¸ˆå‡½æ•°å®ç°
 
 std::set<Course_teacher*> Teacher::getCourse()
 {
@@ -142,7 +142,7 @@ Course_teacher* Teacher::findCourse(std::string id)
     return temp;
 }
 
-//¹ÜÀíÔ±º¯ÊıÊµÏÖ
+//ç®¡ç†å‘˜å‡½æ•°å®ç°
 
 user_type Admin::getUserType()
 {

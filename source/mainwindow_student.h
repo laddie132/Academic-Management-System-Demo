@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_STUDENT_H
+ï»¿#ifndef MAINWINDOW_STUDENT_H
 #define MAINWINDOW_STUDENT_H
 
 #include <QMainWindow>
@@ -17,17 +17,17 @@ class MainWindow_student : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow_student(QWidget *parent = 0);
+    explicit MainWindow_student(Envir_widget* envir_widget, QWidget *parent = 0);
     ~MainWindow_student();
 
-    void initActivex();       //¿Ø¼şĞÅÏ¢³õÊ¼»¯
+    void initActivex();       //æ§ä»¶ä¿¡æ¯åˆå§‹åŒ–
     void creatAction();
 
-    void showInfo();           //ÏÔÊ¾ÓÃ»§ĞÅÏ¢
-    void updateTable();        //±í¸ñĞÅÏ¢³õÊ¼»¯
+    void showInfo();           //æ˜¾ç¤ºç”¨æˆ·ä¿¡æ¯
+    void updateTable();        //è¡¨æ ¼ä¿¡æ¯åˆå§‹åŒ–
 
     void setEnvirWidget(Envir_widget* envir_widget);
-    void setUser(Student* user);   //ÉèÖÃµ±Ç°µÇÂ¼ÓÃ»§
+    void setUser(Student* user);   //è®¾ç½®å½“å‰ç™»å½•ç”¨æˆ·
 
 signals:
     void updateConfig();

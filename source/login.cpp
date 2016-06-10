@@ -1,7 +1,7 @@
-/**
+ï»¿/**
  * Name: login.cpp
  * User: L.Laddie
- * Function: µÇÂ¼½çÃæ
+ * Function: ç™»å½•ç•Œé¢
  */
 
 #include <QDebug>
@@ -47,35 +47,35 @@ void Login::on_login_btn_clicked()
     ui->passowrd_edit->clear();
     ui->wrong_label->close();
 
-    //ÃÜÂë²ÉÓÃmd5¼ÓÃÜ
+    //å¯†ç é‡‡ç”¨md5åŠ å¯†
     QByteArray temp = QCryptographicHash::hash(password.toLatin1(), QCryptographicHash::Md5);
     QString md5_password = temp.toHex();
 
-    //Ñ°ÕÒÊäÈëÓÃ»§
+    //å¯»æ‰¾è¾“å…¥ç”¨æˆ·
     Student* user1 = m_envir->checkUserStudent(username.toStdString(), md5_password.toStdString());
     Teacher* user2 = m_envir->checkUserTeacher(username.toStdString(), md5_password.toStdString());
     Admin* user3 = m_envir->checkUserAdmin(username.toStdString(), md5_password.toStdString());
 
-    //ÅĞ¶ÏÓÃ»§ÀàĞÍ
+    //åˆ¤æ–­ç”¨æˆ·ç±»å‹
     if(user1){
         this->close();
-        m_envir->setCourseStudent(user1);   //ÉèÖÃÑ§Éú¿Î³ÌÈ¨ÏŞÀà
+        m_envir->setCourseStudent(user1);   //è®¾ç½®å­¦ç”Ÿè¯¾ç¨‹æƒé™ç±»
         m_envir_widget->showStudentWidget(user1);
     }
     else{
         if(user2){
             this->close();
-            m_envir->setCourseTeacher(user2);   //ÉèÖÃ½ÌÊ¦¿Î³ÌÈ¨ÏŞÀà
+            m_envir->setCourseTeacher(user2);   //è®¾ç½®æ•™å¸ˆè¯¾ç¨‹æƒé™ç±»
             m_envir_widget->showTeacherWidget(user2);
         }
         else{
             if(user3){
                 this->close();
-                user3->activateEnvir(m_envir);     //ÉèÖÃ¹ÜÀíÔ±ÏµÍ³È¨ÏŞ
+                user3->activateEnvir(m_envir);     //è®¾ç½®ç®¡ç†å‘˜ç³»ç»Ÿæƒé™
                 m_envir_widget->showAdminWidget(user3);
             }
             else{
-        //        QMessageBox::warning(this,QString::fromLocal8Bit("¾¯¸æ"),QString::fromLocal8Bit("ÓÃ»§Ãû»òÃÜÂë´íÎó£¡"),QMessageBox::Yes);
+        //        QMessageBox::warning(this,QString::fromLocal8Bit("è­¦å‘Š"),QString::fromLocal8Bit("ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯ï¼"),QMessageBox::Yes);
                 ui->wrong_label->show();
             }
         }
