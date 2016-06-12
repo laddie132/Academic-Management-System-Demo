@@ -107,13 +107,15 @@ void Config_file::readConfig()
                 }
             }
 
-            std::regex pattern2("<([\\d.]*)\\s*,\\s*([\\d.]*)>");
+            std::regex pattern2("<([\\d.]*)\\s*,\\s*([\\d.-]*)>");
             std::sregex_iterator pos(str.begin(), str.end(), pattern2);
             std::sregex_iterator end;
             while(pos != end){
                 User* student = this->m_envir->findUser((*pos)[1]);
                 new_course->addStudent((Student*)student);
-                new_course->setGrade(std::make_pair((Student*)student, std::atof((*pos)[2].str().c_str())));
+
+                if(std::atof((*pos)[2].str().c_str()) != -1)        //成绩不为-1时，给学生设置一个成绩
+                    new_course->setGrade(std::make_pair((Student*)student, std::atof((*pos)[2].str().c_str())));
 //                qDebug() << QString::fromStdString((*pos)[1]) << ' ' << QString::fromStdString((*pos)[2]) << endl;
                 pos++;
             }
@@ -135,13 +137,14 @@ void Config_file::readConfig()
                 }
             }
 
-            std::regex pattern2("<([\\d.]*)\\s*,\\s*([\\d.]*)>");
+            std::regex pattern2("<([\\d.]*)\\s*,\\s*([\\d.-]*)>");
             std::sregex_iterator pos(str.begin(), str.end(), pattern2);
             std::sregex_iterator end;
             while(pos != end){
                 User* student = this->m_envir->findUser((*pos)[1]);
                 new_course->addStudent((Student*)student);
-                new_course->setGrade(std::make_pair((Student*)student, std::atof((*pos)[2].str().c_str())));
+                if(std::atof((*pos)[2].str().c_str()) != -1)        //成绩不为-1时，给学生设置一个成绩
+                    new_course->setGrade(std::make_pair((Student*)student, std::atof((*pos)[2].str().c_str())));
 //                qDebug() << QString::fromStdString((*pos)[1]) << ' ' << QString::fromStdString((*pos)[2]) << endl;
                 pos++;
             }

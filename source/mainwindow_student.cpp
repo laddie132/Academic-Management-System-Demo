@@ -4,9 +4,12 @@
  * Function: 学生界面
  */
 
+#include <vector>
+#include <QDebug>
 #include <QDateTime>
 #include <QMessageBox>
 
+#include "fun.h"
 #include "mainwindow_student.h"
 #include "ui_mainwindow_student.h"
 
@@ -194,7 +197,124 @@ void MainWindow_student::creatAction()
 
     connect(m_timer_status, SIGNAL(timeout()), this, SLOT(updateStatusBar()));
 
-//    connect(ui->tableView_course_o, SIGNAL(clicked(QModelIndex)), this, SLOT(sort_course());
+    connect(ui->tableView_course_o->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(sort_course_o(int)));
+    connect(ui->tableView_course_e->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(sort_course_e(int)));
+}
+
+void MainWindow_student::sort_course_o(int column)
+{
+    static bool reverse = false;
+
+    std::vector<struct course_module> course_o;
+    for(auto i : m_user->getGrade())
+    {
+        if(!i.first->getCourseType())
+            continue;
+        struct course_module temp;
+        temp.id = i.first->getID();
+        temp.name = i.first->getName();
+        temp.credit = i.first->getCredit();
+        temp.capacity = i.first->getCapicity();
+        temp.grade = i.second;
+        temp.gpa = i.first->calculateGPA(m_user);
+        course_o.push_back(temp);
+    }
+
+    switch(column)
+    {
+    case 0:
+    {
+        Sort::sortVectorCourse(course_o, "id", reverse);
+        reverse = !reverse;
+        break;
+    }
+
+    case 5:
+    {
+        Sort::sortVectorCourse(course_o, "grade", reverse);
+        reverse = !reverse;
+        break;
+    }
+
+    case 6:
+    {
+        Sort::sortVectorCourse(course_o, "gpa", reverse);
+        reverse = !reverse;
+        break;
+    }
+
+    default:
+        return;
+    }
+
+    for(int i = 0; i < course_o.size(); i++)
+    {
+        ui_course_model_o->setItem(i, 0, new QStandardItem(QString::fromStdString(course_o[i].id)));
+        ui_course_model_o->setItem(i, 1, new QStandardItem(QString::fromStdString(course_o[i].name)));
+        ui_course_model_o->setItem(i, 2, new QStandardItem(QString::number(course_o[i].credit)));
+        ui_course_model_o->setItem(i, 3, new QStandardItem(QString::fromLocal8Bit("必修")));
+        ui_course_model_o->setItem(i, 4, new QStandardItem(QString::number(course_o[i].capacity)));
+        ui_course_model_o->setItem(i, 5, new QStandardItem(course_o[i].grade != -1 ? QString("%1").arg(course_o[i].grade) : QString::fromLocal8Bit("无")));
+        ui_course_model_o->setItem(i, 6, new QStandardItem(QString("%1").arg(course_o[i].gpa)));
+    }
+}
+
+void MainWindow_student::sort_course_e(int column)
+{
+    static bool reverse = false;
+
+    std::vector<struct course_module> course_e;
+    for(auto i : m_user->getGrade())
+    {
+        if(i.first->getCourseType())
+            continue;
+        struct course_module temp;
+        temp.id = i.first->getID();
+        temp.name = i.first->getName();
+        temp.credit = i.first->getCredit();
+        temp.capacity = i.first->getCapicity();
+        temp.grade = i.second;
+        temp.gpa = i.first->calculateGPA(m_user);
+        course_e.push_back(temp);
+    }
+
+    switch(column)
+    {
+    case 0:
+    {
+        Sort::sortVectorCourse(course_e, "id", reverse);
+        reverse = !reverse;
+        break;
+    }
+
+    case 5:
+    {
+        Sort::sortVectorCourse(course_e, "grade", reverse);
+        reverse = !reverse;
+        break;
+    }
+
+    case 6:
+    {
+        Sort::sortVectorCourse(course_e, "gpa", reverse);
+        reverse = !reverse;
+        break;
+    }
+
+    default:
+        break;
+    }
+
+    for(int i = 0; i < course_e.size(); i++)
+    {
+        ui_course_model_e->setItem(i, 0, new QStandardItem(QString::fromStdString(course_e[i].id)));
+        ui_course_model_e->setItem(i, 1, new QStandardItem(QString::fromStdString(course_e[i].name)));
+        ui_course_model_e->setItem(i, 2, new QStandardItem(QString::number(course_e[i].credit)));
+        ui_course_model_e->setItem(i, 3, new QStandardItem(QString::fromLocal8Bit("选修")));
+        ui_course_model_e->setItem(i, 4, new QStandardItem(QString::number(course_e[i].capacity)));
+        ui_course_model_e->setItem(i, 5, new QStandardItem(course_e[i].grade != -1 ? QString("%1").arg(course_e[i].grade) : QString::fromLocal8Bit("无")));
+        ui_course_model_e->setItem(i, 6, new QStandardItem(QString("%1").arg(course_e[i].gpa)));
+    }
 }
 
 void MainWindow_student::action_login_triggered()

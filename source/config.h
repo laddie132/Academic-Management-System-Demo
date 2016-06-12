@@ -1,6 +1,7 @@
 ﻿#ifndef CONFIG_H
 #define CONFIG_H
 
+#include <QStandardItem>
 #include "include.h"
 #include "environment.h"
 

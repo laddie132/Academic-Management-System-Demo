@@ -157,7 +157,7 @@ float Obligatory_course::calculateGPA(Student* student)
 	}
 	float my_grade = this->getMyGrade(student);
     float gpa = 0;
-    if(grade_sum != 0){
+    if(grade_sum != 0 && my_grade != -1){
         gpa = (student_num * 100 / grade_sum) * (my_grade / 100) * this->getCredit();
     }
 	return gpa;

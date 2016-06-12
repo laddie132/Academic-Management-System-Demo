@@ -201,11 +201,6 @@ std::map<Admin*, std::string> Admin::getUserAdmin()
 }
 */
 
-bool operator <(const User& user1, const User& user2)
-{
-    return user1.m_ID < user2.m_ID;
-}
-
 std::istream& operator >> (std::istream& input, User& user)
 {
     input >> user.m_ID >> user.m_name >> user.m_insititude;

@@ -13,14 +13,12 @@ public:
 			m_name(name), m_ID(ID), m_insititude(insititude) {}
 	~User(){}
 
-    friend bool operator <(const User& user1, const User& user2);
-
     friend std::istream& operator >> (std::istream& input, User& user);
     friend std::ostream& operator << (std::ostream& output, User& user);
 
- 	std::string getID();
-	std::string getName();
-	std::string getInsititude();
+    std::string getID();
+    std::string getName();
+    std::string getInsititude();
 
     virtual user_type getUserType() {}	//获取用户类型
 
