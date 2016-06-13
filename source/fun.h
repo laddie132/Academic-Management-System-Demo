@@ -1,6 +1,13 @@
+/**
+ * Name: fun.h
+ * User: L.Laddie
+ * Function: 常用自定义函数
+ */
+
 #ifndef FUN_H
 #define FUN_H
 
+#include <QDebug>
 #include "include.h"
 
 //泛型排序算法
@@ -54,7 +61,7 @@ namespace Sort {
                 }
             }
             if(flag){
-                break;
+//                return;
             }
         }
     }

@@ -54,6 +54,8 @@ private slots:
 
     void updateStatusBar();
 
+    void sort_student(int);
+
 private:
     Ui::MainWindow_teacher *ui;
     Envir_widget* m_envir_widget;
@@ -67,6 +69,17 @@ private:
     QLabel* ui_label_status;
     QLabel* ui_label_time;
     QTimer* m_timer_status;
+};
+
+//表格上的学生结构体
+struct student_model
+{
+    std::string id;
+    std::string name;
+    std::string class_name;
+    std::string institude;
+    float grade;
+    float gpa = 0;
 };
 
 #endif // MAINWINDOW_TEACHER_H

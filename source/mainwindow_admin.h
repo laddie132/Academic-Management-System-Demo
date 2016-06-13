@@ -29,7 +29,7 @@ public:
     void creatAction();
 
     void showInfo();         //显示用户信息
-    void initTable();       //表格信息初始化
+    void initActivex();      //控件信息初始化
     void updateTable();    //表格信息更新
 
     void initStatusBar();
