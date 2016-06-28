@@ -32,9 +32,6 @@ private:
     MainWindow_admin* m_widget_admin;
     MainWindow_student* m_widget_student;
     MainWindow_teacher* m_widget_teacher;
-
-    //配置文件
-    Config_file* m_config;
 };
 
 #endif // ENVIR_WIDGET_H

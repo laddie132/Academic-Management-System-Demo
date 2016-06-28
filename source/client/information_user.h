@@ -3,7 +3,6 @@
 
 #include <QDialog>
 #include <QStandardItemModel>
-#include "user.h"
 
 namespace Ui {
 class Information_user;

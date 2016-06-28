@@ -7,7 +7,6 @@
 #include <QStandardItemModel>
 
 #include "include.h"
-#include "environment.h"
 #include "envir_widget.h"
 
 namespace Ui {
@@ -68,16 +67,6 @@ private:
     QTimer* m_timer_status;
 
     int sort_by = 0;        //默认为0表示按课程ID排序，1表示按课程成绩排序，2表示按课程绩点排序
-};
-
-//表格上的课程结构体
-struct course_module{
-    std::string id;
-    std::string name;
-    int credit;
-    int capacity;
-    float grade;
-    float gpa;
 };
 
 #endif // MAINWINDOW_STUDENT_H

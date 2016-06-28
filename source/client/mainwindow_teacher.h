@@ -7,7 +7,6 @@
 #include <QStandardItemModel>
 
 #include "include.h"
-#include "environment.h"
 #include "envir_widget.h"
 
 namespace Ui {
@@ -69,17 +68,6 @@ private:
     QLabel* ui_label_status;
     QLabel* ui_label_time;
     QTimer* m_timer_status;
-};
-
-//表格上的学生结构体
-struct student_model
-{
-    std::string id;
-    std::string name;
-    std::string class_name;
-    std::string institude;
-    float grade;
-    float gpa = 0;
 };
 
 #endif // MAINWINDOW_TEACHER_H

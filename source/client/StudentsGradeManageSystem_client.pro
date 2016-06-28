@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT  += core gui\
+    network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -24,11 +25,10 @@ SOURCES += main.cpp\
     envir_widget.cpp \
     information_user.cpp \
     config.cpp \
-    fun.cpp
+    fun.cpp \
+    convey.cpp
 
 HEADERS  += \
-    course.h \
-    user.h \
     environment.h \
     login.h \
     include.h \
@@ -38,8 +38,9 @@ HEADERS  += \
     information_course.h \
     envir_widget.h \
     information_user.h \
-    config.h \
-    fun.h
+    fun.h \
+    convey.h \
+    model_struct.h
 
 FORMS    += \
     login.ui \

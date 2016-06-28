@@ -11,8 +11,6 @@
 #include "information_user.h"
 #include "ui_information_user.h"
 #include "include.h"
-#include "user.h"
-#include "course.h"
 
 Information_user::Information_user(QWidget *parent) :
     QDialog(parent),

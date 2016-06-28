@@ -6,7 +6,6 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 
-#include "environment.h"
 #include "envir_widget.h"
 #include "information_course.h"
 #include "information_user.h"

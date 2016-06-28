@@ -11,21 +11,6 @@
 #include <vector>
 #include <exception>
 
-//普通类
-class Course;
-class Obligatory_course;
-class Elective_course;
-class Course_student;
-class Course_teacher;
-//class Course_admin;
-class Course_user;
-class User;
-class Student;
-class Teacher;
-class Admin;
-class Envir;
-class Config_file;
-
 //界面类
 class Login;
 class MainWindow_student;
@@ -35,10 +20,6 @@ class Information_user;
 class Information_course;
 class Envir_widget;
 
-enum user_type
-{
-    student,
-    teacher,
-    admin
-};
-
+//通信类
+class Convey;
+class Translate;

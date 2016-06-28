@@ -14,12 +14,10 @@
 #include <QStandardItemModel>
 #include <QTextCodec>
 
-#include "user.h"
 #include "mainwindow_admin.h"
 #include "ui_mainwindow_admin.h"
 #include "information_course.h"
 #include "information_user.h"
-#include "environment.h"
 #include "envir_widget.h"
 
 MainWindow_admin::MainWindow_admin(Envir_widget* envir_widget, QWidget *parent) :

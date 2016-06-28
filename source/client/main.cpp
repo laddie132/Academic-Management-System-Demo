@@ -12,10 +12,8 @@
 #include <QCryptographicHash>
 
 #include "login.h"
-#include "user.h"
-#include "config.h"
+#include "convey.h"
 #include "include.h"
-#include "environment.h"
 #include "envir_widget.h"
 #include "mainwindow_admin.h"
 #include "mainwindow_student.h"
@@ -28,20 +26,15 @@ int main(int argc, char *argv[])
 
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("utf-8"));
 
-    //设置运行环境
-    Envir envir;
-
-    //设置配置文件
-    Config_file config;
-    config.setEnvir(&envir);
+    //设置通信模块
+    Convey convey;
 
     //设置界面环境
     Envir_widget envir_widget;
-    envir_widget.setConfigFile(&config);
 
     //设置登录界面
     Login widget_login;
-    widget_login.setEnvir(&envir, &envir_widget);
+    widget_login.setEnvir(&convey, &envir_widget);
 
     //设置主界面
     MainWindow_admin widget_main_admin(&envir_widget);
@@ -51,11 +44,11 @@ int main(int argc, char *argv[])
     //保存所有主界面指针
     envir_widget.setWidget(&widget_login, &widget_main_student, &widget_main_teacher, &widget_main_admin);
 
-    //读取配置文件
+    //尝试登陆
     try{
-        config.readConfig();
+        convey.connect();
     }
-    catch(std::runtime_error &e){
+    catch(std::exception &e){
         QMessageBox::warning(&widget_main_admin, QString::fromLocal8Bit("警告"), QString::fromStdString(e.what()));
         exit(1);
     }

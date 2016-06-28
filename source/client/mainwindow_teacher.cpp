@@ -9,6 +9,7 @@
 #include <QMessageBox>
 
 #include "fun.h"
+#include "model_struct.h"
 #include "mainwindow_teacher.h"
 #include "ui_mainwindow_teacher.h"
 
@@ -194,7 +195,7 @@ void MainWindow_teacher::sort_student(int column)
 
         for(auto i : temp->getStudentGrade())
         {
-            struct student_model temp;
+            struct user_model temp;
             temp.id = i.first->getID();
             temp.name = i.first->getName();
             temp.class_name = i.first->getClass();

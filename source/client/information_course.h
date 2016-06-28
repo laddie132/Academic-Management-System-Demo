@@ -5,7 +5,6 @@
 #include <QStandardItemModel>
 
 #include "include.h"
-#include "user.h"
 
 namespace Ui {
 class Information_course;

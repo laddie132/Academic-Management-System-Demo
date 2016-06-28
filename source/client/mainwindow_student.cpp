@@ -10,6 +10,7 @@
 #include <QMessageBox>
 
 #include "fun.h"
+#include "model_struct.h"
 #include "mainwindow_student.h"
 #include "ui_mainwindow_student.h"
 
