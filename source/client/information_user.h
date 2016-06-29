@@ -16,15 +16,14 @@ public:
     explicit Information_user(QWidget *parent = 0);
     ~Information_user();
 
-    void setUser_admin(Admin* admin);
-    void setUser(User* user);
+//    void setUser(User* user);
 
     void showInfo();
     void updateCourse();
 
     void creatActivex();
 
-    void addCourse(User* user);       //将所选择课程添加到学生
+//    void addCourse(User* user);       //将所选择课程添加到学生
     void deleteCourse();              //先删除课程再更新课程
 
 signals:
@@ -51,10 +50,7 @@ private:
     QStandardItemModel* ui_course_model_n;
     QStandardItemModel* ui_course_model_y;
 
-    Admin* m_admin = NULL;
-    User* m_user = NULL;
-
-    std::set<Course*> prepare_delete;
+//    std::set<Course*> prepare_delete;
 };
 
 #endif // INFORMATION_USER_H

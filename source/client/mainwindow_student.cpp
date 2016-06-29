@@ -44,7 +44,7 @@ void MainWindow_student::setEnvirWidget(Envir_widget* envir_widget)
     this->m_envir_widget = envir_widget;
 }
 
-void MainWindow_student::setUser(Student* user)
+void MainWindow_student::setUserModel(User_model user)
 {
     this->m_user = user;
 }
@@ -63,20 +63,13 @@ void MainWindow_student::initStatusBar()
 void MainWindow_student::updateStatusBar()
 {
     //设置实时人数信息
-    int obligatory_num = 0;
-    int elective_num = 0;
-    for(auto i : m_user->getCourse())
-    {
-        if(i->getCourseType()){
-            obligatory_num++;
-        }
-        else{
-            elective_num++;
-        }
-    }
+    int obligatory_num = this->ui_course_model_o->rowCount();
+    int elective_num = this->ui_course_model_e->rowCount();
+    int select_num = this->ui_course_model_s->rowCount();
+
     QString course_num = "必修课：" + QString::number(obligatory_num) + "个"
             + " 选修课：" + QString::number(elective_num) + "个" +
-            " 可选课程：" + QString::number(m_user->getSelectCourse().size()) + "个";
+            " 可选课程：" + QString::number(select_num) + "个";
     ui_label_status->setText("实时信息：" + course_num);
 
     //设置实时系统时间
@@ -104,10 +97,10 @@ void MainWindow_student::initActivex()
 //初始进入界面时更新界面
 void MainWindow_student::showInfo()
 {
-    ui->label_id->setText(QString::fromStdString(m_user->getID()));
-    ui->label_name->setText(QString::fromStdString(m_user->getName()));
-    ui->label_institude->setText(QString::fromStdString(m_user->getInsititude()));
-    ui->label_class->setText(QString::fromStdString(m_user->getClass()));
+    ui->label_id->setText(QString::fromStdString(m_user->id));
+    ui->label_name->setText(QString::fromStdString(m_user->name));
+    ui->label_institude->setText(QString::fromStdString(m_user->institude));
+    ui->label_class->setText(QString::fromStdString(m_user->class_name));
     updateTable();
 
     updateStatusBar();
@@ -149,40 +142,40 @@ void MainWindow_student::updateTable()
     int row1 = 0, row2 = 0;
 
     //更新必修和选修课
-    for (auto i : m_user->getGrade())
+    for (auto i : m_envir_widget->getConvey()->getCurCourse())
     {
-        if(!i.first->getCourseType()){
-            ui_course_model_e->setItem(row2, 0, new QStandardItem(QString::fromStdString(i.first->getID())));
-            ui_course_model_e->setItem(row2, 1, new QStandardItem(QString::fromStdString(i.first->getName())));
-            ui_course_model_e->setItem(row2, 2, new QStandardItem(QString::number(i.first->getCredit())));
+        if(!i.course_type){
+            ui_course_model_e->setItem(row2, 0, new QStandardItem(QString::fromStdString(i.id)));
+            ui_course_model_e->setItem(row2, 1, new QStandardItem(QString::fromStdString(i.name)));
+            ui_course_model_e->setItem(row2, 2, new QStandardItem(QString::number(i.credit)));
             ui_course_model_e->setItem(row2, 3, new QStandardItem(QString::fromLocal8Bit("选修")));
-            ui_course_model_e->setItem(row2, 4, new QStandardItem(QString::number(i.first->getCapicity())));
-            ui_course_model_e->setItem(row2, 5, new QStandardItem(i.second != -1 ? QString("%1").arg(i.second) : QString::fromLocal8Bit("无")));
-            ui_course_model_e->setItem(row2, 6, new QStandardItem(QString("%1").arg(i.first->calculateGPA(m_user))));
+            ui_course_model_e->setItem(row2, 4, new QStandardItem(QString::number(i.capacity)));
+            ui_course_model_e->setItem(row2, 5, new QStandardItem(i.grade != -1 ? QString("%1").arg(i.grade) : QString::fromLocal8Bit("无")));
+            ui_course_model_e->setItem(row2, 6, new QStandardItem(QString("%1").arg(i.gpa)));
             row2++;
         }
         else{
-            ui_course_model_o->setItem(row1, 0, new QStandardItem(QString::fromStdString(i.first->getID())));
-            ui_course_model_o->setItem(row1, 1, new QStandardItem(QString::fromStdString(i.first->getName())));
-            ui_course_model_o->setItem(row1, 2, new QStandardItem(QString::number(i.first->getCredit())));
-            ui_course_model_o->setItem(row1, 3, new QStandardItem(QString::fromLocal8Bit("必修")));
-            ui_course_model_o->setItem(row1, 4, new QStandardItem(QString::number(i.first->getCapicity())));
-            ui_course_model_o->setItem(row1, 5, new QStandardItem(i.second != -1 ? QString("%1").arg(i.second) : QString::fromLocal8Bit("无")));
-            ui_course_model_o->setItem(row1, 6, new QStandardItem(QString("%1").arg(i.first->calculateGPA(m_user))));
+            ui_course_model_e->setItem(row1, 0, new QStandardItem(QString::fromStdString(i.id)));
+            ui_course_model_e->setItem(row1, 1, new QStandardItem(QString::fromStdString(i.name)));
+            ui_course_model_e->setItem(row1, 2, new QStandardItem(QString::number(i.credit)));
+            ui_course_model_e->setItem(row1, 3, new QStandardItem(QString::fromLocal8Bit("必修")));
+            ui_course_model_e->setItem(row1, 4, new QStandardItem(QString::number(i.capacity)));
+            ui_course_model_e->setItem(row1, 5, new QStandardItem(i.grade != -1 ? QString("%1").arg(i.grade) : QString::fromLocal8Bit("无")));
+            ui_course_model_e->setItem(row1, 6, new QStandardItem(QString("%1").arg(i.gpa)));
             row1++;
         }
     }
 
     //更新可选课程列表
     int row = 0;
-    for(auto i : m_user->getSelectCourse())
+    for(auto i : m_envir_widget->getConvey()->getSelCourse())
     {
-        ui_course_model_s->setItem(row, 0, new QStandardItem(QString::fromStdString(i->getID())));
-        ui_course_model_s->setItem(row, 1, new QStandardItem(QString::fromStdString(i->getName())));
-        ui_course_model_s->setItem(row, 2, new QStandardItem(QString::number(i->getCredit())));
+        ui_course_model_s->setItem(row, 0, new QStandardItem(QString::fromStdString(i.id)));
+        ui_course_model_s->setItem(row, 1, new QStandardItem(QString::fromStdString(i.name)));
+        ui_course_model_s->setItem(row, 2, new QStandardItem(QString::number(i.credit)));
         ui_course_model_s->setItem(row, 3, new QStandardItem(QString::fromLocal8Bit("选修")));
-        ui_course_model_s->setItem(row, 4, new QStandardItem(QString::number(i->getElectiveNum())));
-        ui_course_model_s->setItem(row, 5, new QStandardItem(QString::number(i->getCapicity())));
+        ui_course_model_s->setItem(row, 4, new QStandardItem(QString::number(i.cur_num)));
+        ui_course_model_s->setItem(row, 5, new QStandardItem(QString::number(i.capicity)));
         row++;
     }
 
@@ -204,9 +197,6 @@ void MainWindow_student::creatAction()
     connect(ui->action_help, SIGNAL(triggered()), this, SLOT(action_help_triggered()));
     connect(ui->action_password, SIGNAL(triggered()), this, SLOT(action_change_pass_triggered()));
 
-    //更新配置文件
-    connect(this, SIGNAL(updateConfig()), this->m_envir_widget, SLOT(updateConfig()));
-
     //学生选课和删除课程事件
     connect(ui->tableView_course_s, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(add_course_slots()));
     connect(ui->tableView_course_e, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(delete_course_slots()));
@@ -225,19 +215,11 @@ void MainWindow_student::sort_course_o(int column)
     static bool reverse = false;
 
     //重新构建表格项目的vector向量
-    std::vector<struct course_module> course_o;
-    for(auto i : m_user->getGrade())
+    std::vector<Course_model> course_o;
+    for(auto i : m_envir_widget->getConvey()->getCurCourse())
     {
-        if(!i.first->getCourseType())
-            continue;
-        struct course_module temp;
-        temp.id = i.first->getID();
-        temp.name = i.first->getName();
-        temp.credit = i.first->getCredit();
-        temp.capacity = i.first->getCapicity();
-        temp.grade = i.second;
-        temp.gpa = i.first->calculateGPA(m_user);
-        course_o.push_back(temp);
+        if(i.course_type)
+            course_o.push_back(i);
     }
 
     //判断需要对哪一项排序
@@ -286,19 +268,11 @@ void MainWindow_student::sort_course_e(int column)
 {
     static bool reverse = false;
 
-    std::vector<struct course_module> course_e;
-    for(auto i : m_user->getGrade())
+    std::vector<Course_model> course_e;
+    for(auto i : m_envir_widget->getConvey()->getCurCourse())
     {
-        if(i.first->getCourseType())
-            continue;
-        struct course_module temp;
-        temp.id = i.first->getID();
-        temp.name = i.first->getName();
-        temp.credit = i.first->getCredit();
-        temp.capacity = i.first->getCapicity();
-        temp.grade = i.second;
-        temp.gpa = i.first->calculateGPA(m_user);
-        course_e.push_back(temp);
+        if(!i.course_type)
+            course_e.push_back(i);
     }
 
     switch(column)
@@ -395,48 +369,31 @@ void MainWindow_student::action_help_triggered()
 void MainWindow_student::add_course_slots()
 {
     int row = ui->tableView_course_s->currentIndex().row();
-    std::string id = ui_course_model_s->item(row, 0)->text().toStdString();
-    Course_student* temp_find = NULL;
-    for(auto i : m_user->getSelectCourse())
-    {
-        if(i->getID() == id){
-            temp_find = i;
-        }
-    }
-    if(temp_find){
-        try{
-            m_user->addCourse(temp_find);
-            updateTable();      //更新用户列表信息
-            QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("选择课程成功"));
-        }
-        catch(std::out_of_range& e){
-            QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromStdString(e.what()));
-        }
-        catch(AuthorityError){
-            QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("学生无法选择必修课"));
-        }
-    }
+    QString id = ui_course_model_s->item(row, 0)->text();
 
-    emit updateConfig();
+    try{
+        m_envir_widget->getConvey()->sendSelCourse(id);
+
+        updateTable();      //更新用户列表信息
+        QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("选择课程成功"));
+    }
+    catch(std::exception& e){
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromStdString(e.what()));
+    }
 }
 
 //删除选修课
 void MainWindow_student::delete_course_slots()
 {
     int row = ui->tableView_course_e->currentIndex().row();
-    std::string id = ui_course_model_e->item(row, 0)->text().toStdString();
-    Course_student* temp_find = NULL;
-    for(auto i : m_user->getCourse())
-    {
-        if(i->getID() == id){
-            temp_find = i;
-        }
-    }
-    if(temp_find){
-        m_user->deleteCourse(temp_find);
+    QString id = ui_course_model_e->item(row, 0)->text();
+    try{
+        m_envir_widget->getConvey()->sendDelCourse(id);
+
         updateTable();
         QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("删除课程成功"));
     }
-
-    emit updateConfig();
+    catch(std::exception& e){
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromStdString(e.what()));
+    }
 }

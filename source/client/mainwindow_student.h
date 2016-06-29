@@ -28,12 +28,9 @@ public:
     void updateTable();        //表格信息初始化
 
     void setEnvirWidget(Envir_widget* envir_widget);
-    void setUser(Student* user);                        //设置当前登录用户
+    void setUserModel(User_model user);   //设置当前登录用户
 
     void initStatusBar();
-
-signals:
-    void updateConfig();
 
 private slots:
     void action_login_triggered();
@@ -60,13 +57,11 @@ private:
     QStandardItemModel* ui_course_model_e;
     QStandardItemModel* ui_course_model_s;
 
-    Student* m_user = NULL;
+    User_model* m_user = NULL;
 
     QLabel* ui_label_status;
     QLabel* ui_label_time;
     QTimer* m_timer_status;
-
-    int sort_by = 0;        //默认为0表示按课程ID排序，1表示按课程成绩排序，2表示按课程绩点排序
 };
 
 #endif // MAINWINDOW_STUDENT_H

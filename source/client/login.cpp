@@ -32,9 +32,8 @@ Login::~Login()
     delete ui;
 }
 
-void Login::setEnvir(Convey* convey, Envir_widget* envir_widget)
+void Login::setEnvir(Envir_widget* envir_widget)
 {
-    this->m_convey = convey;
     this->m_envir_widget = envir_widget;
 }
 
@@ -51,16 +50,22 @@ void Login::on_login_btn_clicked()
     QString md5_password = temp.toHex();
 
     //寻找输入用户
-    int user_type = m_convey->verifyUser(username, md5_password);
+    User_model cur_user = m_envir_widget->getConvey()->verifyUser(username, md5_password);
+
+    //验证失败
+    if(cur_user == NULL){
+        ui->wrong_label->show();
+        return;
+    }
 
     //判断用户类型
-    switch(user_type)
+    switch(cur_user.user_type)
     {
     //设置管理员界面
     case 0:
     {
         this->close();
-        m_envir_widget->showAdminWidget();
+        m_envir_widget->showAdminWidget(cur_user);
         break;
     }
 
@@ -68,7 +73,7 @@ void Login::on_login_btn_clicked()
     case 1:
     {
         this->close();
-        m_envir_widget->showTeacherWidget();
+        m_envir_widget->showTeacherWidget(cur_user);
         break;
     }
 
@@ -76,12 +81,11 @@ void Login::on_login_btn_clicked()
     case 2:
     {
         this->close();
-        m_envir_widget->showStudentWidget();
+        m_envir_widget->showStudentWidget(cur_user);
         break;
     }
 
     default:
-        ui->wrong_label->show();
         break;
     }
 }

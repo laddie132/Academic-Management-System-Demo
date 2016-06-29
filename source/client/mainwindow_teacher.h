@@ -29,7 +29,7 @@ public:
     void updateStudent();       //更新学生列表
 
     void setEnvirWidget(Envir_widget* envir_widget);
-    void setUser(Teacher* user);   //设置当前登录用户
+    void setUserModel(User_model user);   //设置当前登录用户
 
     void initStatusBar();
 
@@ -63,7 +63,7 @@ private:
 
     Information_user* info_student;
 
-    Teacher* m_user = NULL;
+    User_model* m_user = NULL;
 
     QLabel* ui_label_status;
     QLabel* ui_label_time;

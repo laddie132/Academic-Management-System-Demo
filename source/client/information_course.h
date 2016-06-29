@@ -18,8 +18,7 @@ public:
     explicit Information_course(QWidget *parent = 0);
     ~Information_course();
 
-    void setUser(Admin* admin);
-    void setCourse(Course* course);
+//    void setCourse(Course* course);
 
     void showInfo();
     void updateStudent();
@@ -54,8 +53,7 @@ private:
     QStandardItemModel* ui_student_model_n;
     QStandardItemModel* ui_student_model_y;
 
-    Admin* m_user;
-    Course* m_course = NULL;
+//    Course* m_course = NULL;
 };
 
 #endif // INFORMATION_COURSE_H

@@ -7,6 +7,7 @@
 #include <QStandardItemModel>
 
 #include "envir_widget.h"
+#include "model_struct.h"
 #include "information_course.h"
 #include "information_user.h"
 
@@ -23,7 +24,7 @@ public:
     ~MainWindow_admin();
 
     void setEnvirWidget(Envir_widget* envir_widget);
-    void setUser(Admin* user);   //设置当前登录用户
+    void setUserModel(User_model user);   //设置当前登录用户
 
     void creatAction();
 
@@ -56,7 +57,7 @@ private slots:
 private:
     Ui::MainWindow_admin *ui;
     Envir_widget* m_envir_widget;
-    Admin* m_user = NULL;
+    User_model* m_user = NULL;
 
     QStandardItemModel* ui_course_model_o;
     QStandardItemModel* ui_course_model_e;

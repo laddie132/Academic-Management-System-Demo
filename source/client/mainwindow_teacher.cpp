@@ -5,6 +5,7 @@
  */
 
 #include <QDebug>
+#include <QMap>
 #include <QDateTime>
 #include <QMessageBox>
 
@@ -42,7 +43,7 @@ void MainWindow_teacher::setEnvirWidget(Envir_widget* envir_widget)
     this->m_envir_widget = envir_widget;
 }
 
-void MainWindow_teacher::setUser(Teacher* user)
+void MainWindow_teacher::setUserModel(User_model user)
 {
     this->m_user = user;
 }
@@ -61,19 +62,9 @@ void MainWindow_teacher::initStatusBar()
 void MainWindow_teacher::updateStatusBar()
 {
     //设置实时人数信息
-    int obligatory_num = 0;
-    int elective_num = 0;
-    for(auto i : m_user->getCourse())
-    {
-        if(i->getCourseType()){
-            obligatory_num++;
-        }
-        else{
-            elective_num++;
-        }
-    }
-    QString course_num = "必修课：" + QString::number(obligatory_num) + "个"
-            + " 选修课：" + QString::number(elective_num) + "个";
+    int num = this->ui_course_model->rowCount();
+
+    QString course_num = "所属课程：" + QString::number(num) + "个";
     ui_label_status->setText("实时信息：" + course_num);
 
     //设置实时系统时间
@@ -110,14 +101,14 @@ void MainWindow_teacher::updateTable()
     ui_course_model->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("课程容量")));
 
     int row = 0;
-    for(auto i : m_user->getCourse())
+    for(auto i : m_envir_widget->getConvey()->getCurCourse())
     {
-        ui_course_model->setItem(row, 0, new QStandardItem(QString::fromStdString(i->getID())));
-        ui_course_model->setItem(row, 1, new QStandardItem(QString::fromStdString(i->getName())));
-        ui_course_model->setItem(row, 2, new QStandardItem(QString::number(i->getCredit())));
-        ui_course_model->setItem(row, 3, new QStandardItem(i->getCourseType() ? QString::fromLocal8Bit("必修") : QString::fromLocal8Bit("选修")));
-        ui_course_model->setItem(row, 4, new QStandardItem(QString::number(i->getStudent().size())));
-        ui_course_model->setItem(row, 5, new QStandardItem(QString::number(i->getCapicity())));
+        ui_course_model->setItem(row, 0, new QStandardItem(QString::fromStdString(i.id)));
+        ui_course_model->setItem(row, 1, new QStandardItem(QString::fromStdString(i.name)));
+        ui_course_model->setItem(row, 2, new QStandardItem(QString::number(i.credit)));
+        ui_course_model->setItem(row, 3, new QStandardItem(i.course_type ? QString::fromLocal8Bit("必修") : QString::fromLocal8Bit("选修")));
+        ui_course_model->setItem(row, 4, new QStandardItem(QString::number(i.cur_num)));
+        ui_course_model->setItem(row, 5, new QStandardItem(QString::number(i.capacity)));
         row++;
     }
 
@@ -127,19 +118,22 @@ void MainWindow_teacher::updateTable()
 //初始化进入界面
 void MainWindow_teacher::showInfo()
 {
-    ui->label_id->setText(QString::fromStdString(m_user->getID()));
-    ui->label_name->setText(QString::fromStdString(m_user->getName()));
-    ui->label_institude->setText(QString::fromStdString(m_user->getInsititude()));
+    ui->label_id->setText(QString::fromStdString(m_user->id));
+    ui->label_name->setText(QString::fromStdString(m_user->name));
+    ui->label_institude->setText(QString::fromStdString(m_user->institude));
+
     updateTable();
 
+    //更新学生成绩界面的课程列表选项
     ui->comboBox_course->clear();
-    for(auto i : m_user->getCourse())
+    int num = ui_course_model->rowCount();
+    for(int i = 0; i < num; i++)
     {
-        ui->comboBox_course->addItem(QString::fromStdString(i->getID()));
-        ui->comboBox_course->setCurrentIndex(0);
+        ui->comboBox_course->addItem(ui_course_model->item(i, 0)->text());
     }
-    updateStudent();
+    ui->comboBox_course->setCurrentIndex(0);
 
+    updateStudent();
     updateStatusBar();
     m_timer_status->start(1000);        //每一秒刷新一次状态栏
 }
@@ -148,14 +142,16 @@ void MainWindow_teacher::showInfo()
 void MainWindow_teacher::updateStudent()
 {
     if(ui->comboBox_course->currentIndex() != -1){
+        //查找指定课程详细信息
         QString id = ui->comboBox_course->currentText();
-        Course_teacher* temp = m_user->findCourse(id.toStdString());
-        if(!temp)
+        std::pair<Course_model, std::vector<User_model> > course_info = m_envir_widget->getConvey()->getCourseInfo(id);
+        if(!course_info)
             return;
-        ui->label_course_id->setText(QString::fromStdString(temp->getID()));
-        ui->label_course_name->setText(QString::fromStdString(temp->getName()));
-        ui->label_course_credit->setText(QString::number(temp->getCredit()));
-        ui->label_course_type->setText(temp->getCourseType() ? QString::fromLocal8Bit("必修") : QString::fromLocal8Bit("选修"));
+
+        ui->label_course_id->setText(QString::fromStdString(course_info.first.id));
+        ui->label_course_name->setText(QString::fromStdString(course_info.first.name));
+        ui->label_course_credit->setText(QString::number(course_info.first.credit));
+        ui->label_course_type->setText(course_info.first.course_type ? QString::fromLocal8Bit("必修") : QString::fromLocal8Bit("选修"));
 
         //更新学生表格信息
         ui_student_model->clear();
@@ -167,13 +163,13 @@ void MainWindow_teacher::updateStudent()
         ui_student_model->setHorizontalHeaderItem(4, new QStandardItem(QString::fromLocal8Bit("成绩")));
 
         int row = 0;
-        for(auto i : temp->getStudentGrade())
+        for(auto i : course_info.second)
         {
-            ui_student_model->setItem(row, 0, new QStandardItem(QString::fromStdString(i.first->getID())));
-            ui_student_model->setItem(row, 1, new QStandardItem(QString::fromStdString(i.first->getName())));
-            ui_student_model->setItem(row, 2, new QStandardItem(QString::fromStdString(i.first->getClass())));
-            ui_student_model->setItem(row, 3, new QStandardItem(QString::fromStdString(i.first->getInsititude())));
-            ui_student_model->setItem(row, 4, new QStandardItem(QString("%1").arg(i.second)));
+            ui_student_model->setItem(row, 0, new QStandardItem(QString::fromStdString(i.id)));
+            ui_student_model->setItem(row, 1, new QStandardItem(QString::fromStdString(i.name)));
+            ui_student_model->setItem(row, 2, new QStandardItem(QString::fromStdString(i.class_name)));
+            ui_student_model->setItem(row, 3, new QStandardItem(QString::fromStdString(i.institude)));
+            ui_student_model->setItem(row, 4, new QStandardItem(QString("%1").arg(i.grade)));
             row++;
         }
         ui_student_model->sort(0);
@@ -185,38 +181,29 @@ void MainWindow_teacher::sort_student(int column)
 {
     static bool reverse = false;
 
-    std::vector<struct student_model> student_m;
     if(ui->comboBox_course->currentIndex() != -1){
         //查找当前选择课程
         QString id = ui->comboBox_course->currentText();
-        Course_teacher* temp = m_user->findCourse(id.toStdString());
-        if(!temp)
+        auto course_info = m_envir_widget->getConvey()->getCourseInfo(id);
+
+        if(!course_info)
             return;
 
-        for(auto i : temp->getStudentGrade())
-        {
-            struct user_model temp;
-            temp.id = i.first->getID();
-            temp.name = i.first->getName();
-            temp.class_name = i.first->getClass();
-            temp.institude = i.first->getInsititude();
-            temp.grade = i.second;
-            student_m.push_back(temp);
-        }
+        auto student_list = course_info.second;
 
         //判断当前需要对哪一项排序
         switch(column)
         {
         case 0:
         {
-            Sort::sortVectorCourse(student_m, "id", reverse);
+            Sort::sortVectorCourse(student_list, "id", reverse);
             reverse = !reverse;
             break;
         }
 
         case 4:
         {
-            Sort::sortVectorCourse(student_m, "grade", reverse);
+            Sort::sortVectorCourse(student_list, "grade", reverse);
             reverse = !reverse;
             break;
         }
@@ -226,13 +213,13 @@ void MainWindow_teacher::sort_student(int column)
         }
 
         //重新更新表格
-        for(int i = 0; i < student_m.size(); i++)
+        for(int i = 0; i < student_list.size(); i++)
         {
-            ui_student_model->setItem(i, 0, new QStandardItem(QString::fromStdString(student_m[i].id)));
-            ui_student_model->setItem(i, 1, new QStandardItem(QString::fromStdString(student_m[i].name)));
-            ui_student_model->setItem(i, 2, new QStandardItem(QString::fromStdString(student_m[i].class_name)));
-            ui_student_model->setItem(i, 3, new QStandardItem(QString::fromStdString(student_m[i].institude)));
-            ui_student_model->setItem(i, 4, new QStandardItem(QString("%1").arg(student_m[i].grade)));
+            ui_student_model->setItem(i, 0, new QStandardItem(QString::fromStdString(student_list[i].id)));
+            ui_student_model->setItem(i, 1, new QStandardItem(QString::fromStdString(student_list[i].name)));
+            ui_student_model->setItem(i, 2, new QStandardItem(QString::fromStdString(student_list[i].class_name)));
+            ui_student_model->setItem(i, 3, new QStandardItem(QString::fromStdString(student_list[i].institude)));
+            ui_student_model->setItem(i, 4, new QStandardItem(QString("%1").arg(student_list[i].grade)));
         }
     }
 }
@@ -251,9 +238,6 @@ void MainWindow_teacher::creatAction()
 
     //界面按钮
     connect(ui->set_grade_btn, SIGNAL(clicked()), this, SLOT(action_set_grade_triggered()));
-
-    //更新配置文件
-    connect(this, SIGNAL(updateConfig()), this->m_envir_widget, SLOT(updateConfig()));
 
     //状态栏计时器
     connect(m_timer_status, SIGNAL(timeout()), this, SLOT(updateStatusBar()));
@@ -297,7 +281,7 @@ void MainWindow_teacher::action_change_pass_triggered()
 void MainWindow_teacher::action_about_triggered()
 {
     QMessageBox::about(this, QString::fromLocal8Bit("关于"),
-          QString::fromLocal8Bit(" <font color='red'>Students` Grade Manage System 2.9.0 (opensource)</font>"
+          QString::fromLocal8Bit(" <font color='red'>Students` Grade Manage System 3.9.0 (opensource)</font>"
                                  "<br>项目主页：https://github.com/laddie132/StudentsGradeManageSystem"
                                  " <br>作者：L.Laddie"
                                "  <br><br>Copyright 2016-2016 The Qt Company Ltd. All rights reserved." ));
@@ -324,32 +308,23 @@ void MainWindow_teacher::on_confirm_btn_clicked()
 {
     if(ui->comboBox_course->currentIndex() != -1){
         QString course_id = ui->comboBox_course->currentText();
-        Course_teacher* temp = m_user->findCourse(course_id.toStdString());
-        if(temp){
-            int row = ui_student_model->rowCount();
-            for(int i = 0; i < row; i++)
-            {
-                Student* cur_student = NULL;
-                QString student_id = ui_student_model->item(i, 0)->text();
-                for(auto j : temp->getStudent())
-                {
-                    if(j->getID() == student_id.toStdString())
-                    {
-                        cur_student = j;
-                        break;
-                    }
-                }
-                float grade = ui_student_model->item(i, 4)->text().toFloat();
-                try{
-                    temp->setGrade(std::make_pair(cur_student, grade));
-                }
-                catch(std::invalid_argument& e){
-                    ui_student_model->item(i, 4)->setText(QString("%1").arg(temp->getStudentGrade()[cur_student]));
-                    QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromStdString(e.what()));
-                }
-            }
+        QMap<QString, float> student_grade;
+
+        int row = ui_student_model->rowCount();
+        for(int i = 0; i < row; i++)
+        {
+            QString student_id = ui_student_model->item(i, 0)->text();
+            float grade = ui_student_model->item(i, 4)->text().toFloat();
+            student_grade.insert(student_id, grade);
         }
-        QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("修改学生成绩成功"));
-        emit updateConfig();
+
+        try{
+            m_envir_widget->getConvey()->sendStuGrade(course_id, student_grade);
+            QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("修改学生成绩成功"));
+        }
+        catch(std::exception& e){
+            updateStudent();
+            QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromStdString(e.what()));
+        }
     }
 }

@@ -5,6 +5,7 @@
 #include "include.h"
 #include "envir_widget.h"
 #include "convey.h"
+#include "model_struct.h"
 
 namespace Ui {
 class Login;
@@ -18,7 +19,7 @@ public:
     explicit Login(QWidget *parent = 0);
     ~Login();
 
-    void setEnvir(Convey* m_convey, Envir_widget* envir_widget);        //设置系统运行环境
+    void setEnvir(Envir_widget* envir_widget);        //设置系统运行环境
 
 private slots:
     void on_login_btn_clicked();
@@ -28,7 +29,6 @@ private slots:
 private:
     Ui::Login *ui;
     Envir_widget* m_envir_widget;
-    Convey* m_convey;
 };
 
 #endif // LOGIN_H

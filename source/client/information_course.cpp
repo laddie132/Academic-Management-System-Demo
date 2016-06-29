@@ -10,7 +10,6 @@
 #include "information_course.h"
 #include "ui_information_course.h"
 #include "include.h"
-#include "course.h"
 
 Information_course::Information_course(QWidget *parent) :
     QDialog(parent),

@@ -49,7 +49,7 @@ void MainWindow_admin::setEnvirWidget(Envir_widget* envir_widget)
     this->m_envir_widget = envir_widget;
 }
 
-void MainWindow_admin::setUser(Admin* user)
+void MainWindow_admin::setUserModel(User_model user)
 {
     this->m_user = user;
 }
@@ -93,11 +93,11 @@ void MainWindow_admin::initStatusBar()
 void MainWindow_admin::updateStatusBar()
 {
     //设置实时人数信息
-    QString student_num = "学生：" + QString::number(m_user->getEnvir()->getUserStudent().size()) + "人";
-    QString teacher_num = "教师：" + QString::number(m_user->getEnvir()->getUserTeacher().size()) + "人";
-    QString admin_num = "管理员：" + QString::number(m_user->getEnvir()->getUserAdmin().size()) + "人";
-    QString obligatory_num = "必修课：" + QString::number(m_user->getEnvir()->getObligatoryCourse().size()) + "个";
-    QString elective_num = "选修课：" + QString::number(m_user->getEnvir()->getElectiveCourse().size()) + "个";
+    QString student_num = "学生：" + QString::number(ui_student_model->rowCount()) + "人";
+    QString teacher_num = "教师：" + QString::number(ui_teacher_model->rowCount()) + "人";
+    QString admin_num = "管理员：" + QString::number(ui_admin_model->rowCount()) + "人";
+    QString obligatory_num = "必修课：" + QString::number(ui_course_model_o->rowCount()) + "个";
+    QString elective_num = "选修课：" + QString::number(ui_course_model_e->rowCount()) + "个";
     ui_label_status->setText("实时信息：" + student_num + " " + teacher_num + " " + admin_num + " " + obligatory_num + " " + elective_num);
 
     //设置实时系统时间
@@ -109,9 +109,9 @@ void MainWindow_admin::updateStatusBar()
 //初次进入界面更新信息
 void MainWindow_admin::showInfo()
 {
-    ui->label_id->setText(QString::fromStdString(m_user->getID()));
-    ui->label_name->setText(QString::fromStdString(m_user->getName()));
-    ui->label_institude->setText(QString::fromStdString(m_user->getInsititude()));
+    ui->label_id->setText(QString::fromStdString(m_user->id));
+    ui->label_name->setText(QString::fromStdString(m_user->name));
+    ui->label_institude->setText(QString::fromStdString(m_user->institude));
     updateTable();   
 
     updateStatusBar();
@@ -165,41 +165,42 @@ void MainWindow_admin::updateTable()
     ui_admin_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("密码")));
     ui->tableView_admin->setColumnWidth(3, 250);
 
-    int row = 0;
+    int row1 = 0, row2 = 0;
 
-    //更新必修课
-    for (auto i : m_user->getEnvir()->getObligatoryCourse())
+    //更新必修课和选修课
+    for (auto i : m_envir_widget->getConvey()->getCurCourse())
     {
-        ui_course_model_o->setItem(row, 0, new QStandardItem(QString::fromStdString(i->getID())));
-        ui_course_model_o->setItem(row, 1, new QStandardItem(QString::fromStdString(i->getName())));
-        ui_course_model_o->setItem(row, 2, new QStandardItem(QString::number(i->getCredit())));
-        ui_course_model_o->setItem(row, 3, new QStandardItem(QString::fromLocal8Bit("必修")));
-        ui_course_model_o->setItem(row, 4, new QStandardItem(QString::number(i->getStudent().size())));
-        ui_course_model_o->setItem(row, 5, new QStandardItem(QString::number(i->getCapicity())));
-        row++;
-    }
-
-    //更新选修课
-    row = 0;
-    for(auto i : m_user->getEnvir()->getElectiveCourse())
-    {
-        ui_course_model_e->setItem(row, 0, new QStandardItem(QString::fromStdString(i->getID())));
-        ui_course_model_e->setItem(row, 1, new QStandardItem(QString::fromStdString(i->getName())));
-        ui_course_model_e->setItem(row, 2, new QStandardItem(QString::number(i->getCredit())));
-        ui_course_model_e->setItem(row, 3, new QStandardItem(QString::fromLocal8Bit("选修")));
-        ui_course_model_e->setItem(row, 4, new QStandardItem(QString::number(i->getStudent().size())));
-        ui_course_model_e->setItem(row, 5, new QStandardItem(QString::number(i->getCapicity())));
-        row++;
+        Course_model i;
+        if(i.course_type)
+        {
+            ui_course_model_o->setItem(row1, 0, new QStandardItem(QString::fromStdString(i.id)));
+            ui_course_model_o->setItem(row1, 1, new QStandardItem(QString::fromStdString(i.name)));
+            ui_course_model_o->setItem(row1, 2, new QStandardItem(QString::number(i.credit)));
+            ui_course_model_o->setItem(row1, 3, new QStandardItem(QString::fromLocal8Bit("必修")));
+            ui_course_model_o->setItem(row1, 4, new QStandardItem(QString::number(i.cur_num)));
+            ui_course_model_o->setItem(row1, 5, new QStandardItem(QString::number(i.capacity)));
+            row1++;
+        }
+        else
+        {
+            ui_course_model_e->setItem(row2, 0, new QStandardItem(QString::fromStdString(i.id)));
+            ui_course_model_e->setItem(row2, 1, new QStandardItem(QString::fromStdString(i.name)));
+            ui_course_model_e->setItem(row2, 2, new QStandardItem(QString::number(i.credit)));
+            ui_course_model_e->setItem(row2, 3, new QStandardItem(QString::fromLocal8Bit("选修")));
+            ui_course_model_e->setItem(row2, 4, new QStandardItem(QString::number(i.cur_num)));
+            ui_course_model_e->setItem(row2, 5, new QStandardItem(QString::number(i.capacity)));
+            row2++;
+        }
     }
 
     //更新学生列表
-    row = 0;
+    int row = 0;
     for(auto i : m_user->getEnvir()->getUserStudent())
     {
-        ui_student_model->setItem(row, 0, new QStandardItem(QString::fromStdString(i.first->getID())));
-        ui_student_model->setItem(row, 1, new QStandardItem(QString::fromStdString(i.first->getName())));
-        ui_student_model->setItem(row, 2, new QStandardItem(QString::fromStdString(i.first->getClass())));
-        ui_student_model->setItem(row, 3, new QStandardItem(QString::fromStdString(i.first->getInsititude())));
+        ui_student_model->setItem(row, 0, new QStandardItem(QString::fromStdString(i.id)));
+        ui_student_model->setItem(row, 1, new QStandardItem(QString::fromStdString(i.name)));
+        ui_student_model->setItem(row, 2, new QStandardItem(QString::fromStdString(i.class_name)));
+        ui_student_model->setItem(row, 3, new QStandardItem(QString::fromStdString(i.instidude)));
         ui_student_model->setItem(row, 4, new QStandardItem(QString::fromStdString(i.second)));
         row++;
     }

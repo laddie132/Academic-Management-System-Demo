@@ -2,6 +2,8 @@
 #define ENVIR_WIDGET_H
 
 #include "include.h"
+#include "convey.h"
+#include "model_struct.h"
 #include <QApplication>
 
 //界面环境
@@ -12,26 +14,29 @@ class Envir_widget : public QObject
 public:
     explicit Envir_widget(){}
 
-    void setWidget(Login* login, MainWindow_student* student, MainWindow_teacher* teacher, MainWindow_admin* admin);
+//    void setWidget(Login* login, MainWindow_student* student, MainWindow_teacher* teacher, MainWindow_admin* admin);
+
+    void setWidget(Login* login, MainWindow_student* student, MainWindow_teacher* teacher);
 
     //打开指定界面
     void showLoginWidget();
-    void showAdminWidget(Admin* user);
-    void showStudentWidget(Student* user);
-    void showTeacherWidget(Teacher* user);
+    void showAdminWidget(User_model user);
+    void showStudentWidget(User_model user);
+    void showTeacherWidget(User_model user);
 
-    //更新配置文件
-    void setConfigFile(Config_file* config);
-
-public slots:
-    void updateConfig();
+    //获取传送模块
+    void setConvey(Convey* convey);
+    Convey* getConvey();
 
 private:
     //保存当前界面指针
     Login* m_widget_login;
-    MainWindow_admin* m_widget_admin;
+//    MainWindow_admin* m_widget_admin;
     MainWindow_student* m_widget_student;
     MainWindow_teacher* m_widget_teacher;
+
+    //保存通信模块
+    Convey* m_convey;
 };
 
 #endif // ENVIR_WIDGET_H
