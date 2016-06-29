@@ -41,7 +41,8 @@ User_model Convey::verifyUser(QString username, QString password)
 
     //发送json数据包
     QJsonObject tempobj, jsonobj;
-    tempobj.insert(username, password);
+    tempobj.insert("username", username);
+    tempobj.insert("password", password);
     jsonobj.insert("verify", tempobj);
 
     QJsonDocument jsondoc;
@@ -57,6 +58,9 @@ User_model Convey::verifyUser(QString username, QString password)
         QJsonParseError json_error;
         jsondoc = QJsonDocument::fromJson(jsonbyte, &json_error);
         if(json_error.error == QJsonParseError::NoError){
+
+//            qDebug() << jsondoc;
+
             if(jsondoc.isObject()){
                 jsonobj = jsondoc.object();
                 QJsonValue jsonvalue;
@@ -204,7 +208,7 @@ User_model Convey::translateJsonUser(QJsonObject jsonobj)
 
     if(jsonobj.contains("user_type"))
     {
-        jsonvalue = jsonobj.take("json_type");
+        jsonvalue = jsonobj.take("user_type");
         if(jsonvalue.isDouble())
         {
             cur_user.user_type = jsonvalue.toVariant().toInt();

@@ -1,4 +1,5 @@
-QT += core
+QT += core\
+    network
 QT -= gui
 
 CONFIG += c++11
@@ -13,14 +14,17 @@ SOURCES += main.cpp \
     config.cpp \
     course.cpp \
     environment.cpp \
-    user.cpp
+    user.cpp \
+    convey_server.cpp \
+    convey_thread.cpp
 
-DISTFILES += \
-    StudentGradeManageSystem_server.pro.user
+DISTFILES +=
 
 HEADERS += \
     config.h \
     course.h \
     environment.h \
     user.h \
-    include.h
+    include.h \
+    convey_server.h \
+    convey_thread.h

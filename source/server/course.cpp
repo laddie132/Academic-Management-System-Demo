@@ -4,6 +4,7 @@
  * Function: 课程对象
  */
 
+#include <QString>
 #include <cmath>
 #include "course.h"
 #include "user.h"

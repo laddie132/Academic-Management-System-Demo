@@ -4,11 +4,6 @@
 #include "user.h"
 #include "course.h"
 
-#include "login.h"
-#include "mainwindow_admin.h"
-#include "mainwindow_student.h"
-#include "mainwindow_teacher.h"
-
 //系统工作环境（最高权限访问）
 class Envir
 {

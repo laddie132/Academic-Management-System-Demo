@@ -1,8 +1,18 @@
+#include <QDebug>
+#include <QString>
+#include <QTextCodec>
 #include <QCoreApplication>
+
+#include "include.h"
+#include "convey_server.h"
+#include "convey_thread.h"
+#include "config.h"
+#include "environment.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("utf-8"));
 
     //设置运行环境
     Envir envir;
@@ -16,9 +26,14 @@ int main(int argc, char *argv[])
         config.readConfig();
     }
     catch(std::runtime_error &e){
-        QMessageBox::warning(&widget_main_admin, QString::fromLocal8Bit("警告"), QString::fromStdString(e.what()));
+        qDebug() << e.what();
         exit(1);
     }
+
+    //开启服务器监听
+    Convey_server server;
+    server.setEnvir(&envir);
+    server.listen(QHostAddress("127.0.0.1"), 10010);
 
     return a.exec();
 }

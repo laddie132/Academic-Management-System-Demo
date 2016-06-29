@@ -28,11 +28,15 @@ class Admin;
 class Envir;
 class Config_file;
 
+//通信相关类
+class Convey_server;
+class Convey_thread;
+
 enum user_type
 {
-    student,
-    teacher,
-    admin
+    student = 2,
+    teacher = 1,
+    admin = 0
 };
 
 #endif // INCLUDE_H

@@ -58,9 +58,12 @@ void Login::on_login_btn_clicked()
         return;
     }
 
+    qDebug() << cur_user.user_type;
+
     //判断用户类型
     switch(cur_user.user_type)
     {
+
     //设置管理员界面
 /*    case 0:
     {

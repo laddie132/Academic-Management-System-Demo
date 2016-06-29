@@ -1,5 +1,5 @@
-#ifndef USER_H
-#define USER_H
+#ifndef MODEL_STRUCT_H
+#define MODEL_STRUCT_H
 
 #include "include.h"
 
@@ -30,4 +30,4 @@ struct user_model
 typedef struct user_model User_model;
 typedef struct course_model Course_model;
 
-#endif // USER_H
+#endif // MODEL_STRUCT_H

@@ -32,10 +32,9 @@ void Config_file::readConfig()
 {
     //打开配置文件
     std::ifstream file;
-//    file.exceptions(std::ios_base::failbit | std::ios_base::badbit);
     file.open("config.ini", std::ios_base::in);
     if(!file)
-        throw std::runtime_error(QString::fromLocal8Bit("配置文件不存在").toStdString());
+        throw std::runtime_error("No Config File!!!");
 
     //定义正则表达式匹配配置文件
     std::regex pattern("\\[(.*)\\]");
