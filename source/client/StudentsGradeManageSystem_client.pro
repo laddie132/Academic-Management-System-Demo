@@ -14,19 +14,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    course.cpp \
-    user.cpp \
-    environment.cpp \
     login.cpp \
     mainwindow_student.cpp \
     mainwindow_teacher.cpp \
     envir_widget.cpp \
-    config.cpp \
     fun.cpp \
     convey.cpp
 
 HEADERS  += \
-    environment.h \
     login.h \
     include.h \
     mainwindow_student.h \

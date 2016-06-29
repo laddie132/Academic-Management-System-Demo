@@ -97,10 +97,10 @@ void MainWindow_student::initActivex()
 //初始进入界面时更新界面
 void MainWindow_student::showInfo()
 {
-    ui->label_id->setText(QString::fromStdString(m_user->id));
-    ui->label_name->setText(QString::fromStdString(m_user->name));
-    ui->label_institude->setText(QString::fromStdString(m_user->institude));
-    ui->label_class->setText(QString::fromStdString(m_user->class_name));
+    ui->label_id->setText(QString::fromStdString(m_user.id));
+    ui->label_name->setText(QString::fromStdString(m_user.name));
+    ui->label_institude->setText(QString::fromStdString(m_user.institude));
+    ui->label_class->setText(QString::fromStdString(m_user.class_name));
     updateTable();
 
     updateStatusBar();
@@ -175,7 +175,7 @@ void MainWindow_student::updateTable()
         ui_course_model_s->setItem(row, 2, new QStandardItem(QString::number(i.credit)));
         ui_course_model_s->setItem(row, 3, new QStandardItem(QString::fromLocal8Bit("选修")));
         ui_course_model_s->setItem(row, 4, new QStandardItem(QString::number(i.cur_num)));
-        ui_course_model_s->setItem(row, 5, new QStandardItem(QString::number(i.capicity)));
+        ui_course_model_s->setItem(row, 5, new QStandardItem(QString::number(i.capacity)));
         row++;
     }
 

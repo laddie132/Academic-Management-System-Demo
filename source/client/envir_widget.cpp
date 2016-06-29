@@ -4,7 +4,7 @@
  * Function: 界面相关环境
  */
 
-#include "include.h"
+#include "login.h"
 #include "model_struct.h"
 #include "envir_widget.h"
 #include "mainwindow_student.h"
@@ -27,17 +27,28 @@ void Envir_widget::setWidget(Login *login, MainWindow_student *student, MainWind
     m_widget_teacher = teacher;
 }
 
+void Envir_widget::setConvey(Convey *convey)
+{
+    this->m_convey = convey;
+}
+
 void Envir_widget::showLoginWidget()
 {
     m_widget_login->show();
 }
 
+Convey* Envir_widget::getConvey()
+{
+    return this->m_convey;
+}
+
+/*
 void Envir_widget::showAdminWidget(User_model user)
 {
     m_widget_admin->show();
     m_widget_admin->setUserModel(user);
     m_widget_admin->showInfo();
-}
+}*/
 
 void Envir_widget::showStudentWidget(User_model user)
 {

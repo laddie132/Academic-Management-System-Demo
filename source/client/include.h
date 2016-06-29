@@ -15,11 +15,10 @@
 class Login;
 class MainWindow_student;
 class MainWindow_teacher;
-class MainWindow_admin;
-class Information_user;
-class Information_course;
+//class MainWindow_admin;
+//class Information_user;
+//class Information_course;
 class Envir_widget;
 
 //通信类
 class Convey;
-class Translate;

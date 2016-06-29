@@ -39,7 +39,7 @@ public:
     void sendSelCourse(QString course_id);
     void sendDelCourse(QString course_id);
 
-    void sendStuGrade(QString course_id, QMap<QString, float> stu_grade);
+    void sendStuGrade(QString course_id, QMap<QString, QVariant> stu_grade);
 
     //管理员修改指定课程或者用户的详细信息
     bool sendCourseInfo(QString course_id, Course_model cur_course, std::vector<User_model> course_stu);

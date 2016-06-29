@@ -118,9 +118,9 @@ void MainWindow_teacher::updateTable()
 //初始化进入界面
 void MainWindow_teacher::showInfo()
 {
-    ui->label_id->setText(QString::fromStdString(m_user->id));
-    ui->label_name->setText(QString::fromStdString(m_user->name));
-    ui->label_institude->setText(QString::fromStdString(m_user->institude));
+    ui->label_id->setText(QString::fromStdString(m_user.id));
+    ui->label_name->setText(QString::fromStdString(m_user.name));
+    ui->label_institude->setText(QString::fromStdString(m_user.institude));
 
     updateTable();
 
@@ -145,8 +145,8 @@ void MainWindow_teacher::updateStudent()
         //查找指定课程详细信息
         QString id = ui->comboBox_course->currentText();
         std::pair<Course_model, std::vector<User_model> > course_info = m_envir_widget->getConvey()->getCourseInfo(id);
-        if(!course_info)
-            return;
+//        if(!course_info.first)
+//            return;
 
         ui->label_course_id->setText(QString::fromStdString(course_info.first.id));
         ui->label_course_name->setText(QString::fromStdString(course_info.first.name));
@@ -186,8 +186,8 @@ void MainWindow_teacher::sort_student(int column)
         QString id = ui->comboBox_course->currentText();
         auto course_info = m_envir_widget->getConvey()->getCourseInfo(id);
 
-        if(!course_info)
-            return;
+//        if(!course_info)
+//            return;
 
         auto student_list = course_info.second;
 
@@ -308,13 +308,13 @@ void MainWindow_teacher::on_confirm_btn_clicked()
 {
     if(ui->comboBox_course->currentIndex() != -1){
         QString course_id = ui->comboBox_course->currentText();
-        QMap<QString, float> student_grade;
+        QMap<QString, QVariant> student_grade;
 
         int row = ui_student_model->rowCount();
         for(int i = 0; i < row; i++)
         {
             QString student_id = ui_student_model->item(i, 0)->text();
-            float grade = ui_student_model->item(i, 4)->text().toFloat();
+            QVariant grade(ui_student_model->item(i, 4)->text().toFloat());
             student_grade.insert(student_id, grade);
         }
 

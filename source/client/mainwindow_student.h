@@ -57,7 +57,7 @@ private:
     QStandardItemModel* ui_course_model_e;
     QStandardItemModel* ui_course_model_s;
 
-    User_model* m_user = NULL;
+    User_model m_user;
 
     QLabel* ui_label_status;
     QLabel* ui_label_time;

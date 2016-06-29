@@ -53,7 +53,7 @@ void Login::on_login_btn_clicked()
     User_model cur_user = m_envir_widget->getConvey()->verifyUser(username, md5_password);
 
     //验证失败
-    if(cur_user == NULL){
+    if(cur_user.id == ""){
         ui->wrong_label->show();
         return;
     }
@@ -62,13 +62,13 @@ void Login::on_login_btn_clicked()
     switch(cur_user.user_type)
     {
     //设置管理员界面
-    case 0:
+/*    case 0:
     {
         this->close();
         m_envir_widget->showAdminWidget(cur_user);
         break;
     }
-
+*/
     //设置教师界面
     case 1:
     {
