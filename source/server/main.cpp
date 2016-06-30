@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
     //开启服务器监听
     Convey_server server;
     server.setEnvir(&envir);
+    server.setConfig(&config);
     server.listen(QHostAddress("127.0.0.1"), 10010);
 
     return a.exec();

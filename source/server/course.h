@@ -32,6 +32,7 @@ public:
     void addStudent(Student* student);				//添加学生信息
 	bool deleteStudent(Student* student);			//删除当前学生信息
     void clearStudent();                             //清空学生信息
+    Student* findStudent(std::string id);           //查找学生信息
 
     bool checkStudent(Student* student);
     bool checkTeacher(Teacher* teacher);
@@ -102,7 +103,7 @@ protected:
 };
 
 //学生端可操作的课程类
-class Course_student: virtual public Course_user
+class Course_student: public Course_user
 {
 public:
     Course_student(Course* course): Course_user(course){}
@@ -119,12 +120,13 @@ public:
 };
 
 //教师端可操作的课程类
-class Course_teacher: virtual public Course_user
+class Course_teacher: public Course_user
 {
 public:
     Course_teacher(Course* course): Course_user(course){}
 
 	std::set<Student*> getStudent();				//获取当前学生信息
+    Student* findStudent(std::string id);           //根据学号查找学生
 
 	std::map<Student*, float> getStudentGrade();	//获取当前课程学生成绩
     void setGrade(std::pair<Student*, float> student_grade);	//设置学生成绩

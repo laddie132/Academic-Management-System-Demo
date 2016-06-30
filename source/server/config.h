@@ -23,7 +23,6 @@ public:
     void setEnvir(Envir* envir);
 
     void readConfig();
-
     void writeConfig();
 
 private:

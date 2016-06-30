@@ -155,13 +155,13 @@ void MainWindow_student::updateTable()
             row2++;
         }
         else{
-            ui_course_model_e->setItem(row1, 0, new QStandardItem(QString::fromStdString(i.id)));
-            ui_course_model_e->setItem(row1, 1, new QStandardItem(QString::fromStdString(i.name)));
-            ui_course_model_e->setItem(row1, 2, new QStandardItem(QString::number(i.credit)));
-            ui_course_model_e->setItem(row1, 3, new QStandardItem(QString::fromLocal8Bit("必修")));
-            ui_course_model_e->setItem(row1, 4, new QStandardItem(QString::number(i.capacity)));
-            ui_course_model_e->setItem(row1, 5, new QStandardItem(i.grade != -1 ? QString("%1").arg(i.grade) : QString::fromLocal8Bit("无")));
-            ui_course_model_e->setItem(row1, 6, new QStandardItem(QString("%1").arg(i.gpa)));
+            ui_course_model_o->setItem(row1, 0, new QStandardItem(QString::fromStdString(i.id)));
+            ui_course_model_o->setItem(row1, 1, new QStandardItem(QString::fromStdString(i.name)));
+            ui_course_model_o->setItem(row1, 2, new QStandardItem(QString::number(i.credit)));
+            ui_course_model_o->setItem(row1, 3, new QStandardItem(QString::fromLocal8Bit("必修")));
+            ui_course_model_o->setItem(row1, 4, new QStandardItem(QString::number(i.capacity)));
+            ui_course_model_o->setItem(row1, 5, new QStandardItem(i.grade != -1 ? QString("%1").arg(i.grade) : QString::fromLocal8Bit("无")));
+            ui_course_model_o->setItem(row1, 6, new QStandardItem(QString("%1").arg(i.gpa)));
             row1++;
         }
     }
@@ -207,6 +207,9 @@ void MainWindow_student::creatAction()
     //表头点击排序事件
     connect(ui->tableView_course_o->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(sort_course_o(int)));
     connect(ui->tableView_course_e->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(sort_course_e(int)));
+
+    //刷新按钮
+    connect(ui->flush_btn, SIGNAL(clicked()), this, SLOT(flush_btn_clicked()));
 }
 
 //对必修课程排序
@@ -329,6 +332,8 @@ void MainWindow_student::action_quit_triggered()
         m_timer_status->stop();         //停止状态栏计时器
     }
     this->close();
+
+    m_envir_widget->getConvey()->destroyConnect();
 }
 
 void MainWindow_student::action_course_o_triggered()
@@ -397,3 +402,9 @@ void MainWindow_student::delete_course_slots()
         QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromStdString(e.what()));
     }
 }
+
+void MainWindow_student::flush_btn_clicked()
+{
+    updateTable();
+}
+

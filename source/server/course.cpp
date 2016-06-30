@@ -116,6 +116,19 @@ bool Course::checkTeacher(Teacher* teacher)
     return false;
 }
 
+Student* Course::findStudent(std::string id)
+{
+    Student* ans = NULL;
+    for(auto i : m_student)
+    {
+        if(i.first->getID() == id)
+        {
+            ans = i.first;
+        }
+    }
+    return ans;
+}
+
 std::map<Student*, float> Course::getStudentGrade()
 {
 	return m_student;
@@ -129,7 +142,7 @@ void Course::setGrade(std::pair<Student*, float> student_grade)
             i->second = student_grade.second;
         }
         else{
-            throw std::invalid_argument(QString::fromLocal8Bit("学生成绩不能为负数").toStdString());
+            throw std::invalid_argument(QString::fromLocal8Bit("Can not set grade with negative number").toStdString());
         }
 	}
 }
@@ -262,6 +275,11 @@ bool Course_student::deleteElectiveStudent(Student* student)
 std::set<Student*> Course_teacher::getStudent()
 {
 	return m_course->getStudent();
+}
+
+Student* Course_teacher::findStudent(std::string id)
+{
+    return m_course->findStudent(id);
 }
 
 std::map<Student*, float> Course_teacher::getStudentGrade()

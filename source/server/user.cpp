@@ -58,6 +58,32 @@ std::set<Course_student*> Student::getSelectCourse()
     return m_select_course;
 }
 
+Course_student* Student::findCourse(std::string id)
+{
+    Course_student* cur_course = NULL;
+    for(auto i : m_course)
+    {
+        if(i->getID() == id)
+        {
+            cur_course = i;
+        }
+    }
+    return cur_course;
+}
+
+Course_student* Student::findSelCourse(std::string id)
+{
+    Course_student* cur_course = NULL;
+    for(auto i : m_select_course)
+    {
+        if(i->getID() == id)
+        {
+            cur_course = i;
+        }
+    }
+    return cur_course;
+}
+
 void Student::addCourse(Course_student* course)
 {
     course->addElectiveStudent(this);

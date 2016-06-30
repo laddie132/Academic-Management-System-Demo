@@ -145,8 +145,9 @@ void MainWindow_teacher::updateStudent()
         //查找指定课程详细信息
         QString id = ui->comboBox_course->currentText();
         std::pair<Course_model, std::vector<User_model> > course_info = m_envir_widget->getConvey()->getCourseInfo(id);
-//        if(!course_info.first)
-//            return;
+
+        if(course_info.first.id == "")
+            return;
 
         ui->label_course_id->setText(QString::fromStdString(course_info.first.id));
         ui->label_course_name->setText(QString::fromStdString(course_info.first.name));
@@ -244,6 +245,9 @@ void MainWindow_teacher::creatAction()
 
     //表头点击排序
     connect(ui->tableView_student->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(sort_student(int)));
+
+    //刷新按钮
+    connect(ui->flush_btn, SIGNAL(clicked()), this, SLOT(flush_btn_clicked()));
 }
 
 void MainWindow_teacher::action_login_triggered()
@@ -261,6 +265,8 @@ void MainWindow_teacher::action_quit_triggered()
         m_timer_status->stop();         //停止状态栏计时器
     }
     this->close();
+
+    m_envir_widget->getConvey()->destroyConnect();
 }
 
 void MainWindow_teacher::action_course_triggered()
@@ -327,4 +333,9 @@ void MainWindow_teacher::on_confirm_btn_clicked()
             QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromStdString(e.what()));
         }
     }
+}
+
+void MainWindow_teacher::flush_btn_clicked()
+{
+    updateTable();
 }

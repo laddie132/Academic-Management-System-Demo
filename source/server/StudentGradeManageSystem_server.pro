@@ -28,3 +28,5 @@ HEADERS += \
     include.h \
     convey_server.h \
     convey_thread.h
+
+RC_FILE = icon.rc

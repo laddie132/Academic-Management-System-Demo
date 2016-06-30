@@ -50,6 +50,8 @@ private slots:
     void sort_course_o(int);
     void sort_course_e(int);
 
+    void flush_btn_clicked();
+
 private:
     Ui::MainWindow_student *ui;
     Envir_widget* m_envir_widget;

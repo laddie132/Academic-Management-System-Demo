@@ -48,12 +48,12 @@ private slots:
     void on_comboBox_course_currentIndexChanged(int index);
 
     void on_cancel_btn_clicked();
-
     void on_confirm_btn_clicked();
 
     void updateStatusBar();
-
     void sort_student(int);
+
+    void flush_btn_clicked();
 
 private:
     Ui::MainWindow_teacher *ui;

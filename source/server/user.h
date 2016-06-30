@@ -49,6 +49,9 @@ public:
 	std::map<Course_student*, float> getGrade();	//学生获取自己的课程及其对应成绩
 	std::set<Course_student*> getCourse();			//学生获取自己的课程（可对其课程进行设置）
 
+    Course_student* findCourse(std::string id);     //学生查找自己课程
+    Course_student* findSelCourse(std::string id);  //学生查找可选课程
+
     std::set<Course_student*> getSelectCourse();    //学生获取可选课程
 
     void addCourse(Course_student* course);			//学生选课

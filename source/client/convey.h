@@ -45,7 +45,7 @@ public:
     bool sendCourseInfo(QString course_id, Course_model cur_course, std::vector<User_model> course_stu);
     bool sendUserInfo(QString user_id, User_model cur_user, std::vector<Course_model> user_course);
 
-private slots:
+public slots:
     void destroyConnect();  //断开连接
 
 private:

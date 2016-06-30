@@ -129,6 +129,7 @@ std::vector<Course_model> Convey::getCourse(QString mode)
                     if(jsonvalue.isArray())
                     {
                         jsonarray = jsonvalue.toArray();
+
                         for(auto i : jsonarray)
                         {
                             if(i.isObject())
@@ -202,7 +203,7 @@ User_model Convey::translateJsonUser(QJsonObject jsonobj)
         jsonvalue = jsonobj.take("grade");
         if(jsonvalue.isDouble())
         {
-            cur_user.grade = jsonvalue.toVariant().toFloat();
+            cur_user.grade = jsonvalue.toDouble();
         }
     }
 
@@ -273,16 +274,16 @@ Course_model Convey::translateJsonCourse(QJsonObject jsonobj)
         jsonvalue = jsonobj.take("grade");
         if(jsonvalue.isDouble())
         {
-            cur_course.grade = jsonvalue.toVariant().toFloat();
+            cur_course.grade = jsonvalue.toDouble();
         }
     }
 
     if(jsonobj.contains("gpa"))
     {
         jsonvalue = jsonobj.take("gpa");
-        if(jsonvalue.isString())
+        if(jsonvalue.isDouble())
         {
-            cur_course.gpa = jsonvalue.toVariant().toFloat();
+            cur_course.gpa = jsonvalue.toDouble();
         }
     }
 
@@ -352,12 +353,12 @@ void Convey::sendPostCourse(QString course_id, QString mode)
 
 void Convey::sendSelCourse(QString course_id)
 {
-    sendPostCourse(course_id, "select_course");
+    sendPostCourse(course_id, "sel_course");
 }
 
 void Convey::sendDelCourse(QString course_id)
 {
-    sendPostCourse(course_id, "delete_course");
+    sendPostCourse(course_id, "del_course");
 }
 
 
@@ -371,6 +372,7 @@ void Convey::sendStuGrade(QString course_id, QMap<QString, QVariant> stu_grade)
     jsondoc = QJsonDocument::fromVariant(QVariant(stu_grade));
 
     tempobj.insert("stu_grade", jsondoc.object());
+    tempobj.insert("course_id", course_id);
     jsonobj.insert("post", tempobj);
 
     jsondoc.setObject(jsonobj);
@@ -415,27 +417,35 @@ std::pair<Course_model, std::vector<User_model> > Convey::getCourseInfo(QString 
             {
                 QJsonValue jsonvalue;
                 jsonobj = jsondoc.object();
-                if(jsonobj.contains("course"))
+                if(jsonobj.contains("course_info"))
                 {
-                    jsonvalue = jsonobj.take("course");
+                    jsonvalue = jsonobj.take("course_info");
                     if(jsonvalue.isObject())
                     {
-                        temp_course = translateJsonCourse(jsonvalue.toObject());
-                    }
-                }
-
-                if(jsonobj.contains("student"))
-                {
-                    jsonvalue = jsonobj.take("student");
-                    if(jsonvalue.isArray())
-                    {
-                        QJsonArray jsonarray = jsonvalue.toArray();
-                        for(auto i : jsonarray)
+                        jsonobj = jsonvalue.toObject();
+                        if(jsonobj.contains("course"))
                         {
-                            if(i.isObject())
+                            jsonvalue = jsonobj.take("course");
+                            if(jsonvalue.isObject())
                             {
-                                User_model temp_user = translateJsonUser(i.toObject());
-                                student_list.push_back(temp_user);
+                                temp_course = translateJsonCourse(jsonvalue.toObject());
+                            }
+                        }
+
+                        if(jsonobj.contains("student"))
+                        {
+                            jsonvalue = jsonobj.take("student");
+                            if(jsonvalue.isArray())
+                            {
+                                QJsonArray jsonarray = jsonvalue.toArray();
+                                for(auto i : jsonarray)
+                                {
+                                    if(i.isObject())
+                                    {
+                                        User_model temp_user = translateJsonUser(i.toObject());
+                                        student_list.push_back(temp_user);
+                                    }
+                                }
                             }
                         }
                     }
