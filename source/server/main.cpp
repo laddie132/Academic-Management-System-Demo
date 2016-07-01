@@ -36,5 +36,11 @@ int main(int argc, char *argv[])
     server.setConfig(&config);
     server.listen(QHostAddress("0.0.0.0"), 10010);
 
+    std::cout << "--------------------------------------------------------------------------\n";
+    std::cout << "                 Welcome to BUPT Grade Manage System 3.9.0               \n";
+    std::cout << "ip: 0.0.0.0\n";
+    std::cout << "port: 10010\n\n";
+    std::cout << "listening...\n";
+
     return a.exec();
 }

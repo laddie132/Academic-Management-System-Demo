@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 
     //尝试登陆
     try{
-        convey.connectToHost("127.0.0.1", 10010);
+        convey.connectToHost("192.168.56.102", 10010);
     }
     catch(std::exception &e){
         QMessageBox::warning(&widget_main_student, QString::fromLocal8Bit("警告"), QString::fromStdString(e.what()));
