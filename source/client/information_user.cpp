@@ -12,7 +12,8 @@
 #include "ui_information_user.h"
 #include "include.h"
 
-Information_user::Information_user(QWidget *parent) :
+Information_user::Information_user(Envir_widget* envir_widget, QWidget *parent) :
+    m_envir_widget(envir_widget),
     QDialog(parent),
     ui(new Ui::Information_user)
 {
@@ -25,14 +26,9 @@ Information_user::~Information_user()
     delete ui;
 }
 
-void Information_user::setUser_admin(Admin* admin)
+void Information_user::setUser(QString id)
 {
-    m_admin = admin;
-}
-
-void Information_user::setUser(User *user)
-{
-    m_user = user;
+    m_user_id = id;
 }
 
 void Information_user::creatActivex()
@@ -54,33 +50,37 @@ void Information_user::creatActivex()
 
 void Information_user::showInfo()
 {
+    m_all_course = m_envir_widget->getConvey()->getCurCourse();
+
     //编辑用户时
-    if(m_user){
-        ui->lineEdit_user_id->setText(QString::fromStdString(m_user->getID()));
+    if(m_user_id != ""){
+        cur_user = m_envir_widget->getConvey()->getUserInfo(m_user_id);
+
+        ui->lineEdit_user_id->setText(QString::fromStdString(cur_user.first.id));
         ui->lineEdit_user_id->setEnabled(false);
-        ui->lineEdit_user_name->setText(QString::fromStdString(m_user->getName()));
+        ui->lineEdit_user_name->setText(QString::fromStdString(cur_user.first.name));
         ui->lineEdit_user_name->setEnabled(false);
-        ui->lineEdit_user_institude->setText(QString::fromStdString(m_user->getInsititude()));
+        ui->lineEdit_user_institude->setText(QString::fromStdString(cur_user.first.institude));
         ui->lineEdit_user_institude->setEnabled(false);
         ui->lineEdit_user_password->clear();
         ui->comboBox_user_type->setEnabled(false);
         ui->add_btn->setEnabled(false);
         ui->update_btn->setEnabled(true);
         ui->del_btn->setEnabled(true);
-        switch(m_user->getUserType())
+        switch(cur_user.first.user_type)
         {
-        case user_type::student:
+        case 2:
         {
             ui->comboBox_user_type->setCurrentIndex(0);
-            ui->lineEdit_user_class->setText(QString::fromStdString(((Student*)m_user)->getClass()));
+            ui->lineEdit_user_class->setText(QString::fromStdString(cur_user.first.class_name));
             break;
         }
 
-        case user_type::teacher:
+        case 1:
             ui->comboBox_user_type->setCurrentIndex(1);
             break;
 
-        case user_type::admin:
+        case 0:
             ui->comboBox_user_type->setCurrentIndex(2);
             break;
 
@@ -115,130 +115,43 @@ void Information_user::updateCourse()
 
     int row1 = 0;
     int row2 = 0;
-    if(m_user){
-        switch(m_user->getUserType())
+    if(m_user_id != ""){
+
+        if(cur_user.first.user_type != 0)
         {
-        case user_type::student:
-        {
-            //打印必修课
-            for(auto i : m_admin->getEnvir()->getObligatoryCourse())
+            for(auto i : m_all_course)
             {
-                int is_find = 0;
-                for(auto j : ((Student*)m_user)->getCourse())
+                int flag = 0;
+                for(auto j : cur_user.second)
                 {
-                    if(j->getID() == i->getID()){
-                        is_find = 1;
+                    if(j.id == i.id)
+                    {
+                        flag = 1;
                         break;
                     }
                 }
-                if(!is_find)
+                if(flag)
                 {
-                    ui_course_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i->getID())));
-                    ui_course_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i->getName())));
-                    row2++;
-                }
-                else{
-                    ui_course_model_y->setItem(row1, 0, new QStandardItem(QString::fromStdString(i->getID())));
-                    ui_course_model_y->setItem(row1, 1, new QStandardItem(QString::fromStdString(i->getName())));
+                    ui_course_model_y->setItem(row1, 0, new QStandardItem(QString::fromStdString(i.id)));
+                    ui_course_model_y->setItem(row1, 1, new QStandardItem(QString::fromStdString(i.name)));
                     row1++;
                 }
-            }
-
-            //打印选修课
-            for(auto i : m_admin->getEnvir()->getElectiveCourse())
-            {
-                int is_find = 0;
-                for(auto j : ((Student*)m_user)->getCourse())
+                else
                 {
-                    if(j->getID() == i->getID()){
-                        is_find = 1;
-                        break;
-                    }
-                }
-                if(!is_find)
-                {
-                    ui_course_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i->getID())));
-                    ui_course_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i->getName())));
+                    ui_course_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i.id)));
+                    ui_course_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i.name)));
                     row2++;
                 }
-                else{
-                    ui_course_model_y->setItem(row1, 0, new QStandardItem(QString::fromStdString(i->getID())));
-                    ui_course_model_y->setItem(row1, 1, new QStandardItem(QString::fromStdString(i->getName())));
-                    row1++;
-                }
             }
-            break;
-        }
-
-        case user_type::teacher:
-        {
-            //打印必修课
-            for(auto i : m_admin->getEnvir()->getObligatoryCourse())
-            {
-                int is_find = 0;
-                for(auto j : ((Teacher*)m_user)->getCourse())
-                {
-                    if(j->getID() == i->getID()){
-                        is_find = 1;
-                        break;
-                    }
-                }
-                if(!is_find)
-                {
-                    ui_course_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i->getID())));
-                    ui_course_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i->getName())));
-                    row2++;
-                }
-                else{
-                    ui_course_model_y->setItem(row1, 0, new QStandardItem(QString::fromStdString(i->getID())));
-                    ui_course_model_y->setItem(row1, 1, new QStandardItem(QString::fromStdString(i->getName())));
-                    row1++;
-                }
-            }
-
-            //打印选修课
-            for(auto i : m_admin->getEnvir()->getElectiveCourse())
-            {
-                int is_find = 0;
-                for(auto j : ((Teacher*)m_user)->getCourse())
-                {
-                    if(j->getID() == i->getID()){
-                        is_find = 1;
-                        break;
-                    }
-                }
-                if(!is_find)
-                {
-                    ui_course_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i->getID())));
-                    ui_course_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i->getName())));
-                    row2++;
-                }
-                else{
-                    ui_course_model_y->setItem(row1, 0, new QStandardItem(QString::fromStdString(i->getID())));
-                    ui_course_model_y->setItem(row1, 1, new QStandardItem(QString::fromStdString(i->getName())));
-                    row1++;
-                }
-            }
-            break;
-        }
-
-        default:
-            break;
         }
     }
 
     //添加一个用户显示的课程
     else{
-        for(auto i : m_admin->getEnvir()->getObligatoryCourse())
+        for(auto i : m_all_course)
         {
-            ui_course_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i->getID())));
-            ui_course_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i->getName())));
-            row2++;
-        }
-        for(auto i : m_admin->getEnvir()->getElectiveCourse())
-        {
-            ui_course_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i->getID())));
-            ui_course_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i->getName())));
+            ui_course_model_n->setItem(row2, 0, new QStandardItem(QString::fromStdString(i.id)));
+            ui_course_model_n->setItem(row2, 1, new QStandardItem(QString::fromStdString(i.name)));
             row2++;
         }
     }
@@ -254,18 +167,16 @@ void Information_user::on_cancel_btn_clicked()
 
 void Information_user::on_add_btn_clicked()
 {
+    User_model new_user;
+    std::vector<std::string> new_course_list;
+
     std::string id = ui->lineEdit_user_id->text().toStdString();
     if(id == ""){
         QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("用户ID不能为空"));
         ui->lineEdit_user_id->setFocus();
         return;
     }
-    if(m_admin->getEnvir()->findUser(id)){
-        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("重复的用户ID"));
-        ui->lineEdit_user_id->clear();
-        ui->lineEdit_user_id->setFocus();
-        return;
-    }
+    new_user.id = id;
 
     std::string name = ui->lineEdit_user_name->text().toStdString();
     if(name == ""){
@@ -273,6 +184,7 @@ void Information_user::on_add_btn_clicked()
         ui->lineEdit_user_name->setFocus();
         return;
     }
+    new_user.name = name;
 
     std::string institude = ui->lineEdit_user_institude->text().toStdString();
     if(institude == ""){
@@ -280,6 +192,7 @@ void Information_user::on_add_btn_clicked()
         ui->lineEdit_user_institude->setFocus();
         return;
     }
+    new_user.institude = institude;
 
     QString password;
     if(ui->lineEdit_user_password->text() == ""){
@@ -293,49 +206,44 @@ void Information_user::on_add_btn_clicked()
     //添加学生用户
     case 0:
     {
-        Student* temp_student = new Student(id, name, institude);
-        std::string class_name = ui->lineEdit_user_class->text().toStdString();
-        if(class_name == "")
-            class_name = "-1";
-        temp_student->setClass(class_name);
-        try{
-            addCourse((User*)temp_student);
-        }
-        catch(std::out_of_range& e)         //课程超出容量
-        {
-            QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromStdString(e.what()));
-            this->updateCourse();
-            delete temp_student;
-            return;
-        }
+        new_user.user_type = 2;
 
-        m_admin->getEnvir()->addUserStudent(temp_student, password.toStdString());
+        std::string class_name = ui->lineEdit_user_class->text().toStdString();
+        new_user.class_name = class_name;
         break;
     }
 
     //添加教师用户
     case 1:
     {
-        Teacher* temp_teacher = new Teacher(id, name, institude);
-        addCourse((User*)temp_teacher);
-        m_admin->getEnvir()->addUserTeacher(temp_teacher, password.toStdString());
+        new_user.user_type = 1;
         break;
     }
 
     //添加管理员用户
     case 2:
     {
-        Admin* temp_admin = new Admin(id, name, institude);
-        m_admin->getEnvir()->addUserAdmin(temp_admin, password.toStdString());
+        new_user.user_type = 0;
         break;
     }
 
     default:
         break;
-     }
-    QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("添加用户成功"));
+    }
+
+    new_course_list = addCourse();
+
+    try{
+        m_envir_widget->getConvey()->sendAddUser(new_user, password, new_course_list);
+        QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("添加用户成功"));
+    }
+    catch(std::exception& e)
+    {
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromStdString(e.what()));
+        return;
+    }
+
     emit updateUser();
-    emit updateConfig();
 }
 
 void Information_user::on_comboBox_user_type_currentIndexChanged(int index)
@@ -366,88 +274,55 @@ void Information_user::on_comboBox_user_type_currentIndexChanged(int index)
 
 void Information_user::on_update_btn_clicked()
 {
-    if(!m_user){
+    if(m_user_id == ""){
         QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("无用户信息"));
         return;
     }
-    std::string id = ui->lineEdit_user_id->text().toStdString();
-    std::string name = ui->lineEdit_user_name->text().toStdString();
-    std::string institude = ui->lineEdit_user_institude->text().toStdString();
+
+    User_model new_user = cur_user.first;
+    std::vector<std::string> course_list;
+
     QString password = ui->lineEdit_user_password->text();
     if(password != ""){
-        QString pass = QCryptographicHash::hash(password.toLocal8Bit(), QCryptographicHash::Md5).toHex();
-        m_admin->getEnvir()->changeUserPass(m_user, pass.toStdString());
+        password = QCryptographicHash::hash(password.toLocal8Bit(), QCryptographicHash::Md5).toHex();
     }
 
-    if(m_user->getUserType() == user_type::student){
-        std::string class_name = ui->lineEdit_user_class->text().toStdString();
-        if(class_name == "")
-            class_name = "-1";
-        ((Student*)m_user)->setClass(class_name);
+    if(cur_user.first.user_type == 2){
+        new_user.class_name = ui->lineEdit_user_class->text().toStdString();
     }
 
-    deleteCourse();
+    course_list = addCourse();
 
     try{
-        addCourse(m_user);
+        m_envir_widget->getConvey()->sendUpdateUser(new_user, password, course_list);
         QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("修改用户成功"));
     }
-    catch(std::out_of_range& e){
+    catch(std::exception& e){
         QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromStdString(e.what()));
-        this->updateCourse();
+        this->showInfo();
     }
 
     emit updateUser();
-    emit updateConfig();
-}
-
-void Information_user::deleteCourse()
-{
-    switch(m_user->getUserType())
-    {
-    case user_type::student:
-    {
-        Student* temp_student = (Student*)m_user;
-        for(auto i : temp_student->getCourse())
-        {
-            Course* course = m_admin->getEnvir()->findCourse(i->getID());
-            course->deleteStudent(temp_student);
-        }
-        break;
-    }
-
-    case user_type::teacher:
-    {
-        Teacher* temp_teacher = (Teacher*)m_user;
-        for(auto i : temp_teacher->getCourse())
-        {
-            Course* course = m_admin->getEnvir()->findCourse(i->getID());
-            course->setTeacher(NULL);
-        }
-        break;
-    }
-
-    default:
-        break;
-    }
 }
 
 void Information_user::on_del_btn_clicked()
 {
-    if(!m_user){
+    if(m_user_id == ""){
         QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("无用户信息"));
         return;
     }
-    if(m_user->getID() == m_admin->getID()){
-        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("无法删除正在使用的管理员"));
+
+    try{
+        m_envir_widget->getConvey()->sendDelUser(m_user_id);
+        QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("删除用户成功"));
+    }
+    catch(std::exception& e)
+    {
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), e.what());
         return;
     }
-    m_admin->getEnvir()->deleteUser(m_user);
-    m_user = NULL;
-    QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("删除用户成功"));
 
     emit updateUser();
-    emit updateConfig();
 }
 
 void Information_user::on_select_course_btn_clicked()
@@ -470,40 +345,17 @@ void Information_user::on_cancel_course_btn_clicked()
     ui_course_model_n->insertRow(0, ui_course_model_y->takeRow(row));
 }
 
-void Information_user::addCourse(User* user)
+std::vector<std::string> Information_user::addCourse()
 {
+    std::vector<std::string> course_list;
+
     int row = ui_course_model_y->rowCount();
     if(row != -1){
         for(int i = 0; i < row; i++)
         {
             QString id = ui_course_model_y->item(i, 0)->text();
-            Course* course = m_admin->getEnvir()->findCourse(id.toStdString());
-            switch(user->getUserType())
-            {
-            case user_type::student:
-            {
-                Student* temp_student = (Student*) user;
-                course->addStudent(temp_student);
-                break;
-            }
-
-            case user_type::teacher:
-            {
-                Teacher* temp_teacher = (Teacher*) user;
-                if(course->getTeacher()){
-                    if(course->getTeacher()->getID() != temp_teacher->getID()){
-                        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("课程已设置教师"));
-                    }
-                }
-                else{
-                    course->setTeacher(temp_teacher);
-                }
-                break;
-            }
-
-            default:
-                break;
-            }
+            course_list.push_back(id.toStdString());
         }
     }
+    return course_list;
 }

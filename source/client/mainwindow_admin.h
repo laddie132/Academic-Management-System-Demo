@@ -57,7 +57,7 @@ private slots:
 private:
     Ui::MainWindow_admin *ui;
     Envir_widget* m_envir_widget;
-    User_model* m_user = NULL;
+    User_model m_user;
 
     QStandardItemModel* ui_course_model_o;
     QStandardItemModel* ui_course_model_e;

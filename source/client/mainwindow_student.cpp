@@ -142,7 +142,18 @@ void MainWindow_student::updateTable()
     int row1 = 0, row2 = 0;
 
     //更新必修和选修课
-    for (auto i : m_envir_widget->getConvey()->getCurCourse())
+    std::vector<Course_model> oe_course;
+    try
+    {
+        oe_course = m_envir_widget->getConvey()->getCurCourse();
+    }
+    catch(std::exception& e)
+    {
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit(e.what()));
+        return;
+    }
+
+    for (auto i : oe_course)
     {
         if(!i.course_type){
             ui_course_model_e->setItem(row2, 0, new QStandardItem(QString::fromStdString(i.id)));
@@ -168,7 +179,17 @@ void MainWindow_student::updateTable()
 
     //更新可选课程列表
     int row = 0;
-    for(auto i : m_envir_widget->getConvey()->getSelCourse())
+    std::vector<Course_model> s_course;
+    try
+    {
+        s_course = m_envir_widget->getConvey()->getSelCourse();
+    }
+    catch(std::exception& e)
+    {
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit(e.what()));
+        return;
+    }
+    for(auto i : s_course)
     {
         ui_course_model_s->setItem(row, 0, new QStandardItem(QString::fromStdString(i.id)));
         ui_course_model_s->setItem(row, 1, new QStandardItem(QString::fromStdString(i.name)));
@@ -359,7 +380,7 @@ void MainWindow_student::action_change_pass_triggered()
 void MainWindow_student::action_about_triggered()
 {
     QMessageBox::about(this, QString::fromLocal8Bit("关于"),
-          QString::fromLocal8Bit(" <font color='red'>Students` Grade Manage System 2.9.0 (opensource)</font>"
+          QString::fromLocal8Bit(" <font color='red'>Students` Grade Manage System 3.9.0 (opensource)</font>"
                                  "<br>项目主页：https://github.com/laddie132/StudentsGradeManageSystem"
                                  " <br>作者：L.Laddie"
                                "  <br><br>Copyright 2016-2016 The Qt Company Ltd. All rights reserved." ));
@@ -383,7 +404,7 @@ void MainWindow_student::add_course_slots()
         QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("选择课程成功"));
     }
     catch(std::exception& e){
-        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromStdString(e.what()));
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit(e.what()));
     }
 }
 

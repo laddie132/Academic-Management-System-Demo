@@ -12,16 +12,9 @@
 
 //界面相关函数实现
 
-/*void Envir_widget::setWidget(Login* login, MainWindow_student* student, MainWindow_teacher* teacher, MainWindow_admin* admin)
+void Envir_widget::setWidget(Login* login, MainWindow_student* student, MainWindow_teacher* teacher, MainWindow_admin* admin)
 {
     m_widget_admin = admin;
-    m_widget_login = login;
-    m_widget_student = student;
-    m_widget_teacher = teacher;
-}*/
-
-void Envir_widget::setWidget(Login *login, MainWindow_student *student, MainWindow_teacher *teacher)
-{
     m_widget_login = login;
     m_widget_student = student;
     m_widget_teacher = teacher;
@@ -42,13 +35,13 @@ Convey* Envir_widget::getConvey()
     return this->m_convey;
 }
 
-/*
+
 void Envir_widget::showAdminWidget(User_model user)
 {
     m_widget_admin->show();
     m_widget_admin->setUserModel(user);
     m_widget_admin->showInfo();
-}*/
+}
 
 void Envir_widget::showStudentWidget(User_model user)
 {

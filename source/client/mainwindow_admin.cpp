@@ -8,7 +8,6 @@
 #include <QDebug>
 #include <QFont>
 #include <QDateTime>
-#include <QtSql/QSqlRecord>
 #include <QApplication>
 #include <QMessageBox>
 #include <QStandardItemModel>
@@ -21,8 +20,8 @@
 #include "envir_widget.h"
 
 MainWindow_admin::MainWindow_admin(Envir_widget* envir_widget, QWidget *parent) :
-    QMainWindow(parent),
     m_envir_widget(envir_widget),
+    QMainWindow(parent),
     ui(new Ui::MainWindow_admin)
 {
     ui->setupUi(this);
@@ -60,8 +59,8 @@ void MainWindow_admin::initActivex()
     ui_label_status = new QLabel();
     ui_label_time = new QLabel();
     m_timer_status = new QTimer(this);
-    m_info_course_widget = new Information_course(this);
-    m_info_user_widget = new Information_user(this);
+    m_info_course_widget = new Information_course(m_envir_widget, this);
+    m_info_user_widget = new Information_user(m_envir_widget, this);
 
     ui_course_model_o = new QStandardItemModel();
     ui->tableView_course_o->setModel(ui_course_model_o);
@@ -109,10 +108,10 @@ void MainWindow_admin::updateStatusBar()
 //初次进入界面更新信息
 void MainWindow_admin::showInfo()
 {
-    ui->label_id->setText(QString::fromStdString(m_user->id));
-    ui->label_name->setText(QString::fromStdString(m_user->name));
-    ui->label_institude->setText(QString::fromStdString(m_user->institude));
-    updateTable();   
+    ui->label_id->setText(QString::fromStdString(m_user.id));
+    ui->label_name->setText(QString::fromStdString(m_user.name));
+    ui->label_institude->setText(QString::fromStdString(m_user.institude));
+    updateTable();
 
     updateStatusBar();
     m_timer_status->start(1000);        //每一秒刷新一次状态栏
@@ -165,12 +164,11 @@ void MainWindow_admin::updateTable()
     ui_admin_model->setHorizontalHeaderItem(3, new QStandardItem(QString::fromLocal8Bit("密码")));
     ui->tableView_admin->setColumnWidth(3, 250);
 
-    int row1 = 0, row2 = 0;
+    int row1 = 0, row2 = 0, row3 = 0;
 
     //更新必修课和选修课
     for (auto i : m_envir_widget->getConvey()->getCurCourse())
     {
-        Course_model i;
         if(i.course_type)
         {
             ui_course_model_o->setItem(row1, 0, new QStandardItem(QString::fromStdString(i.id)));
@@ -194,37 +192,34 @@ void MainWindow_admin::updateTable()
     }
 
     //更新学生列表
-    int row = 0;
-    for(auto i : m_user->getEnvir()->getUserStudent())
+    row1 = row2 = row3 = 0;
+    for(auto i : m_envir_widget->getConvey()->getUser())
     {
-        ui_student_model->setItem(row, 0, new QStandardItem(QString::fromStdString(i.id)));
-        ui_student_model->setItem(row, 1, new QStandardItem(QString::fromStdString(i.name)));
-        ui_student_model->setItem(row, 2, new QStandardItem(QString::fromStdString(i.class_name)));
-        ui_student_model->setItem(row, 3, new QStandardItem(QString::fromStdString(i.instidude)));
-        ui_student_model->setItem(row, 4, new QStandardItem(QString::fromStdString(i.second)));
-        row++;
-    }
-
-    //更新教师列表
-    row = 0;
-    for(auto i : m_user->getEnvir()->getUserTeacher())
-    {
-        ui_teacher_model->setItem(row, 0, new QStandardItem(QString::fromStdString(i.first->getID())));
-        ui_teacher_model->setItem(row, 1, new QStandardItem(QString::fromStdString(i.first->getName())));
-        ui_teacher_model->setItem(row, 2, new QStandardItem(QString::fromStdString(i.first->getInsititude())));
-        ui_teacher_model->setItem(row, 3, new QStandardItem(QString::fromStdString(i.second)));
-        row++;
-    }
-
-    //更新管理员列表
-    row = 0;
-    for(auto i : m_user->getEnvir()->getUserAdmin())
-    {
-        ui_admin_model->setItem(row, 0, new QStandardItem(QString::fromStdString(i.first->getID())));
-        ui_admin_model->setItem(row, 1, new QStandardItem(QString::fromStdString(i.first->getName())));
-        ui_admin_model->setItem(row, 2, new QStandardItem(QString::fromStdString(i.first->getInsititude())));
-        ui_admin_model->setItem(row, 3, new QStandardItem(QString::fromStdString(i.second)));
-        row++;
+        if(i.first.user_type == 2)
+        {
+            ui_student_model->setItem(row1, 0, new QStandardItem(QString::fromStdString(i.first.id)));
+            ui_student_model->setItem(row1, 1, new QStandardItem(QString::fromStdString(i.first.name)));
+            ui_student_model->setItem(row1, 2, new QStandardItem(QString::fromStdString(i.first.class_name)));
+            ui_student_model->setItem(row1, 3, new QStandardItem(QString::fromStdString(i.first.institude)));
+            ui_student_model->setItem(row1, 4, new QStandardItem(QString::fromStdString(i.second)));
+            row1++;
+        }
+        else if(i.first.user_type == 1)
+        {
+            ui_teacher_model->setItem(row2, 0, new QStandardItem(QString::fromStdString(i.first.id)));
+            ui_teacher_model->setItem(row2, 1, new QStandardItem(QString::fromStdString(i.first.name)));
+            ui_teacher_model->setItem(row2, 2, new QStandardItem(QString::fromStdString(i.first.institude)));
+            ui_teacher_model->setItem(row2, 3, new QStandardItem(QString::fromStdString(i.second)));
+            row2++;
+        }
+        else if(i.first.user_type == 0)
+        {
+            ui_admin_model->setItem(row3, 0, new QStandardItem(QString::fromStdString(i.first.id)));
+            ui_admin_model->setItem(row3, 1, new QStandardItem(QString::fromStdString(i.first.name)));
+            ui_admin_model->setItem(row3, 2, new QStandardItem(QString::fromStdString(i.first.institude)));
+            ui_admin_model->setItem(row3, 3, new QStandardItem(QString::fromStdString(i.second)));
+            row3++;
+        }
     }
 
     //排序
@@ -255,8 +250,6 @@ void MainWindow_admin::creatAction()
     //子界面信号
     connect(m_info_user_widget, SIGNAL(updateUser()), this, SLOT(updateTable_slots()));
     connect(m_info_course_widget, SIGNAL(updateCourse()), this, SLOT(updateTable_slots()));
-    connect(m_info_user_widget, SIGNAL(updateConfig()), this->m_envir_widget, SLOT(updateConfig()));
-    connect(m_info_course_widget, SIGNAL(updateConfig()), this->m_envir_widget, SLOT(updateConfig()));
 
     //表格项目双击事件
     connect(ui->tableView_course_o, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(update_course_slots()));
@@ -268,6 +261,7 @@ void MainWindow_admin::creatAction()
     //界面按钮
     connect(ui->add_course_btn, SIGNAL(clicked()), this, SLOT(action_course_add_triggered()));
     connect(ui->add_user_btn, SIGNAL(clicked()), this, SLOT(action_user_add_triggered()));
+    connect(ui->flush_btn, SIGNAL(clicked()), this, SLOT(updateTable_slots()));
 
     //状态栏计时器
     connect(m_timer_status, SIGNAL(timeout()), this, SLOT(updateStatusBar()));
@@ -302,8 +296,7 @@ void MainWindow_admin::action_course_e_triggered()
 
 void MainWindow_admin::action_course_add_triggered()
 {
-    m_info_course_widget->setUser(m_user);
-    m_info_course_widget->setCourse(NULL);
+    m_info_course_widget->setCourse("");
     m_info_course_widget->showInfo();
     m_info_course_widget->show();
 }
@@ -325,8 +318,7 @@ void MainWindow_admin::action_admin_d_triggered()
 
 void MainWindow_admin::action_user_add_triggered()
 {
-    m_info_user_widget->setUser_admin(m_user);
-    m_info_user_widget->setUser(NULL);
+    m_info_user_widget->setUser("");
     m_info_user_widget->showInfo();
     m_info_user_widget->show();
 }
@@ -379,10 +371,8 @@ void MainWindow_admin::update_course_slots()
     default:
         break;
     }
-    Course* course = m_user->getEnvir()->findCourse(id.toStdString());
 
-    m_info_course_widget->setUser(m_user);
-    m_info_course_widget->setCourse(course);
+    m_info_course_widget->setCourse(id);
     m_info_course_widget->showInfo();
     m_info_course_widget->show();
 }
@@ -392,15 +382,12 @@ void MainWindow_admin::update_user_slots()
 {
     QString id;
     int tab = ui->tabWidget_admin->currentIndex();
-    User* temp;
     switch(tab)
     {
     case 2:
     {
         int row = ui->tableView_student->currentIndex().row();
         id = ui_student_model->item(row, 0)->text();
-        temp = m_user->getEnvir()->findUser(id.toStdString());
-        m_user->getEnvir()->setCourseStudent((Student*)temp);   //初始化学生权限课程
         break;
     }
 
@@ -408,8 +395,6 @@ void MainWindow_admin::update_user_slots()
     {
         int row = ui->tableView_teacher->currentIndex().row();
         id = ui_teacher_model->item(row, 0)->text();
-        temp = m_user->getEnvir()->findUser(id.toStdString());
-        m_user->getEnvir()->setCourseTeacher((Teacher*)temp);   //初始化教师权限课程
         break;
     }
 
@@ -417,7 +402,6 @@ void MainWindow_admin::update_user_slots()
     {
         int row = ui->tableView_admin->currentIndex().row();
         id = ui_admin_model->item(row, 0)->text();
-        temp = m_user->getEnvir()->findUser(id.toStdString());
         break;
     }
 
@@ -425,8 +409,7 @@ void MainWindow_admin::update_user_slots()
         break;
     }
 
-    m_info_user_widget->setUser_admin(m_user);
-    m_info_user_widget->setUser(temp);
+    m_info_user_widget->setUser(id);
     m_info_user_widget->showInfo();
     m_info_user_widget->show();
 }

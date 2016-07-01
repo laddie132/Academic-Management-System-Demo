@@ -28,11 +28,35 @@ void Convey::sendJsonDoc(QJsonDocument jsondoc)
 {
     if(m_convey_socket.isValid() && !jsondoc.isEmpty()){
         this->m_convey_socket.write(jsondoc.toJson(QJsonDocument::Compact));
-        this->m_convey_socket.flush();
+        this->m_convey_socket.waitForBytesWritten();
     }
     else{
         qDebug() << "Socket Error!";
     }
+}
+
+QJsonDocument Convey::revJsondoc()
+{
+    QByteArray jsonbyte;
+
+    bool readable = this->m_convey_socket.waitForReadyRead();
+    if(readable){
+
+        //注意这里需要不断循环，保证大容量字节流的顺利读取
+        do{
+            jsonbyte += this->m_convey_socket.readAll();
+        }while(m_convey_socket.waitForReadyRead(1));
+    }
+
+//    qDebug() << jsonbyte;
+
+    QJsonParseError json_error;
+    QJsonDocument jsondoc, nulldoc;
+    jsondoc = QJsonDocument::fromJson(jsonbyte, &json_error);
+    if(json_error.error == QJsonParseError::NoError){
+        return jsondoc;
+    }
+    return nulldoc;
 }
 
 User_model Convey::verifyUser(QString username, QString password)
@@ -50,41 +74,31 @@ User_model Convey::verifyUser(QString username, QString password)
     sendJsonDoc(jsondoc);
 
     //接收json数据包
-    bool readable = this->m_convey_socket.waitForReadyRead();
-    if(readable){
-        QByteArray jsonbyte = this->m_convey_socket.readAll();
+    jsondoc = revJsondoc();
+    if(!jsondoc.isNull()){
+        if(jsondoc.isObject()){
+            jsonobj = jsondoc.object();
+            QJsonValue jsonvalue;
 
-        //解析json包
-        QJsonParseError json_error;
-        jsondoc = QJsonDocument::fromJson(jsonbyte, &json_error);
-        if(json_error.error == QJsonParseError::NoError){
-
-//            qDebug() << jsondoc;
-
-            if(jsondoc.isObject()){
-                jsonobj = jsondoc.object();
-                QJsonValue jsonvalue;
-
-                //判断用户合法性
-                if(jsonobj.contains("ack"))
+            //判断用户合法性
+            if(jsonobj.contains("ack"))
+            {
+                jsonvalue = jsonobj.take("ack");
+                if(jsonvalue.isBool())
                 {
-                    jsonvalue = jsonobj.take("ack");
-                    if(jsonvalue.isBool())
-                    {
-                        bool verify_true = jsonvalue.toBool();
-                        if(!verify_true)
-                            return cur_user;
-                    }
+                    bool verify_true = jsonvalue.toBool();
+                    if(!verify_true)
+                        return cur_user;
                 }
+            }
 
-                //验证通过后接收用户信息
-                if(jsonobj.contains("user"))
+            //验证通过后接收用户信息
+            if(jsonobj.contains("user"))
+            {
+                jsonvalue = jsonobj.take("user");
+                if(jsonvalue.isObject())
                 {
-                    jsonvalue = jsonobj.take("user");
-                    if(jsonvalue.isObject())
-                    {
-                        cur_user = translateJsonUser(jsonvalue.toObject());
-                    }
+                    cur_user = translateJsonUser(jsonvalue.toObject());
                 }
             }
         }
@@ -110,35 +124,36 @@ std::vector<Course_model> Convey::getCourse(QString mode)
     sendJsonDoc(jsondoc);
 
     //接收json数据包
-    bool readable = this->m_convey_socket.waitForReadyRead();
-    if(readable){
-        QByteArray jsonbyte = this->m_convey_socket.readAll();
+    jsondoc = revJsondoc();
+    if(!jsondoc.isNull()){
+        if(jsondoc.isObject()){
+            jsonobj = jsondoc.object();
+            QJsonValue jsonvalue;
+            QJsonArray jsonarray;
 
-        //解析json包
-        QJsonParseError json_error;
-        jsondoc = QJsonDocument::fromJson(jsonbyte, &json_error);
-        if(json_error.error == QJsonParseError::NoError){
-            if(jsondoc.isObject()){
-                jsonobj = jsondoc.object();
-                QJsonValue jsonvalue;
-                QJsonArray jsonarray;
-
-                if(jsonobj.contains(mode))
+            if(jsonobj.contains(mode))
+            {
+                jsonvalue = jsonobj.take(mode);
+                if(jsonvalue.isArray())
                 {
-                    jsonvalue = jsonobj.take(mode);
-                    if(jsonvalue.isArray())
-                    {
-                        jsonarray = jsonvalue.toArray();
+                    jsonarray = jsonvalue.toArray();
 
-                        for(auto i : jsonarray)
+                    for(auto i : jsonarray)
+                    {
+                        if(i.isObject())
                         {
-                            if(i.isObject())
-                            {
-                                temp_course = translateJsonCourse(i.toObject());
-                                course_list.push_back(temp_course);
-                            }
+                            temp_course = translateJsonCourse(i.toObject());
+                            course_list.push_back(temp_course);
                         }
                     }
+                }
+            }
+
+            if(jsonobj.contains("ack"))
+            {
+                if(!translateJsonAck(jsonobj))
+                {
+                    throw std::runtime_error("获取失败！");
                 }
             }
         }
@@ -296,43 +311,69 @@ Course_model Convey::translateJsonCourse(QJsonObject jsonobj)
         }
     }
 
+    if(jsonobj.contains("teacher_id"))
+    {
+        jsonvalue = jsonobj.take("teacher_id");
+        if(jsonvalue.isString())
+        {
+            cur_course.teacher_id = jsonvalue.toString().toStdString();
+        }
+    }
+
     return cur_course;
 }
 
-bool Convey::translateJsonAck(QByteArray jsonbyte)
+bool Convey::translateJsonAck(QJsonObject jsonobj)
 {
-    QJsonDocument jsondoc;
-    QJsonObject jsonobj;
+    QJsonValue jsonvalue;
 
-    //解析json包
-    QJsonParseError json_error;
-    jsondoc = QJsonDocument::fromJson(jsonbyte, &json_error);
-    if(json_error.error == QJsonParseError::NoError){
-        if(jsondoc.isObject()){
-            jsonobj = jsondoc.object();
-            QJsonValue jsonvalue;
-
-            //判断是否修改成功
-            if(jsonobj.contains("ack"))
-            {
-                jsonvalue = jsonobj.take("ack");
-                if(jsonvalue.isBool())
-                {
-                    bool verify_true = jsonvalue.toBool();
-                    if(verify_true)
-                        return true;
-                }
-            }
+    if(jsonobj.contains("ack"))
+    {
+        jsonvalue = jsonobj.take("ack");
+        if(jsonvalue.isBool())
+        {
+            bool verify_true = jsonvalue.toBool();
+            if(verify_true)
+                return true;
         }
     }
     return false;
 }
 
-void Convey::sendPostCourse(QString course_id, QString mode)
+QJsonObject Convey::generateJsonCourse(Course_model cur_course)
+{
+    QJsonObject jsonobj;
+    jsonobj.insert("id", QString::fromStdString(cur_course.id));
+    jsonobj.insert("name", QString::fromStdString(cur_course.name));
+    jsonobj.insert("credit", cur_course.credit);
+    jsonobj.insert("capacity", cur_course.capacity);
+    jsonobj.insert("course_type", cur_course.course_type);
+    jsonobj.insert("cur_num", cur_course.cur_num);
+    jsonobj.insert("teacher_id", QString::fromStdString(cur_course.teacher_id));
+    jsonobj.insert("grade", cur_course.grade);
+    jsonobj.insert("gpa", cur_course.gpa);
+
+    return jsonobj;
+}
+
+QJsonObject Convey::generateJsonUser(User_model cur_user)
+{
+    QJsonObject jsonobj;
+    jsonobj.insert("id", QString::fromStdString(cur_user.id));
+    jsonobj.insert("name", QString::fromStdString(cur_user.name));
+    jsonobj.insert("class_name", QString::fromStdString(cur_user.class_name));
+    jsonobj.insert("grade", cur_user.grade);
+    jsonobj.insert("institude", QString::fromStdString(cur_user.institude));
+    jsonobj.insert("user_type", cur_user.user_type);
+
+    return jsonobj;
+}
+
+void Convey::sendPost(QString id, QString mode)
 {
     //发送json数据包
     QJsonObject jsonobj, tempobj;
-    tempobj.insert(mode, course_id);
+    tempobj.insert(mode, id);
     jsonobj.insert("post", tempobj);
 
     QJsonDocument jsondoc;
@@ -340,27 +381,34 @@ void Convey::sendPostCourse(QString course_id, QString mode)
     sendJsonDoc(jsondoc);
 
     //接收json数据包
-    bool readable = this->m_convey_socket.waitForReadyRead();
-    if(readable){
-        QByteArray jsonbyte = this->m_convey_socket.readAll();
-        if(!translateJsonAck(jsonbyte))
-            throw std::runtime_error("修改失败！");
+    jsondoc = revJsondoc();
+    if(!jsondoc.isNull())
+    {
+        if(jsondoc.isObject())
+        {
+            jsonobj = jsondoc.object();
+            if(translateJsonAck(jsonobj))
+                return;
+        }
     }
-    else{
-        throw std::runtime_error("发送超时");
-    }
+
+    throw std::runtime_error("修改失败！");
 }
 
 void Convey::sendSelCourse(QString course_id)
 {
-    sendPostCourse(course_id, "sel_course");
+    sendPost(course_id, "sel_course");
 }
 
 void Convey::sendDelCourse(QString course_id)
 {
-    sendPostCourse(course_id, "del_course");
+    sendPost(course_id, "del_course");
 }
 
+void Convey::sendDelUser(QString user_id)
+{
+    sendPost(user_id, "del_user");
+}
 
 void Convey::sendStuGrade(QString course_id, QMap<QString, QVariant> stu_grade)
 {
@@ -379,15 +427,18 @@ void Convey::sendStuGrade(QString course_id, QMap<QString, QVariant> stu_grade)
     sendJsonDoc(jsondoc);
 
     //接收json数据包
-    bool readable = this->m_convey_socket.waitForReadyRead();
-    if(readable){
-        QByteArray jsonbyte = this->m_convey_socket.readAll();
-        if(!translateJsonAck(jsonbyte))
-            throw std::runtime_error("修改失败！");
+    jsondoc = revJsondoc();
+    if(!jsondoc.isNull())
+    {
+        if(jsondoc.isObject())
+        {
+            jsonobj = jsondoc.object();
+            if(translateJsonAck(jsonobj))
+                return;
+        }
     }
-    else{
-        throw std::runtime_error("发送超时");
-    }
+
+    throw std::runtime_error("修改失败！");
 }
 
 std::pair<Course_model, std::vector<User_model> > Convey::getCourseInfo(QString course_id)
@@ -405,46 +456,39 @@ std::pair<Course_model, std::vector<User_model> > Convey::getCourseInfo(QString 
     sendJsonDoc(jsondoc);
 
     //接收json数据包
-    bool readable = this->m_convey_socket.waitForReadyRead();
-    if(readable){
-        QByteArray jsonbyte = this->m_convey_socket.readAll();
-
-        //解析json包
-        QJsonParseError json_error;
-        jsondoc = QJsonDocument::fromJson(jsonbyte, &json_error);
-        if(json_error.error == QJsonParseError::NoError){
-            if(jsondoc.isObject())
+    jsondoc = revJsondoc();
+    if(!jsondoc.isNull()){
+        if(jsondoc.isObject())
+        {
+            QJsonValue jsonvalue;
+            jsonobj = jsondoc.object();
+            if(jsonobj.contains("course_info"))
             {
-                QJsonValue jsonvalue;
-                jsonobj = jsondoc.object();
-                if(jsonobj.contains("course_info"))
+                jsonvalue = jsonobj.take("course_info");
+                if(jsonvalue.isObject())
                 {
-                    jsonvalue = jsonobj.take("course_info");
-                    if(jsonvalue.isObject())
+                    jsonobj = jsonvalue.toObject();
+                    if(jsonobj.contains("course"))
                     {
-                        jsonobj = jsonvalue.toObject();
-                        if(jsonobj.contains("course"))
+                        jsonvalue = jsonobj.take("course");
+                        if(jsonvalue.isObject())
                         {
-                            jsonvalue = jsonobj.take("course");
-                            if(jsonvalue.isObject())
-                            {
-                                temp_course = translateJsonCourse(jsonvalue.toObject());
-                            }
+                            temp_course = translateJsonCourse(jsonvalue.toObject());
                         }
+                    }
 
-                        if(jsonobj.contains("student"))
+                    if(jsonobj.contains("student"))
+                    {
+                        jsonvalue = jsonobj.take("student");
+                        if(jsonvalue.isArray())
                         {
-                            jsonvalue = jsonobj.take("student");
-                            if(jsonvalue.isArray())
+                            QJsonArray jsonarray = jsonvalue.toArray();
+                            for(auto i : jsonarray)
                             {
-                                QJsonArray jsonarray = jsonvalue.toArray();
-                                for(auto i : jsonarray)
+                                if(i.isObject())
                                 {
-                                    if(i.isObject())
-                                    {
-                                        User_model temp_user = translateJsonUser(i.toObject());
-                                        student_list.push_back(temp_user);
-                                    }
+                                    User_model temp_user = translateJsonUser(i.toObject());
+                                    student_list.push_back(temp_user);
                                 }
                             }
                         }
@@ -454,4 +498,228 @@ std::pair<Course_model, std::vector<User_model> > Convey::getCourseInfo(QString 
         }
     }
     return std::make_pair(temp_course, student_list);
+}
+
+std::map<User_model, std::string> Convey::getUser()
+{
+    std::map<User_model, std::string> user_list;
+    User_model temp_course;
+
+    //发送json数据包
+    QJsonObject jsonobj;
+    jsonobj.insert("get", "user");
+
+    QJsonDocument jsondoc;
+    jsondoc.setObject(jsonobj);
+    sendJsonDoc(jsondoc);
+
+    //接收json数据包
+    jsondoc = revJsondoc();
+    if(!jsondoc.isNull()){
+        if(jsondoc.isObject())
+        {
+            QJsonValue jsonvalue;
+            jsonobj = jsondoc.object();
+            if(jsonobj.contains("user"))
+            {
+                jsonvalue = jsonobj.take("user");
+                if(jsonvalue.isArray())
+                {
+                    QJsonArray jsonarray = jsonvalue.toArray();
+
+                    for(auto i : jsonarray)
+                    {
+                        if(i.isObject())
+                        {
+                            jsonobj = i.toObject();
+                            temp_course = translateJsonUser(jsonobj);
+                            std::string password = "";
+                            if(jsonobj.contains("password"))
+                            {
+                                jsonvalue = jsonobj.take("password");
+                                if(jsonvalue.isString())
+                                {
+                                    password = jsonvalue.toString().toStdString();
+                                }
+                            }
+                            user_list[temp_course] = password;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return user_list;
+}
+
+void Convey::sendCourseInfo(Course_model cur_course, std::vector<std::string> course_stu, QString mode)
+{
+    QJsonArray jsonarray;
+    QJsonDocument jsondoc;
+    QJsonObject jsonobj, postobj, tempobj, info_obj;
+    QJsonValue jsonvalue;
+
+    //生成jsondocument并发送
+    tempobj = generateJsonCourse(cur_course);
+    info_obj.insert("course", tempobj);
+
+    for(auto i : course_stu)
+    {
+        jsonarray.append(QString::fromStdString(i));
+    }
+    info_obj.insert("course_stu", jsonarray);
+
+    postobj.insert(mode, info_obj);
+    jsonobj.insert("post", postobj);
+
+    jsondoc.setObject(jsonobj);
+    sendJsonDoc(jsondoc);
+
+    //接收服务端回复
+    jsondoc = revJsondoc();
+    if(!jsondoc.isNull())
+    {
+        if(jsondoc.isObject())
+        {
+            jsonobj = jsondoc.object();
+            if(!translateJsonAck(jsonobj))
+            {
+                //解析服务端提示信息
+                if(jsonobj.contains("hint"))
+                {
+                    jsonvalue = jsonobj.take("hint");
+                    if(jsonvalue.isString())
+                    {
+                       throw std::runtime_error(jsonvalue.toString().toStdString());
+                    }
+                }
+            }
+        }
+    }
+}
+
+void Convey::sendAddCourse(Course_model cur_course, std::vector<std::string> course_stu)
+{
+    sendCourseInfo(cur_course, course_stu, "add_course");
+}
+
+void Convey::sendUpdateCourse(Course_model cur_course, std::vector<std::string> course_stu)
+{
+    sendCourseInfo(cur_course, course_stu, "update_course");
+}
+
+void Convey::sendUserInfo(User_model cur_user, QString password, std::vector<std::string> user_course, QString mode)
+{
+    QJsonArray jsonarray;
+    QJsonDocument jsondoc;
+    QJsonObject jsonobj, postobj, tempobj, info_obj;
+    QJsonValue jsonvalue;
+
+    //生成jsondocument并发送
+    tempobj = generateJsonUser(cur_user);
+    tempobj.insert("password", password);
+    info_obj.insert("user", tempobj);
+
+    for(auto i : user_course)
+    {
+        jsonarray.append(QString::fromStdString(i));
+    }
+    info_obj.insert("user_course", jsonarray);
+
+    postobj.insert(mode, info_obj);
+    jsonobj.insert("post", postobj);
+
+    jsondoc.setObject(jsonobj);
+    sendJsonDoc(jsondoc);
+
+    //接收服务端回复
+    jsondoc = revJsondoc();
+    if(!jsondoc.isNull())
+    {
+        if(jsondoc.isObject())
+        {
+            jsonobj = jsondoc.object();
+            if(!translateJsonAck(jsonobj))
+            {
+                //解析服务端提示信息
+                if(jsonobj.contains("hint"))
+                {
+                    jsonvalue = jsonobj.take("hint");
+                    if(jsonvalue.isString())
+                    {
+                       throw std::runtime_error(jsonvalue.toString().toStdString());
+                    }
+                }
+            }
+        }
+    }
+}
+
+void Convey::sendAddUser(User_model cur_user, QString password, std::vector<std::string> user_course)
+{
+    sendUserInfo(cur_user, password, user_course, "add_user");
+}
+
+void Convey::sendUpdateUser(User_model cur_user, QString password, std::vector<std::string> user_course)
+{
+    sendUserInfo(cur_user, password, user_course, "update_user");
+}
+
+std::pair<User_model, std::vector<Course_model> > Convey::getUserInfo(QString user_id)
+{
+    std::vector<Course_model> course_list;
+    User_model temp_user;
+
+    //发送json数据包
+    QJsonObject jsonobj, tempobj;
+    tempobj.insert("user_info", user_id);
+    jsonobj.insert("get", tempobj);
+
+    QJsonDocument jsondoc;
+    jsondoc.setObject(jsonobj);
+    sendJsonDoc(jsondoc);
+
+    //接收json数据包
+    jsondoc = revJsondoc();
+    if(!jsondoc.isNull()){
+        if(jsondoc.isObject())
+        {
+            QJsonValue jsonvalue;
+            jsonobj = jsondoc.object();
+            if(jsonobj.contains("user_info"))
+            {
+                jsonvalue = jsonobj.take("user_info");
+                if(jsonvalue.isObject())
+                {
+                    jsonobj = jsonvalue.toObject();
+                    if(jsonobj.contains("user"))
+                    {
+                        jsonvalue = jsonobj.take("user");
+                        if(jsonvalue.isObject())
+                        {
+                            temp_user = translateJsonUser(jsonvalue.toObject());
+                        }
+                    }
+
+                    if(jsonobj.contains("course"))
+                    {
+                        jsonvalue = jsonobj.take("course");
+                        if(jsonvalue.isArray())
+                        {
+                            QJsonArray jsonarray = jsonvalue.toArray();
+                            for(auto i : jsonarray)
+                            {
+                                if(i.isObject())
+                                {
+                                    Course_model temp_course = translateJsonCourse(i.toObject());
+                                    course_list.push_back(temp_course);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return std::make_pair(temp_user, course_list);
 }

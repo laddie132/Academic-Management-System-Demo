@@ -13,6 +13,12 @@ struct course_model{
     float grade = 0;
     float gpa = 0;
     int course_type = 0;
+    std::string teacher_id = "";
+
+    bool operator < (const struct course_model &a) const
+    {
+        return id < a.id;
+    }
 };
 
 //用户结构体
@@ -25,6 +31,12 @@ struct user_model
     float grade = 0;
     float gpa = 0;
     int user_type = 0;
+
+    bool operator < (const struct user_model &a) const
+    {
+        return id < a.id;
+    }
+
 };
 
 typedef struct user_model User_model;

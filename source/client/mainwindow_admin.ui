@@ -236,7 +236,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>200</y>
+      <y>190</y>
       <width>141</width>
       <height>131</height>
      </rect>
@@ -347,7 +347,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>340</y>
+      <y>400</y>
       <width>81</width>
       <height>31</height>
      </rect>
@@ -363,7 +363,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>390</y>
+      <y>360</y>
       <width>81</width>
       <height>31</height>
      </rect>
@@ -392,6 +392,23 @@
     </property>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="flush_btn">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>310</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border:2px groove gray;border-radius:10px;padding:2px 4px;
+font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
+    </property>
+    <property name="text">
+     <string>刷新</string>
     </property>
    </widget>
   </widget>

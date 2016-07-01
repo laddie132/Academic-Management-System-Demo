@@ -27,14 +27,14 @@ int main(int argc, char *argv[])
     }
     catch(std::runtime_error &e){
         qDebug() << e.what();
-        exit(1);
+        return a.exec();
     }
 
     //开启服务器监听
     Convey_server server;
     server.setEnvir(&envir);
     server.setConfig(&config);
-    server.listen(QHostAddress("127.0.0.1"), 10010);
+    server.listen(QHostAddress("0.0.0.0"), 10010);
 
     return a.exec();
 }

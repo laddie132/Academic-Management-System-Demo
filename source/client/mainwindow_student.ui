@@ -311,7 +311,8 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border:2px groove gray;border-radius:10px;padding:2px 4px;</string>
+     <string notr="true">border:2px groove gray;border-radius:10px;padding:2px 4px;
+font: 25 10pt &quot;微软雅黑 Light&quot;;</string>
     </property>
     <property name="text">
      <string>刷新</string>

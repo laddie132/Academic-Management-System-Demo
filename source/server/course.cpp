@@ -240,7 +240,11 @@ float Course_student::calculateGPA(Student* student)
 
 std::string Course_student::getTeacherName()
 {
-	return m_course->getTeacher()->getName();
+    if(m_course->getTeacher())
+    {
+        return m_course->getTeacher()->getName();
+    }
+    return "";
 }
 
 int Course_student::getElectiveNum()

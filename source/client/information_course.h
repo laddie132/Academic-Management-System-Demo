@@ -5,6 +5,8 @@
 #include <QStandardItemModel>
 
 #include "include.h"
+#include "convey.h"
+#include "envir_widget.h"
 
 namespace Ui {
 class Information_course;
@@ -15,21 +17,20 @@ class Information_course : public QDialog
     Q_OBJECT
 
 public:
-    explicit Information_course(QWidget *parent = 0);
+    explicit Information_course(Envir_widget* envir_widget, QWidget *parent = 0);
     ~Information_course();
 
-//    void setCourse(Course* course);
+    void setCourse(QString id);
 
     void showInfo();
     void updateStudent();
 
     void creatActivex();
 
-    void addStudent(Course* course);       //从选择框获取学生并添加到课程
+    std::vector<std::string> addStudent();       //从选择框获取学生
 
 signals:
     void updateCourse();
-    void updateConfig();
 
 private slots:
     void on_add_btn_clicked();
@@ -53,7 +54,11 @@ private:
     QStandardItemModel* ui_student_model_n;
     QStandardItemModel* ui_student_model_y;
 
-//    Course* m_course = NULL;
+    QString m_course_id = "";
+    Envir_widget* m_envir_widget;
+
+    std::pair<Course_model, std::vector<User_model> > cur_course;
+    std::map<User_model, std::string> m_all_user;
 };
 
 #endif // INFORMATION_COURSE_H

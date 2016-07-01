@@ -19,7 +19,10 @@ SOURCES += main.cpp\
     mainwindow_teacher.cpp \
     envir_widget.cpp \
     fun.cpp \
-    convey.cpp
+    convey.cpp \
+    mainwindow_admin.cpp \
+    information_course.cpp \
+    information_user.cpp
 
 HEADERS  += \
     login.h \
@@ -29,12 +32,18 @@ HEADERS  += \
     envir_widget.h \
     fun.h \
     convey.h \
-    model_struct.h
+    model_struct.h \
+    mainwindow_admin.h \
+    information_course.h \
+    information_user.h
 
 FORMS    += \
     login.ui \
     mainwindow_student.ui \
-    mainwindow_teacher.ui
+    mainwindow_teacher.ui \
+    mainwindow_admin.ui \
+    information_course.ui \
+    information_user.ui
 
 CONFIG += c++11
 

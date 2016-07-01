@@ -15,7 +15,7 @@
 #include "convey.h"
 #include "include.h"
 #include "envir_widget.h"
-//#include "mainwindow_admin.h"
+#include "mainwindow_admin.h"
 #include "mainwindow_student.h"
 #include "mainwindow_teacher.h"
 
@@ -38,12 +38,12 @@ int main(int argc, char *argv[])
     widget_login.setEnvir(&envir_widget);
 
     //设置主界面
-//    MainWindow_admin widget_main_admin(&envir_widget);
+    MainWindow_admin widget_main_admin(&envir_widget);
     MainWindow_teacher widget_main_teacher(&envir_widget);
     MainWindow_student widget_main_student(&envir_widget);
 
     //保存所有主界面指针
-    envir_widget.setWidget(&widget_login, &widget_main_student, &widget_main_teacher);
+    envir_widget.setWidget(&widget_login, &widget_main_student, &widget_main_teacher, &widget_main_admin);
 
     //尝试登陆
     try{

@@ -101,7 +101,18 @@ void MainWindow_teacher::updateTable()
     ui_course_model->setHorizontalHeaderItem(5, new QStandardItem(QString::fromLocal8Bit("课程容量")));
 
     int row = 0;
-    for(auto i : m_envir_widget->getConvey()->getCurCourse())
+    std::vector<Course_model> cur_course;
+    try
+    {
+        cur_course = m_envir_widget->getConvey()->getCurCourse();
+    }
+    catch(std::exception& e)
+    {
+        QMessageBox::warning(this, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit(e.what()));
+        return;
+    }
+
+    for(auto i : cur_course)
     {
         ui_course_model->setItem(row, 0, new QStandardItem(QString::fromStdString(i.id)));
         ui_course_model->setItem(row, 1, new QStandardItem(QString::fromStdString(i.name)));
@@ -124,16 +135,16 @@ void MainWindow_teacher::showInfo()
 
     updateTable();
 
-    //更新学生成绩界面的课程列表选项
+    //更新学生成绩界面
     ui->comboBox_course->clear();
     int num = ui_course_model->rowCount();
     for(int i = 0; i < num; i++)
     {
         ui->comboBox_course->addItem(ui_course_model->item(i, 0)->text());
+        ui->comboBox_course->setCurrentIndex(0);
     }
-    ui->comboBox_course->setCurrentIndex(0);
-
     updateStudent();
+
     updateStatusBar();
     m_timer_status->start(1000);        //每一秒刷新一次状态栏
 }
@@ -338,4 +349,13 @@ void MainWindow_teacher::on_confirm_btn_clicked()
 void MainWindow_teacher::flush_btn_clicked()
 {
     updateTable();
+    ui->comboBox_course->clear();
+    int num = ui_course_model->rowCount();
+    for(int i = 0; i < num; i++)
+    {
+        ui->comboBox_course->addItem(ui_course_model->item(i, 0)->text());
+        ui->comboBox_course->setCurrentIndex(0);
+    }
+
+    updateStudent();
 }

@@ -43,12 +43,30 @@ Envir::~Envir()
 
 void Envir::addObligatoryCourse(Obligatory_course* course)
 {
-    m_obligatory_course.insert(course);
+    Course* flag_course = findCourse(course->getID());
+
+    if(!flag_course)
+    {
+        m_obligatory_course.insert(course);
+    }
+    else
+    {
+        throw std::runtime_error("课程ID重复");
+    }
 }
 
 void Envir::addElectiveCourse(Elective_course* course)
 {
-    m_elective_course.insert(course);
+    Course* flag_course = findCourse(course->getID());
+
+    if(!flag_course)
+    {
+        m_elective_course.insert(course);
+    }
+    else
+    {
+        throw std::runtime_error("课程ID重复");
+    }
 }
 
 std::set<Course*> Envir::getElectiveCourse()
@@ -63,6 +81,8 @@ std::set<Course*> Envir::getObligatoryCourse()
 
 void Envir::deleteCourse(Course *course)
 {
+    if(!course)
+        return;
     auto i = m_obligatory_course.find(course);
     if(i == m_obligatory_course.end()){
         i = m_elective_course.find(course);
@@ -155,17 +175,41 @@ Course* Envir::findCourse(std::string id)
 
 void Envir::addUserStudent(Student* student, std::string password)
 {
-    m_student.insert(std::make_pair(student, password));
+    User* flag_user = findUser(student->getID());
+    if(!flag_user)
+    {
+        m_student.insert(std::make_pair(student, password));
+    }
+    else
+    {
+        throw std::runtime_error("用户ID重复");
+    }
 }
 
 void Envir::addUserTeacher(Teacher* teacher, std::string password)
 {
-    m_teacher.insert(std::make_pair(teacher, password));
+    User* flag_user = findUser(teacher->getID());
+    if(!flag_user)
+    {
+        m_teacher.insert(std::make_pair(teacher, password));
+    }
+    else
+    {
+        throw std::runtime_error("用户ID重复");
+    }
 }
 
 void Envir::addUserAdmin(Admin* admin, std::string password)
 {
-    m_admin.insert(std::make_pair(admin, password));
+    User* flag_user = findUser(admin->getID());
+    if(!flag_user)
+    {
+        m_admin.insert(std::make_pair(admin, password));
+    }
+    else
+    {
+        throw std::runtime_error("用户ID重复");
+    }
 }
 
 //获取用户函数实现

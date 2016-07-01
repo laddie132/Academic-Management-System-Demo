@@ -31,6 +31,9 @@ public:
     QJsonObject generateCourse(Course* course);         //生成Course的json对象
     QJsonObject generateCourse(Course_user* course);
 
+    User* translateJsonUser(QJsonObject jsonobj);
+    Course* translateJsonCourse(QJsonObject jsonobj);
+
 signals:
     void error(QTcpSocket::SocketError socketError);
 

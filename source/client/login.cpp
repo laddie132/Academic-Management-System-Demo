@@ -19,12 +19,14 @@ Login::Login(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->wrong_label->close();
-    ui->hello_label->setAttribute(Qt::WA_TranslucentBackground);
-    ui->password_label->setAttribute(Qt::WA_TranslucentBackground);
-    ui->username_label->setAttribute(Qt::WA_TranslucentBackground);
-    ui->gridLayoutWidget->setAttribute(Qt::WA_TranslucentBackground);
-    ui->horizontalLayoutWidget->setAttribute(Qt::WA_TranslucentBackground);
-    ui->wrong_label->setAttribute(Qt::WA_TranslucentBackground);
+//    ui->hello_label->setAttribute(Qt::WA_TranslucentBackground);
+//    ui->password_label->setAttribute(Qt::WA_TranslucentBackground);
+//    ui->username_label->setAttribute(Qt::WA_TranslucentBackground);
+//    ui->gridLayoutWidget->setAttribute(Qt::WA_TranslucentBackground);
+//    ui->horizontalLayoutWidget->setAttribute(Qt::WA_TranslucentBackground);
+//    ui->wrong_label->setAttribute(Qt::WA_TranslucentBackground);
+//    ui->cancel_btn->setAttribute(Qt::WA_TranslucentBackground);
+//    ui->login_btn->setAttribute(Qt::WA_TranslucentBackground);
 }
 
 Login::~Login()
@@ -63,13 +65,13 @@ void Login::on_login_btn_clicked()
     {
 
     //设置管理员界面
-/*    case 0:
+    case 0:
     {
         this->close();
         m_envir_widget->showAdminWidget(cur_user);
         break;
     }
-*/
+
     //设置教师界面
     case 1:
     {

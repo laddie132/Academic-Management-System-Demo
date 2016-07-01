@@ -4,6 +4,10 @@
 #include <QDialog>
 #include <QStandardItemModel>
 
+#include "include.h"
+#include "convey.h"
+#include "envir_widget.h"
+
 namespace Ui {
 class Information_user;
 }
@@ -13,22 +17,20 @@ class Information_user : public QDialog
     Q_OBJECT
 
 public:
-    explicit Information_user(QWidget *parent = 0);
+    explicit Information_user(Envir_widget* envir_widget, QWidget *parent = 0);
     ~Information_user();
 
-//    void setUser(User* user);
+    void setUser(QString id);
 
     void showInfo();
     void updateCourse();
 
     void creatActivex();
 
-//    void addCourse(User* user);       //将所选择课程添加到学生
-    void deleteCourse();              //先删除课程再更新课程
+    std::vector<std::string> addCourse();       //将所选择课程添加到列表
 
 signals:
     void updateUser();
-    void updateConfig();
 
 private slots:
     void on_cancel_btn_clicked();
@@ -50,7 +52,11 @@ private:
     QStandardItemModel* ui_course_model_n;
     QStandardItemModel* ui_course_model_y;
 
-//    std::set<Course*> prepare_delete;
+    QString m_user_id = "";
+    Envir_widget* m_envir_widget;
+
+    std::pair<User_model, std::vector<Course_model> > cur_user;
+    std::vector<Course_model> m_all_course;
 };
 
 #endif // INFORMATION_USER_H
