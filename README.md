@@ -1,5 +1,5 @@
-# EducationSystem
-This is a homework of C++.
+# Academic Management System(AMS)
+It's just a demo of AMS. You can use this to manage teachers and students information, and also schedule the courses.
 
 ## Features
 - three levels: student, teacher, admin
