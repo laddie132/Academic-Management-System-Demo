@@ -1,6 +1,8 @@
 # Academic Management System(AMS)
 It's just a demo of AMS. You can use this to manage teachers and students information, and also schedule the courses.
 
+ <img src="https://github.com/laddie132/EducationSystem/blob/master/Images/2.png" width="500">
+ 
 ## Features
 - three levels: student, teacher, admin
 - multi-user using at the same time
@@ -8,15 +10,6 @@ It's just a demo of AMS. You can use this to manage teachers and students inform
 - administrator control every thing
 - adding any kind of users
 - support server and client
-
-## Interface
-login page
-
-![login](https://github.com/laddie132/EducationSystem/blob/master/Images/1.png)
-
-student page
-
-![main](https://github.com/laddie132/EducationSystem/blob/master/Images/2.png)
 
 ## Manual
 [Document](https://github.com/laddie132/EducationSystem/blob/master/Docs/manual.pdf)
